@@ -37,7 +37,7 @@ public class SpiderCocoon : StructureBehaviorScript
         GameObject droppedItem;
         Rigidbody itemRB;
         int r = Random.Range(0,12);
-        if(r > 2)
+        if(r > 4)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(silk);
             droppedItem.transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);

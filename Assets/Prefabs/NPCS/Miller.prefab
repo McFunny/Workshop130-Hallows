@@ -418,12 +418,34 @@ MonoBehaviour:
   dialogueText: {fileID: 11400000, guid: 9cfb9ead915597d40ba6714a53a4b135, type: 2}
   dialogueController: {fileID: 0}
   anim: {fileID: 4521967479122730709}
-  happy: []
-  sad: []
-  neutral: []
-  angry: []
-  confused: []
-  shocked: []
+  happy:
+  - {fileID: 8300000, guid: 01201e0bd1f87af48b4de590aea2e40b, type: 3}
+  - {fileID: 8300000, guid: d22b25458e576b248828e6f624a0d4bf, type: 3}
+  - {fileID: 8300000, guid: 8ef282b4ba8932945836e67c7d41a195, type: 3}
+  sad:
+  - {fileID: 8300000, guid: 7313debeea61fee44b191a7b9a8efd43, type: 3}
+  - {fileID: 8300000, guid: 1f819c67ea466444288e8c09a2b4dc90, type: 3}
+  - {fileID: 8300000, guid: 30820df4487c01b4aa6a9e4def584c47, type: 3}
+  - {fileID: 8300000, guid: 792ca3e952cfaea41894013149485f51, type: 3}
+  neutral:
+  - {fileID: 8300000, guid: f049b445081a49d429857abe2c981ec4, type: 3}
+  - {fileID: 8300000, guid: 1adf48e2d7eaea341b4e1c85db23338c, type: 3}
+  - {fileID: 8300000, guid: 7af8d74943d82df41984991812ed0de4, type: 3}
+  - {fileID: 8300000, guid: 73ba4899563dc1a4586edb7f98f4de60, type: 3}
+  angry:
+  - {fileID: 8300000, guid: 70afac24592901a4cbd5b6249dd54ffb, type: 3}
+  - {fileID: 8300000, guid: 52e3311a2b8457345b86d8138a1925a3, type: 3}
+  - {fileID: 8300000, guid: b19004ebaeb36274d9f2ed228d1f8aaf, type: 3}
+  - {fileID: 8300000, guid: 951cf2b4fc3c194468ddd1ee059bb8c8, type: 3}
+  confused:
+  - {fileID: 8300000, guid: 9c10c6cb90738b94aa2bc5fa35f4a808, type: 3}
+  - {fileID: 8300000, guid: 2252c15a12bfb0b4e9a2ba1a947f9859, type: 3}
+  - {fileID: 8300000, guid: ba481a6e4ded8634bb494f07b86e95a0, type: 3}
+  - {fileID: 8300000, guid: 107955a6cb19a464da1af1014a9d8908, type: 3}
+  shocked:
+  - {fileID: 8300000, guid: 22b43108f698fc7458bc64e01a8c9f3d, type: 3}
+  - {fileID: 8300000, guid: eb5079978c9a164408879ad2e4f588c5, type: 3}
+  - {fileID: 8300000, guid: d9f4aecd874717d4cba487941e1cf9d9, type: 3}
   eyeLine: {fileID: 6556679951177066807}
   exclamationObject: {fileID: 890197865955520166}
   character: 15
@@ -444,6 +466,7 @@ MonoBehaviour:
     name: 
     description: 
     isMajorQuest: 0
+    uniqueCompletionMethod: 0
     alreadyCompleted: 0
     mintReward: 0
     itemRewards: []
@@ -460,6 +483,7 @@ MonoBehaviour:
     behaviorID: -1
     questBehavior: {fileID: 0}
     questID: -1
+  cannotBeStruck: 0
   sellMultiplier: 1
   hogPen: {fileID: 11400000, guid: 8b07525fe0c7bc2469db97d107a8913d, type: 2}
   millerHasPenPopup: {fileID: 11400000, guid: 35f134a4dab66c84f917787d77bc27f6, type: 2}

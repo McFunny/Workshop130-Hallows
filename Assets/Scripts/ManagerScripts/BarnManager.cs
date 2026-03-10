@@ -53,6 +53,9 @@ public class BarnManager : MonoBehaviour
         }
         if(hogs >= 5) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Hog_House);
         if(ownedTypes.Count >= 4) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Millers_Ark);
+
+        //Name them
+        if(newCritter.name == "") newCritter.name = CritterNameDatabase.Instance.GetCritterName(newCritter.critterType);
     }
 
     public bool WithinBarn(Vector3 pos)
