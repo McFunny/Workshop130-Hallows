@@ -21,6 +21,8 @@ namespace SaveLoadSystem
         public PuzzleManagerSaveData puzzleSaveData;
         public AchievementSaveData achievementSaveData;
 
+        public List<int> bookcaseItemIDs;
+
 
         public SaveData()
         {
@@ -33,6 +35,7 @@ namespace SaveLoadSystem
             allGameSaveData = new AllGameSaveData();
             allStructuresSaveData = new StructureInventory();
             puzzleSaveData = new PuzzleManagerSaveData();
+            bookcaseItemIDs = new List<int>();
         }
     }
 }

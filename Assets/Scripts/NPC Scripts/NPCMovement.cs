@@ -30,10 +30,12 @@ public class NPCMovement : MonoBehaviour
 
     NPC npcScript;
     bool isTalking = false;
+    int recoilTimeLeft = 0;
 
     ActionAnim actionToPlay = ActionAnim.Stand;
 
     Vector3 currentDestination;
+    Quaternion savedRotation;
 
     void Start()
     {
@@ -259,21 +261,68 @@ public class NPCMovement : MonoBehaviour
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         agent.Stop();
-        if (actionToPlay == ActionAnim.Stand) npcScript.faceCamera.enabled = true;
+        //if (actionToPlay == ActionAnim.Stand) npcScript.faceCamera.enabled = true; //Moved to Return to schedule
+        StopCoroutine(ReturnToSchedule());
         StartCoroutine(ReturnToSchedule());
     }
 
     IEnumerator ReturnToSchedule()
     {
+        if(!isTalking) savedRotation = transform.rotation;
         isTalking = true;
+
+        if (actionToPlay == ActionAnim.Stand) npcScript.faceCamera.enabled = true;
+
         do
         {
-            yield return new WaitForSeconds(5);
+            if(recoilTimeLeft > 0)
+            {
+                recoilTimeLeft--;
+                yield return new WaitForSeconds(1);
+            }
+            else yield return new WaitForSeconds(5);
         }
-        while (npcScript.dialogueController.IsTalking() && npcScript.dialogueController.currentTalker == npcScript);
-        isTalking = false;
+        while ((npcScript.dialogueController.IsTalking() && npcScript.dialogueController.currentTalker == npcScript) || recoilTimeLeft > 0);
+
         npcScript.faceCamera.enabled = false;
+
+        ///////////Rotate back to original rotation
+        float lerpDuration = 0.3f; // Adjust for speed
+        float elapsed = 0f;
+        Quaternion startRotation = transform.rotation;
+
+        while (elapsed < lerpDuration)
+        {
+            elapsed += Time.deltaTime;
+            transform.rotation = Quaternion.Lerp(startRotation, savedRotation, elapsed / lerpDuration);
+            yield return null;
+        }
+
+        transform.rotation = savedRotation; // Snap to exact final rotation
+        //////////////////
+
+        isTalking = false;
         agent.Resume();
+    }
+
+    public void Struck(Vector3 pos)
+    {
+        Vector3 directionToOther = (pos - transform.position).normalized;
+        float dotProduct = Vector3.Dot(transform.forward, directionToOther);
+        if (dotProduct > 0)
+        {
+            npcScript.anim.Play("RecoilBackward", -1, 0);
+        }
+        else
+        {
+            npcScript.anim.Play("RecoilForward", -1, 0);
+        }
+
+        recoilTimeLeft = 3;
+        if(!isTalking)
+        {
+            TalkToPlayer();
+        }
     }
 }
 

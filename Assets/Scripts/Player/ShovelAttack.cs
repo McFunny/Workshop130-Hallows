@@ -7,18 +7,20 @@ public class ShovelAttack : MonoBehaviour
     //public LayerMask hitDetection;
     public Collider collider;
 
-    public AudioClip hitStruct, hitHay, hitFlesh, hitDirt;
+    public AudioClip hitStruct, hitHay, hitFlesh, hitDirt, hitPoof;
     public AudioClip[] hitSolid;
 
     CreatureBehaviorScript hitCreature;
     StructureBehaviorScript hitStructure;
     CreatureArmor hitArmor;
     BugBehaviorScript hitBug;
+    NPC hitNPC;
 
-    Vector3 c_Collision, s_Collision, d_Collision;
+    Vector3 c_Collision, s_Collision, d_Collision, n_Collision;
     GroundType type;
 
     [HideInInspector] public bool chargedSwing = false;
+    bool cancelSwing = false;
 
     void Start()
     {
@@ -31,11 +33,14 @@ public class ShovelAttack : MonoBehaviour
         hitStructure = null;
         hitArmor = null;
         hitBug = null;
+        hitNPC = null;
+        cancelSwing = false;
         collider.enabled = true;
         Physics.SyncTransforms();
         d_Collision = new Vector3(0,0,0);
         s_Collision = Vector3.zero;
         c_Collision = Vector3.zero;
+        n_Collision = Vector3.zero;
         yield return new WaitForSeconds(0.04f);
         Physics.SyncTransforms();
         collider.enabled = false;
@@ -85,11 +90,37 @@ public class ShovelAttack : MonoBehaviour
             Vector3 forceDir = rawDirection.normalized;
 
             float forceStrength = 25f;
+            if(chargedSwing) forceStrength += 15;
             rb.AddForceAtPosition(forceDir * forceStrength, contactPoint, ForceMode.Impulse);
         }
 
         //it hit default collider
-        if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15 || other.GetComponentInParent<PetBehaviorScript>()) return; //Add exception to grub
+        if(other.gameObject.layer == 12 || other.gameObject.layer == 15) return; 
+
+        NPC npc = other.GetComponent<NPC>();
+        if(npc != null && hitNPC == null && !npc.cannotBeStruck)
+        {
+            hitNPC = npc;
+            n_Collision = other.ClosestPoint(transform.position);
+            return;
+        }
+
+        PetBehaviorScript petHit = other.GetComponentInParent<PetBehaviorScript>();
+        if(petHit)
+        {
+            PyreGrub grub = petHit as PyreGrub;
+            if(grub)
+            {
+                float knockback = 120;
+                if(chargedSwing) knockback += 25;
+                grub.ApplyForce(other.ClosestPoint(transform.position), knockback);
+                ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = other.ClosestPoint(transform.position);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitSolid[Random.Range(0, hitSolid.Length)]);
+                cancelSwing = true;
+            }
+            return;
+        }
+
         if(d_Collision == new Vector3(0,0,0))
         {
             Vector3 fwd = PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward);
@@ -115,6 +146,8 @@ public class ShovelAttack : MonoBehaviour
 
     void HitObject()
     {
+        if(cancelSwing) return;
+
         if(hitArmor)
         {
             float damage = 2;
@@ -176,6 +209,24 @@ public class ShovelAttack : MonoBehaviour
         {
             hitBug.Struck();
             return; //To stop hitting the floor after striking bug
+        }
+
+        if(hitNPC)
+        {
+            TutorialNPC mm = hitNPC as TutorialNPC;
+            if(mm)
+            {
+                PlayerInteraction.Instance.PlayerTrip();
+                HandItemManager.Instance.toolSource.PlayOneShot(hitPoof);
+                ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = n_Collision;
+            }
+            else
+            {
+                hitNPC.Struck(n_Collision);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
+                ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = n_Collision;
+            }
+            return;
         }
 
         if(d_Collision != new Vector3(0,0,0))

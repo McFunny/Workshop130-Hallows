@@ -16,6 +16,9 @@ public class ScytheAttack : MonoBehaviour
     List<CreatureBehaviorScript> hitCreatures = new List<CreatureBehaviorScript>();
     List<FarmLand> hitCrops = new List<FarmLand>();
     List<BugBehaviorScript> hitBugs = new List<BugBehaviorScript>();
+    NPC hitNPC;
+
+    Vector3 n_Collision;
 
     void Start()
     {
@@ -29,6 +32,8 @@ public class ScytheAttack : MonoBehaviour
         hitCreatures.Clear();
         hitCrops.Clear();
         hitBugs.Clear();
+        hitNPC = null;
+        n_Collision = Vector3.zero;
         collider.enabled = true;
         yield return new WaitForSeconds(0.08f);
         collider.enabled = false;
@@ -100,6 +105,13 @@ public class ScytheAttack : MonoBehaviour
             hitBugs.Add(bug);
         }
 
+        var npc = other.GetComponent<NPC>();
+        if(npc != null && hitNPC == null && !npc.cannotBeStruck)
+        {
+            hitNPC = npc;
+            n_Collision = other.ClosestPoint(transform.position);
+        }
+
         if (other.gameObject.layer == 17)
         {
             //Cancel the swing
@@ -114,8 +126,21 @@ public class ScytheAttack : MonoBehaviour
             rb.AddForceAtPosition(forceDir * forceStrength, contactPoint, ForceMode.Impulse);
         }
 
+        PetBehaviorScript petHit = other.GetComponentInParent<PetBehaviorScript>();
+        if(petHit)
+        {
+            PyreGrub grub = petHit as PyreGrub;
+            if(grub)
+            {
+                grub.ApplyForce(other.ClosestPoint(transform.position), 140);
+                ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = other.ClosestPoint(transform.position);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitHardObject);
+            }
+            return;
+        }
+
         //it hit default collider
-        if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15 || other.GetComponentInParent<PetBehaviorScript>()) return;
+        if(other.gameObject.layer == 12 || other.gameObject.layer == 15) return;
         
         /*
         cancelSwing = true;
@@ -173,6 +198,14 @@ public class ScytheAttack : MonoBehaviour
         {
             if(hitBugs[i] == null) continue;
             hitBugs[i].Struck();
+        }
+
+        if(hitNPC)
+        {
+            hitNPC.Struck(n_Collision);
+            HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = n_Collision;
+            return;
         }
     }
 

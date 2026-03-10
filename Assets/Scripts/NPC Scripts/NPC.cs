@@ -58,6 +58,8 @@ public abstract class NPC : MonoBehaviour, IInteractable
     private bool movingUp = true;
     private bool isPaused = false;
 
+    public bool cannotBeStruck;
+
     protected virtual void Awake()
     {
         if (dialogueController == null) dialogueController = FindFirstObjectByType<DialogueController>();
@@ -482,6 +484,13 @@ public abstract class NPC : MonoBehaviour, IInteractable
 
             yield return null;
         }
+    }
+
+    public void Struck(Vector3 pos)
+    {
+        if(cannotBeStruck || !movementHandler) return;
+        movementHandler.Struck(pos);
+        dialogueController.source.PlayOneShot(angry[UnityEngine.Random.Range(0, angry.Length)]);
     }
 }
 
