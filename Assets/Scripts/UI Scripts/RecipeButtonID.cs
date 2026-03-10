@@ -12,7 +12,7 @@ public class RecipeButtonID : MonoBehaviour
 
     public void OnClick()
     {
-        if(assignedRecipe.amountMade <= 0) return;
+        if(assignedRecipe.unlocked == false) return;
         Debug.Log("Recipe is Unlocked");
         cookingRecipeBook.ShowEntry(assignedRecipe);
     }

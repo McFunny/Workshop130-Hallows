@@ -60,7 +60,7 @@ public class CookingDatabase : ScriptableObject
 
         foreach(CookingRecipe c in _cookingDatabase)
         {
-            temp.Add(new CookingPlayerStats(c.amountMade, c.validRecipes));
+            temp.Add(new CookingPlayerStats(c.amountMade, c.validRecipes, c.unlocked));
         }
         cookingStats = temp.ToArray();
     }
@@ -75,6 +75,7 @@ public class CookingDatabase : ScriptableObject
         {
             if(n >= data.cookingStats.Length) return;
             c.amountMade = data.cookingStats[n].amountMade;
+            c.unlocked = data.cookingStats[n].unlocked;
             //c.validRecipes = new List<ValidRecipe>(data.cookingStats[i].validRecipes);
 
             recipeList.Clear();
@@ -105,12 +106,14 @@ public class CookingDatabase : ScriptableObject
 public class CookingPlayerStats
 {
     public int amountMade = 0;
+    public bool unlocked = false;
     //public List<ValidRecipe> validRecipes = new List<ValidRecipe>();
     public List<SaveableRecipe> saveableRecipes = new List<SaveableRecipe>();
 
-    public CookingPlayerStats(int _amountMade, List<ValidRecipe> _validRecipes)
+    public CookingPlayerStats(int _amountMade, List<ValidRecipe> _validRecipes, bool _unlocked)
     {
         amountMade = _amountMade;
+        unlocked = _unlocked;
         //validRecipes = _validRecipes;
 
         for(int i = 0; i < _validRecipes.Count; ++i)
