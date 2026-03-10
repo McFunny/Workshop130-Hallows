@@ -713,7 +713,9 @@ public class Codex3 : MonoBehaviour
         categoryContainer.SetActive(false);
         codexPages[(int)OpenCategory.Quests].gameObject.SetActive(true);
         Canvas.ForceUpdateCanvases();
+        arrowParent.SetActive(false);
         menuIndex = 2;
+
     }
 
     private void UpdateSelectedOpenCategory(OpenCategory cat, int incrementDirection) //Page turning and such left and right
