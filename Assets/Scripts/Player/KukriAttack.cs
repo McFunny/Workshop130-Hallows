@@ -13,13 +13,15 @@ public class KukriAttack : MonoBehaviour
     StructureBehaviorScript hitStructure;
     CreatureArmor hitArmor;
     BugBehaviorScript hitBug;
+    NPC hitNPC;
 
-    Vector3 c_Collision, s_Collision, d_Collision;
+    Vector3 c_Collision, s_Collision, d_Collision, n_Collision;
     GroundType type;
 
     float creatureDamage = 10;
 
     [HideInInspector] public bool chargedSwing = false;
+    bool cancelSwing = false;
 
     void Start()
     {
@@ -32,11 +34,14 @@ public class KukriAttack : MonoBehaviour
         hitStructure = null;
         hitArmor = null;
         hitBug = null;
+        hitNPC = null;
+        cancelSwing = false;
         collider.enabled = true;
         Physics.SyncTransforms();
         d_Collision = new Vector3(0,0,0);
         s_Collision = Vector3.zero;
         c_Collision = Vector3.zero;
+        n_Collision = Vector3.zero;
         yield return new WaitForSeconds(0.03f);
         Physics.SyncTransforms();
         collider.enabled = false;
@@ -88,7 +93,31 @@ public class KukriAttack : MonoBehaviour
         }
 
         //it hit default collider
-        if(other.GetComponentInParent<NPC>() || other.gameObject.layer == 12 || other.gameObject.layer == 15 || other.GetComponentInParent<PetBehaviorScript>()) return; //Add exception to grub
+        if(other.gameObject.layer == 12 || other.gameObject.layer == 15) return; 
+
+        NPC npc = other.GetComponent<NPC>();
+        if(npc != null && hitNPC == null && !npc.cannotBeStruck)
+        {
+            hitNPC = npc;
+            n_Collision = other.ClosestPoint(transform.position);
+            return;
+        }
+
+        
+        PetBehaviorScript petHit = other.GetComponentInParent<PetBehaviorScript>();
+        if(petHit)
+        {
+            PyreGrub grub = petHit as PyreGrub;
+            if(grub)
+            {
+                grub.ApplyForce(other.ClosestPoint(transform.position), 80);
+                ParticlePoolManager.Instance.GrabWhiteHitParticle().transform.position = other.ClosestPoint(transform.position);
+                HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
+                cancelSwing = true;
+            }
+            return;
+        }
+
         if(d_Collision == new Vector3(0,0,0))
         {
             Vector3 fwd = PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward);
@@ -114,6 +143,8 @@ public class KukriAttack : MonoBehaviour
 
     void HitObject()
     {
+        if(cancelSwing) return;
+
         if(hitArmor)
         {
             float damage = 1;
@@ -169,6 +200,14 @@ public class KukriAttack : MonoBehaviour
         {
             hitBug.Struck();
             return; //To stop hitting the floor after striking bug
+        }
+
+        if(hitNPC)
+        {
+            hitNPC.Struck(n_Collision);
+            HandItemManager.Instance.toolSource.PlayOneShot(hitFlesh);
+            ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = n_Collision;
+            return;
         }
 
         if(d_Collision != new Vector3(0,0,0))

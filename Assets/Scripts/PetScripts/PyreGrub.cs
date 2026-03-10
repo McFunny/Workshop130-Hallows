@@ -582,6 +582,16 @@ public class PyreGrub : PetBehaviorScript, IInteractable
         }
     }
 
+    public void ApplyForce(Vector3 pos, float forceAmount = 130)
+    {
+        if(!inBall) return;
+
+        Vector3 dir = Vector3.Normalize(pos - transform.position);
+        rb.AddForce(forceAmount * -dir, ForceMode.Impulse);
+
+        effectsHandler.PlaySound(effectsHandler.hitSounds[0]);
+    }
+
     public void IgnitionToggle(bool IsIgnited)
     {
         if(ignited == IsIgnited) return;
