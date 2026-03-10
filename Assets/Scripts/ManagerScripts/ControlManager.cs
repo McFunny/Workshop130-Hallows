@@ -13,11 +13,23 @@ public class ControlManager : MonoBehaviour
     string currentDevice;
     public static bool isGamepad;
     public PlayerInput playerInput;
+    private PauseScript pauseScript;
 
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        pauseScript = FindObjectOfType<PauseScript>();
     }
+
+    private void OnEnable()
+    {
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+    private void OnDisable()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -34,6 +46,24 @@ public class ControlManager : MonoBehaviour
         {
             isGamepad = false;
             isController = false;
+        }
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if(pauseScript == null) return;
+
+        if (change == InputDeviceChange.Removed)
+        {
+            // Remove from list of devices.
+            if(PauseScript.isPaused != true) pauseScript.PauseGame();
+            //Debug.Log("Device removed: " + device);
+        }
+        else if (change == InputDeviceChange.Disconnected)
+        {
+            // Device got unplugged.
+            if(PauseScript.isPaused != true) pauseScript.PauseGame();
+            //Debug.Log("Device disconnected: " + device);
         }
     }
 }

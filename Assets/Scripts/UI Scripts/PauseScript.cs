@@ -70,10 +70,17 @@ public class PauseScript : MonoBehaviour
             Time.timeScale = 0;
         }
 
-        if (ControlManager.isController && isPaused && Gamepad.current.buttonEast.wasPressedThisFrame)
+        if (ControlManager.isController && isPaused)
         {
-            ResumeGame();
-            //StartCoroutine(CodexCheck());
+            if(Gamepad.current != null)
+            {
+                if(Gamepad.current.buttonEast.wasPressedThisFrame)
+                {
+                    ResumeGame();
+                    //StartCoroutine(CodexCheck());
+                }
+            }
+            
         }
 
 
