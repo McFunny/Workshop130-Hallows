@@ -175,6 +175,7 @@ public class CorruptionManager : MonoBehaviour
             if(Random.Range(0, 10) > 1)
             {
                 CorruptedTile cTile = nearbyTiles[i].GetComponent<CorruptedTile>();
+                if(cTile == null) continue;
                 cTile.containedStructure = Instantiate(farmTile, cTile.transform.position, Quaternion.identity).GetComponent<StructureBehaviorScript>();
                 FarmLand tile = cTile.containedStructure as FarmLand;
                 tile.ApplyNewUpgrade(FarmLand.FarmTileUpgrade.Corrupt);

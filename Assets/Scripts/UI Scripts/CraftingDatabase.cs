@@ -134,9 +134,13 @@ public class CraftingDatabase : ScriptableObject
         }
     }
 
+    [ContextMenu("What is our craft tier?")]
     public int CurrentTier() //Tracks what the current tier of the next unlock will be
     {
+        GameSaveData.Instance.tTicketsHeld = 0; //temp fix for broken saves. remove in final build!
+        
         int heldTickets = GameSaveData.Instance.tTicketsHeld;
+        Debug.Log("Held tickets is : " + heldTickets);
         for(int tier = 0; tier < 10; ++tier)
         {
             List<CraftingEntry> recipesInTier = new List<CraftingEntry>();
@@ -148,12 +152,13 @@ public class CraftingDatabase : ScriptableObject
             }
             if(recipesInTier.Count > heldTickets)
             {
+                Debug.Log("Tier is " + tier);
                 return tier;
             }
             else heldTickets -= recipesInTier.Count;
             
         }
-
+        Debug.Log("Tier is -1");
         return -1;
     }
 
