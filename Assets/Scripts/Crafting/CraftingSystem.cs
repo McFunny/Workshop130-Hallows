@@ -555,6 +555,7 @@ public class CraftingSystem : MonoBehaviour
         thisCanvasGroup.blocksRaycasts = !val;
         foreach (CanvasGroup cg in canvasGroups)
         {
+            if(cg == null) continue;
             cg.interactable = val;
             cg.blocksRaycasts = val;
         }
