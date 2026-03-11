@@ -161,8 +161,9 @@ public class CookingRecipeBook : MonoBehaviour
         bool allUnlocked = true;
         for (int i = 0; i < cookingDatabase.Count; i++)
         {
-            if(cookingDatabase[i].amountMade > 0)
+            if(cookingDatabase[i].amountMade > 0 || cookingDatabase[i].unlocked == true)
             {
+                cookingDatabase[i].unlocked = true;
                 LockOrUnlockRecipe(recipeButtons[i], true);
             }
             else

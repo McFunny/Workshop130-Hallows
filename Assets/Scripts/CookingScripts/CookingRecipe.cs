@@ -7,6 +7,7 @@ public class CookingRecipe : ScriptableObject
 {
     public int id = -1;
     public int amountMade = 0; //How many has the player made?
+    public bool unlocked = false;
 
     [Tooltip("Higher priority recipes will be made over lower ones. Max is 5, Min is 0")]
     public int priority = 0; 
