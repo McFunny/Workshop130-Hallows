@@ -74,6 +74,18 @@ public class CookingRecipe : ScriptableObject
         if(validRecipes.Count >= 5) validRecipes.RemoveAt(4);
     }
 
+    [ContextMenu ("Increase Priority")]
+    public void IncreasePriority()
+    {
+        priority++;
+    }
+
+    [ContextMenu ("Decrease Priority")]
+    public void DecreasePriority()
+    {
+        priority--;
+    }
+
 }
 
 [System.Serializable]

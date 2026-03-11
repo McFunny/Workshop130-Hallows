@@ -911,12 +911,12 @@ public class MutatedCrow : CreatureBehaviorScript
             if(structure.structData == scareCrow && r > 2 && !structure.absentFromFarmGrid)
             {
                 targetStructure = structure;
-                print("Scarecrow");
+                //print("Scarecrow");
                 return true;
             }
-            else print("Scarecrow but ignored");
+            //else print("Scarecrow but ignored");
         }
-        print("No Scarecrow");
+        //print("No Scarecrow");
         return false;
     }
 

@@ -7,8 +7,8 @@ public class CorruptionNode : StructureBehaviorScript
     public GameObject corruptedTile;
 
     public float radius = 10;
-    public int maxTilesPerHour = 3;
-    public int maxTilesPerHourCozy = 2;
+    public int maxTilesPerHour = 2;
+    public int maxTilesPerHourCozy = 1;
     float tileSpawnChance = 15; // out of 100
 
     public ParticleSystem activatedParticles;

@@ -94,7 +94,7 @@ public class CreatureBehaviorScript : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
-        print("Ouch");
+        //print("Ouch");
         if(StatusEffectManager.Instance.FindStatusOnCreature(StatusEffectName.Dare, this) && damage > 0) damage *= 1.5f;
 
         if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.BoneBreaker) && health < 0)

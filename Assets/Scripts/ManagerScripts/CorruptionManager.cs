@@ -70,7 +70,7 @@ public class CorruptionManager : MonoBehaviour
         }
         if(!TimeManager.Instance.isDay)
         {
-            if(Random.Range(0,10) > 3) TrySpawnNode();
+            if(Random.Range(0,10) > 6) TrySpawnNode();
             if(cropSpawnCooldown > 0) --cropSpawnCooldown;
             else if(Random.Range(0, 10) > 7) TrySpawnTwistedBramble();
 

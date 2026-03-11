@@ -28,7 +28,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
-      amount: 16
+      amount: 14
     townFavorReward: 3
     daysLeftMin: 3
     daysLeftMax: 4
@@ -42,7 +42,7 @@ MonoBehaviour:
       either, but we can fix one of them! Bring me {itemName}, pronto!"'
     dialogPath: 0
     creature: {fileID: 0}
-    item: {fileID: 11400000, guid: 0322ac02f35aba8419c8ac5038c4225b, type: 2}
+    item: {fileID: 11400000, guid: d98a9b6b76191374b8a92115c5e58c69, type: 2}
     crop: {fileID: 0}
     mintMultiplier: 2.5
     itemRewards:
@@ -51,8 +51,6 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
-      amount: 1
-    - item: {fileID: 11400000, guid: ff217f3d46bf8a446bf4ba8417b804f7, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: e553ea351cd05d14987bbad5d9661a3c, type: 2}
       amount: 1
@@ -80,7 +78,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
       amount: 6
     - item: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
-      amount: 14
+      amount: 9
     townFavorReward: 3
     daysLeftMin: 3
     daysLeftMax: 4
@@ -101,9 +99,9 @@ MonoBehaviour:
     - item: {fileID: 0}
       amount: 0
     - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
-      amount: 2
+      amount: 3
     - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
-      amount: 8
+      amount: 13
     - item: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: e553ea351cd05d14987bbad5d9661a3c, type: 2}
@@ -115,6 +113,58 @@ MonoBehaviour:
     displayProgress: 0
     minObject: 1
     maxObject: 1
+    questBehavior: {fileID: 0}
+  - name: Brain Fuel
+    description: '"Innovation requires a steady mind and a full belly. I don''t have
+      either, but we can fix one of them! Bring me {itemName}, pronto!"'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: a2114cfb26c9a0d46b12cd2070ed8663, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 2.5
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: 679bd22d8d5a0754383b8daccbba3a4b, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: e553ea351cd05d14987bbad5d9661a3c, type: 2}
+      amount: 1
+    townFavorReward: 3
+    daysLeftMin: 3
+    daysLeftMax: 4
+    assignee: 6
+    displayProgress: 0
+    minObject: 1
+    maxObject: 1
+    questBehavior: {fileID: 0}
+  - name: Supply Request
+    description: '"My Bone Blender blew up, and I need something to fix it. Could
+      you help a gal out?"'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 2
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: a6ae6a19fccc2a74487e0bfffca7ef14, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
+      amount: 8
+    - item: {fileID: 11400000, guid: a50a6d6f9ee66bf468495e98d47f654c, type: 2}
+      amount: 5
+    - item: {fileID: 0}
+      amount: 0
+    townFavorReward: 3
+    daysLeftMin: 3
+    daysLeftMax: 4
+    assignee: 6
+    displayProgress: 0
+    minObject: 3
+    maxObject: 6
     questBehavior: {fileID: 0}
   uniqueQuestChance: 0
   uniqueTemplates:
