@@ -34,7 +34,7 @@ public class CrimsonMothNest : StructureBehaviorScript
         if (!gameObject.scene.isLoaded || !yielditems) return; 
         GameObject droppedItem;
         Rigidbody itemRB;
-        int r = Random.Range(1,3);
+        int r = Random.Range(-1,2);
         for(int i = 0; i < r; i++)
         {
             droppedItem = ItemPoolManager.Instance.GrabItem(nectar);
