@@ -416,7 +416,7 @@ public class FeralHareTest : CreatureBehaviorScript
             burrowChance = Random.Range(0,10); //try again to plant a tile
             if(!patrolPoint) burrowChance += 2;
             if(structManager.CheckTile(transform.position) == Vector3.zero) return false;
-            if(burrowChance >= 4 && structManager.ValidateGridType(transform.position, GridType.Farm)) 
+            if(burrowChance >= 7 && structManager.ValidateGridType(transform.position, GridType.Farm)) 
             {
                 newObject = ThingToMake.Tile;
                 return true;

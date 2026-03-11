@@ -24,8 +24,8 @@ public class PurifyingCropBehavior : CropBehavior
         }
         else
         {
-            range += 2;
-            maxTiles += 3;
+            range += 3;
+            maxTiles += 4;
         }
 
         Collider[] nearbyTiles = Physics.OverlapSphere(tile.transform.position, range, 1 << 6);

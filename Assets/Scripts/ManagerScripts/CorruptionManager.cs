@@ -70,7 +70,7 @@ public class CorruptionManager : MonoBehaviour
         }
         if(!TimeManager.Instance.isDay)
         {
-            if(Random.Range(0,10) > 3) TrySpawnNode();
+            if(Random.Range(0,10) > 6) TrySpawnNode();
             if(cropSpawnCooldown > 0) --cropSpawnCooldown;
             else if(Random.Range(0, 10) > 7) TrySpawnTwistedBramble();
 
@@ -175,6 +175,7 @@ public class CorruptionManager : MonoBehaviour
             if(Random.Range(0, 10) > 1)
             {
                 CorruptedTile cTile = nearbyTiles[i].GetComponent<CorruptedTile>();
+                if(cTile == null) continue;
                 cTile.containedStructure = Instantiate(farmTile, cTile.transform.position, Quaternion.identity).GetComponent<StructureBehaviorScript>();
                 FarmLand tile = cTile.containedStructure as FarmLand;
                 tile.ApplyNewUpgrade(FarmLand.FarmTileUpgrade.Corrupt);

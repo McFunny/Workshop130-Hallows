@@ -61,6 +61,8 @@ public class RecipeMachine : MonoBehaviour, IInteractable
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
 
+            GameSaveData.Instance.tTicketsHeld--;
+
             StartCoroutine(OpenGachapon());
             interactSuccessful = true;
         }

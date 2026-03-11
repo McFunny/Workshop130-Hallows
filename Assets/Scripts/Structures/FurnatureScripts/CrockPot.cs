@@ -243,7 +243,7 @@ public class CrockPot : FurnitureBehaviorScript
         }
 
         //Find matching recipes. Stop once at least one is found in that tier
-        for(int i = 5; i >= -1; --i)
+        for(int i = 6; i >= -1; --i)
         {
             for(int x = 0; x < allRecipes.Count; ++x)
             {
