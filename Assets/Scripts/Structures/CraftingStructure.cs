@@ -163,7 +163,11 @@ public class CraftingStructure : StructureBehaviorScript
         while (craftSlots[currentSlot].timeRemaining > 0)
         {
             yield return new WaitForSeconds(1f);
-            craftSlots[currentSlot].timeRemaining--;
+            if(TimeManager.Instance.stopTime == false)
+            {
+                craftSlots[currentSlot].timeRemaining--;
+            }
+            
             //Debug.Log("Time Remaining: " + craftSlots[currentSlot].timeRemaining);
             if (craftingSystem.currentStructure == this)
             {
