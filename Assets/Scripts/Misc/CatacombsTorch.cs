@@ -8,6 +8,7 @@ public class CatacombsTorch : StructureBehaviorScript
     public bool startActive;
     public bool fireAlwaysActive;
     public bool disableHighlight;
+    public bool ignoreForAchievement = false;
     public AudioSource source;
 
     public bool IsLit => fireAlwaysActive || (fire != null && fire.activeInHierarchy);

@@ -29,6 +29,9 @@ public class CookingRecipe : ScriptableObject
     [Header("Past Recipes")]
     public List<ValidRecipe> validRecipes = new List<ValidRecipe>();
 
+    [Header("Template Recipe")]
+    public ValidRecipe exampleRecipe;
+
 
     public bool EligibleRecipe(List<InventoryItemData> ingredients, List<CookingStats> currentStats)
     {

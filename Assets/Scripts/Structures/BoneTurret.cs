@@ -37,7 +37,7 @@ public class BoneTurret : StructureBehaviorScript
     float RotAngleY;
     float RotAngleMax;
     float RotAngleMin;
-    float rotateSpeed = 3f;
+    float rotateSpeed = 5f;
     float myTime; //for tracking rotation
 
     public AudioSource activatedSource;

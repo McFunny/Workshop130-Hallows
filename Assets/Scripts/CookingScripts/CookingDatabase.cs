@@ -99,6 +99,32 @@ public class CookingDatabase : ScriptableObject
     {
         return new List<CookingRecipe>(_cookingDatabase); 
     }
+
+    public bool AllRecipesUnlocked() //For checking if cul can sell recipes
+    {
+        foreach(CookingRecipe c in _cookingDatabase)
+        {
+            if(!c.unlocked) return false;
+        }
+        return true;
+    }
+
+    public void UnlockRandomRecipe()
+    {
+        List<CookingRecipe> lockedRecipes = new List<CookingRecipe>();
+
+        foreach(CookingRecipe c in _cookingDatabase)
+        {
+            if(!c.unlocked) lockedRecipes.Add(c);
+        }
+
+        if(lockedRecipes.Count == 0) return;
+
+        int r = Random.Range(0, lockedRecipes.Count);
+
+        lockedRecipes[r].unlocked = true;
+        lockedRecipes[r].AddNewRecipe(lockedRecipes[r].exampleRecipe.usedItems);
+    }
 }
 
 

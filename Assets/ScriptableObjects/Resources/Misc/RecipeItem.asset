@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2400f1e1724e5ba44ad5075b1f5e4fa1, type: 3}
   m_Name: RecipeItem
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 372
   displayName: Cooking Recipe
-  description: Instructions on how to make a random unknown recipe. Will be viewable
-    in a cookbook.
+  description: Instructions on how to make a random unknown recipe. Unlocked recipes
+    can be viewed in a cookbook.
   icon: {fileID: 21300000, guid: 23749233abc91974782989605188d08d, type: 3}
   type: 0
   maxStackSize: 1
-  value: 150
+  value: 75
   sellValueMultiplier: 1
   isKeyItem: 0
   hasModel: 0
@@ -35,6 +35,6 @@ MonoBehaviour:
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []
-  itemBehavior: {fileID: 11400000, guid: 6de74eaf1ddc5714caa850296c0b6fd5, type: 2}
+  itemBehavior: {fileID: 11400000, guid: e0a5109f381c6bc4c9a803f501b2c91a, type: 2}
   useSound: {fileID: 8300000, guid: 20b28e31502cac542adf9801c08a1e54, type: 3}
   cannotEnterInventory: 1

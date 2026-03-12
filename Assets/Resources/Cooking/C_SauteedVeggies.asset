@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 28
   amountMade: 0
+  unlocked: 0
   priority: 2
   requiredItems: []
   barredItems:
@@ -27,8 +28,12 @@ MonoBehaviour:
     value: -1
   - type: 5
     value: -1
-  - type: 4
-    value: -1
   output: {fileID: 11400000, guid: 8f640b674ffb930488824364d79f2806, type: 2}
   cookTimeInSeconds: 25
   validRecipes: []
+  exampleRecipe:
+    usedItems:
+    - {fileID: 11400000, guid: 344ae7d106f0b2646bc557fde3166d30, type: 2}
+    - {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
+    - {fileID: 11400000, guid: 3ba20670767bc1547ac240af99c7214c, type: 2}
+    - {fileID: 11400000, guid: 1c88f2578c856db478e5447c134d120b, type: 2}

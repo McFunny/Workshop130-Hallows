@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
-  m_Name: BrambleBarrierRecipe
+  m_Name: ScarecrowRecipe
   m_EditorClassIdentifier: 
-  id: 66
+  id: 69
   nameOverride: 
   category: 1
-  tier: 2
+  tier: 1
   isUnlocked: 0
   isRecentlyUnlocked: 0
   unlockedAtStart: 0
   isTrinket: 0
-  output: {fileID: 11400000, guid: d834eadfb634c7c42b51aadf6503fab4, type: 2}
+  output: {fileID: 11400000, guid: fc1af3d6c5b26c04bb72712f0ceb6e8e, type: 2}
   outputAmount: 1
-  craftTimeInSeconds: 180
+  craftTimeInSeconds: 360
   mintCost: 0
   craftingRequirements:
-  - requiredItem: {fileID: 11400000, guid: 3fa59aa3f6434cc4799e2d90dcd4cd23, type: 2}
-    requiredAmount: 10
-  - requiredItem: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-    requiredAmount: 5
-  - requiredItem: {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
-    requiredAmount: 3
+  - requiredItem: {fileID: 11400000, guid: d8c3c0a08dd1af948b7159d91e698709, type: 2}
+    requiredAmount: 2
+  - requiredItem: {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
+    requiredAmount: 2
+  - requiredItem: {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
+    requiredAmount: 2

@@ -165,6 +165,11 @@ public class CulinarianNPC : NPC, ITalkable
                     x++;
                     continue;
                 }
+                if((!GameSaveData.Instance.cul_gaveCrock || CookingDatabase.Instance.AllRecipesUnlocked()) && x == 3) //No more recipes until quest is done and all are unlocked
+                {
+                    x++;
+                    continue;
+                }
                 item.RefreshItem(barterDatabase.uniqueTransactions[x].itemForSale, barterDatabase.uniqueTransactions[x].mintCost, barterDatabase.uniqueTransactions[x].itemsRequired,
                     barterDatabase.uniqueTransactions[x].amountForSale);
                 item.seller = this;

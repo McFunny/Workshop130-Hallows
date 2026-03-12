@@ -413,12 +413,12 @@ public class HeadlessHen : CreatureBehaviorScript
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -Vector3.up, out hit, 0.5f, groundMask))
         {
-            print("Grounded");
+            //print("Grounded");
             return true;
         }
         else
         {
-            print("Flying");
+            //print("Flying");
             return false;
         }
     }

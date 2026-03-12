@@ -23,6 +23,11 @@ public class StructureAudioHandler : MonoBehaviour
         source.PlayOneShot(clips[r]);
     }
 
+    public void PlaySound(AudioClip clip)
+    {
+        source.PlayOneShot(clip);
+    }
+
     public void PlaySound(AudioClip clip, bool useSecondary = false)
     {
         if(useSecondary && secondarySource) secondarySource.PlayOneShot(clip);
