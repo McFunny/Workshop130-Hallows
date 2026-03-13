@@ -236,3 +236,49 @@ MonoBehaviour:
     paragraphs:
     - Perfect timing! I was hoping you could help me out with something. {freezePlayer}
     emotions: 01000000
+  itemPaths:
+  - pathName: Generic Bugs
+    dialoguePath:
+      pathName: Bugs
+      paragraphs:
+      - Oh yes, a fine specimin indeed.
+      - I can feel the power ROARING from within.
+      emotions: 0100000005000000
+    validItems: []
+    pathType: 1
+  - pathName: Generic Consumable
+    dialoguePath:
+      pathName: Consumable
+      paragraphs:
+      - You can't fool me!
+      - Our food supply is TAINTED from that wretched land! I take pride in my wellbeing.
+      emotions: 0300000003000000
+    validItems: []
+    pathType: 2
+  - pathName: Don't use as TP
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - Whatever you do, do NOT use it as toilet paper!
+      emotions: 03000000
+    validItems:
+    - {fileID: 11400000, guid: 3249d94b36f7b7343b98bd0653499271, type: 2}
+    pathType: 0
+  - pathName: LoamBeetle
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - Oh that one's a chatterbox right there. Always something to say.
+      emotions: 00000000
+    validItems:
+    - {fileID: 11400000, guid: c9af372d6ca36fd46b681856e9182698, type: 2}
+    pathType: 0
+  - pathName: Reed Nibbles
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - Aha, Fiddlebert! How the heck are ya?
+      emotions: 01000000
+    validItems:
+    - {fileID: 11400000, guid: df4c35edce1e14a4faefdf1f56156a90, type: 2}
+    pathType: 0

@@ -211,3 +211,60 @@ MonoBehaviour:
     paragraphs:
     - Perfect timing! I was hoping you could help me out with something. {freezePlayer}
     emotions: 01000000
+  itemPaths:
+  - pathName: Generic Bugs
+    dialoguePath:
+      pathName: Bugs
+      paragraphs:
+      - Woah, so cool!
+      - If only they were bigger... And on fire... And armed to the teeth with spears
+        and pitchforks!
+      emotions: 0100000005000000
+    validItems: []
+    pathType: 1
+  - pathName: Generic Consumable
+    dialoguePath:
+      pathName: Consumable
+      paragraphs:
+      - Mmmmm, that sure does look tasty...
+      - Cmon on green hands, you don't REALLY need those mints. Just hand it to me
+        instead!
+      emotions: 0100000005000000
+    validItems: []
+    pathType: 2
+  - pathName: Put it under a chair
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - Have you tried putting that under someone's chair?
+      - Highly recommend.
+      emotions: 0400000001000000
+    validItems:
+    - {fileID: 11400000, guid: 9e83a3613304b99499152a63bd0e24cf, type: 2}
+    - {fileID: 11400000, guid: 9e015e85091984b498110879ce31527c, type: 2}
+    - {fileID: 11400000, guid: ad3821a813642114d9979d54224f657c, type: 2}
+    - {fileID: 11400000, guid: 37a01ac4a714d134b8a2714e8d476a1f, type: 2}
+    - {fileID: 11400000, guid: 399f6cecaa2990448994f3ec12b230da, type: 2}
+    pathType: 0
+  - pathName: Growing Ice
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - So what.... Your growing ice now?
+      emotions: 04000000
+    validItems:
+    - {fileID: 11400000, guid: 7e1f78f7555b6ca408e04d4318a79a5b, type: 2}
+    pathType: 0
+  - pathName: Feeding pets
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - I used to have this pet pig that would LOVE to eat this stuff.
+      - I haven't seen him in awhile though... I'm sure he is alright!
+      - As long as that Butcher didn't get to him that is.
+      emotions: 000000000000000002000000
+    validItems:
+    - {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
+    - {fileID: 11400000, guid: 74995d551757dbb4589b75d96c29bff1, type: 2}
+    - {fileID: 11400000, guid: d403813e08bd09d4eb10e59186336d62, type: 2}
+    pathType: 0

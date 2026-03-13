@@ -5964,6 +5964,8 @@ MonoBehaviour:
   exhaustR: {fileID: 0}
   thrusterParticles: {fileID: 0}
   armor: {fileID: 0}
+  ferratPrefab: {fileID: 0}
+  heldFerrat: {fileID: 0}
   currentState: 0
 --- !u!1 &4060734777567357068
 GameObject:
@@ -16283,7 +16285,8 @@ MonoBehaviour:
   miscSound3: {fileID: 8300000, guid: 12e8e482b09f9134ebcc1ab0cb7c4610, type: 3}
   eatSound: {fileID: 0}
   petSound: {fileID: 0}
-  extraSounds: []
+  extraSounds:
+  - {fileID: 8300000, guid: db25dcd020c7399458cf45ae2be1785c, type: 3}
   particle1: {fileID: 1191246948352972478}
   footStepParticles: {fileID: 2367368596164595411}
 --- !u!82 &6702681955298798656

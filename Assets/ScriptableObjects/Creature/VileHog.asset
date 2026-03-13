@@ -52,6 +52,17 @@ MonoBehaviour:
       _probability: 3
     - _int: 3
       _probability: 5
+  - name: Hog Rider
+    prefab: {fileID: 2429019165720546043, guid: 6e6bad3f121a83a4fad118e2536e1370,
+      type: 3}
+    probabilityInWilderness: 0
+    canSpawnInWilderness: 0
+    wealthPrerequisite: 4000
+    variantChanceInFarm:
+    - _int: 1
+      _probability: 3
+    - _int: 3
+      _probability: 5
   health: 0
   position:
   - 0

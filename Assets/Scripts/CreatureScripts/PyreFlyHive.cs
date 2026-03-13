@@ -60,7 +60,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
         int cycles = 0;
         while(!isDead)
         {
-            randomTime = Random.Range(15, 30);
+            randomTime = Random.Range(20, 45);
 
             if(MainMenuScript.currentFileMode == FileMode.Cozy) randomTime += Random.Range(10, 20);
             yield return new WaitForSeconds(randomTime);
@@ -85,7 +85,7 @@ public class PyreFlyHive : CreatureBehaviorScript//, IInteractable
             }
 
             if(cycles < 5) cycles++;
-            if(cycles == 4)
+            if(cycles == 3)
             {
                 producedNectar = true;
                 if(ignited) meshRenderer.material = ignitedHoneyMat;

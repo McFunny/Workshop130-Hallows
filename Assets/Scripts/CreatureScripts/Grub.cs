@@ -105,6 +105,8 @@ public class Grub : CreatureBehaviorScript
             targetWagon = WagonManager.Instance.wildernessWagon;
             wagonWeakPoint = targetWagon.GetWeakPoint();
             currentState = CreatureState.AttackWagon;
+
+            agent.speed += Random.Range(0.5f, 2f);
         }
 
         StartCoroutine(ScanForTargets());
@@ -167,7 +169,7 @@ public class Grub : CreatureBehaviorScript
 
     private void Idle()
     {
-        print("Idled");
+        //print("Idled");
         if (!coroutineRunning)
         {
             StartCoroutine(WaitAround());
@@ -306,7 +308,7 @@ public class Grub : CreatureBehaviorScript
             currentState = CreatureState.Wander;
         }
         coroutineRunning = false;
-        print("I finished Idling");
+        //print("I finished Idling");
     }
 
     private IEnumerator MoveToPoint(Vector3 destination, float maxTime)

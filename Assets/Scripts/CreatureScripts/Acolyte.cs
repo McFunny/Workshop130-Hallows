@@ -555,7 +555,7 @@ public class Acolyte : CreatureBehaviorScript
             collider.isTrigger = true;
         }
 
-        effectsHandler.MiscSound3();
+        effectsHandler.PlayExtraSound(2, 1f);
 
         PlayerInteraction.Instance.ToggleTrip(true);
         PlayerMovement.restrictMovementTokens++;
@@ -570,6 +570,7 @@ public class Acolyte : CreatureBehaviorScript
         }
         PlayerInteraction.Instance.ToggleTrip(false);
         PlayerCam.Instance.ClearObjectOfInterest();
+
 
         yield return new WaitForSeconds(0.05f);
 
