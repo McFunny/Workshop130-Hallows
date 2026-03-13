@@ -57,7 +57,8 @@ public enum PathType
     ItemSpecific,
     AlreadySpoken,
     BranchingPaths,
-    GivingDaily
+    GivingDaily,
+    ItemPath
 }
 
 [System.Serializable]

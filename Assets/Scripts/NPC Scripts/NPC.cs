@@ -492,6 +492,24 @@ public abstract class NPC : MonoBehaviour, IInteractable
         movementHandler.Struck(pos);
         dialogueController.source.PlayOneShot(angry[UnityEngine.Random.Range(0, angry.Length)]);
     }
+
+    public int RemarkOnItem(InventoryItemData item)
+    {
+        if(dialogueText.itemPaths.Length == 0) return -1;
+
+        for(int i = 0; i < dialogueText.itemPaths.Length; ++i) //Check for specific items
+        {
+            if(dialogueText.itemPaths[i].validItems.Contains(item)) return i;
+        }
+
+        if(item.type == ItemType.Bug) for(int i = 0; i < dialogueText.itemPaths.Length; ++i) 
+            if(dialogueText.itemPaths[i].pathType == DialoguePathType.Bug) return i; //Check for generic bug dialogue
+
+        if(item.type == ItemType.Consumable) for(int i = 0; i < dialogueText.itemPaths.Length; ++i) 
+            if(dialogueText.itemPaths[i].pathType == DialoguePathType.Consumable) return i; //Check for generic consumable dialogue
+
+        return -1;
+    }
 }
 
 public enum Character
