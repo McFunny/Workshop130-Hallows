@@ -17,6 +17,7 @@ public class WaterProjectileScript : MonoBehaviour
     public TrailRenderer trail;
 
     public bool isFrozen = false;
+    public bool canFillWaterHolders = true;
     public GameObject iceObject;
 
 
@@ -65,7 +66,7 @@ public class WaterProjectileScript : MonoBehaviour
                     }
                     else return;
                 }
-                structure.HitWithWater();
+                if(canFillWaterHolders) structure.HitWithWater();
                 HandItemManager.Instance.toolSource.PlayOneShot(hitStruct);
                 print("Hit Structure: " + structure);
                 ParticlePoolManager.Instance.MoveAndPlayVFX(transform.position, ParticlePoolManager.Instance.hitEffect);
@@ -221,6 +222,7 @@ public class WaterProjectileScript : MonoBehaviour
 
         isFrozen = false;
         iceObject.SetActive(false);
+        canFillWaterHolders = true;
     }
 
     IEnumerator TurnOff()

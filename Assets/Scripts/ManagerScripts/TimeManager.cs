@@ -19,7 +19,9 @@ public class TimeManager : MonoBehaviour
     public bool isDay;
     public int dayNum = 1; //what day is it?
     public TimeOfDay timeOfDay;
-    public Light dayLight, nightLight, cryptLight;
+    public Light dayLight, nightLight, cryptLight, extraDawnLight;
+    bool enableDawnLight;
+    public float dawnLightIntensityMax = .4f;
 
     //Sun and moon Variables
     public Transform sunMoonPivot;
@@ -100,6 +102,12 @@ public class TimeManager : MonoBehaviour
             if(isDay) sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerDayHour));
             else sunMoonPivot.rotation = Quaternion.Lerp(fromQuaternion, toQuaternion, seconds/(minPerNightHour));
         }
+
+        if(extraDawnLight)
+        {
+            if(enableDawnLight && extraDawnLight.intensity < dawnLightIntensityMax) extraDawnLight.intensity += 0.0002f;
+            else if(!enableDawnLight && extraDawnLight.intensity > 0) extraDawnLight.intensity -= 0.0001f;
+        }
     }
 
     IEnumerator TimePassage()
@@ -145,6 +153,9 @@ public class TimeManager : MonoBehaviour
         else isDay = false;
 
         TimeOfDayCheck();
+
+        if(currentHour == 5) enableDawnLight = true;
+        else enableDawnLight = false;
 
         //if hour is 8, new day transition. dark screen, invoke, save, then brighten screen
 
@@ -244,6 +255,8 @@ public class TimeManager : MonoBehaviour
         ToggleDayNightLights(false);
         CalculateSunAndMoonRotation();
         Color lerpedColor;
+
+
         if(currentHour < 5 || currentHour >= 20)
         {
             skyMat.SetFloat("_Blend", 0f);
@@ -496,6 +509,7 @@ public class TimeManager : MonoBehaviour
     {
         currentHour = 6;
         isDay = true;
+        if(extraDawnLight) extraDawnLight.intensity = 0;
         InitializeSkyBox();
     }
 
@@ -504,6 +518,7 @@ public class TimeManager : MonoBehaviour
     {
         currentHour = 8;
         isDay = true;
+        if(extraDawnLight) extraDawnLight.intensity = 0;
         InitializeSkyBox();
     }
 
@@ -512,6 +527,7 @@ public class TimeManager : MonoBehaviour
     {
         currentHour = 19;
         isDay = true;
+        if(extraDawnLight) extraDawnLight.intensity = 0;
         InitializeSkyBox();
     }
 
@@ -520,6 +536,16 @@ public class TimeManager : MonoBehaviour
     {
         currentHour = 1;
         isDay = false;
+        if(extraDawnLight) extraDawnLight.intensity = 0;
+        InitializeSkyBox();
+    }
+
+    [ContextMenu("Set To End of Night")]
+    public void SetToNightEnd()
+    {
+        currentHour = 5;
+        isDay = false;
+        if(extraDawnLight) extraDawnLight.intensity = dawnLightIntensityMax;
         InitializeSkyBox();
     }
 

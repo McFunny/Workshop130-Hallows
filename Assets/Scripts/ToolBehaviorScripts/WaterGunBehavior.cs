@@ -264,13 +264,17 @@ public class WaterGunBehavior : ToolBehavior
             //else GameObject newBullet = ProjectilePoolManager.Instance.GrabSmallWater();
             newBullet.transform.position = bulletStart.position;
             newBullet.transform.rotation = bulletStart.rotation;
+
+            WaterProjectileScript waterBullet = newBullet.GetComponent<WaterProjectileScript>();
+            if(i > 0) waterBullet.canFillWaterHolders = false; //Only the first shot can fill a barrel
+            Rigidbody bulletRB = newBullet.GetComponent<Rigidbody>();
             if(highlights[i] != null && highlights[i].activeSelf)
             {
-                newBullet.GetComponent<WaterProjectileScript>().homing = true;
-                newBullet.GetComponent<WaterProjectileScript>().target = highlights[i].transform.position;
+                waterBullet.homing = true;
+                waterBullet.target = highlights[i].transform.position;
                 dir = bulletStart.forward  ;//+ new Vector3(Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread), Random.Range(-bulletSpread,bulletSpread));
-                newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * (60 + (extraForce)));
-                newBullet.GetComponent<Rigidbody>().AddForce(dir * (30 + extraForce));
+                bulletRB.AddForce(Vector3.up * (60 + (extraForce)));
+                bulletRB.AddForce(dir * (30 + extraForce));
                 extraForce += 50;
             } 
             else
@@ -278,13 +282,13 @@ public class WaterGunBehavior : ToolBehavior
                 dir = bulletStart.forward;
                 if(maxCharge)
                 {
-                    newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 10);
-                    newBullet.GetComponent<Rigidbody>().AddForce(dir * (speed * 2));
+                    bulletRB.AddForce(Vector3.up * 10);
+                    bulletRB.AddForce(dir * (speed * 2));
                 }
                 else
                 {
-                    newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 30);
-                    newBullet.GetComponent<Rigidbody>().AddForce(dir * speed);
+                    bulletRB.AddForce(Vector3.up * 30);
+                    bulletRB.AddForce(dir * speed);
                 }
             } 
             for(int p = 0; p < particles.Length; p++) particles[p].Play();

@@ -12378,6 +12378,8 @@ MonoBehaviour:
   dayLight: {fileID: 0}
   nightLight: {fileID: 0}
   cryptLight: {fileID: 3079744057956753002}
+  extraDawnLight: {fileID: 0}
+  dawnLightIntensityMax: 0.3
   sunMoonPivot: {fileID: 0}
   sunRenderer: {fileID: 0}
   stupidSunGlow: {fileID: 0}
@@ -78425,7 +78427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ba557de8f0187438a7bd2882c31197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCorruption: 200
+  maxCorruption: 175
   corruptedTile: {fileID: 8737718609640687283, guid: ae8f3d0b4ce2acf4ca214b38e5c1583a,
     type: 3}
   nodePrefab: {fileID: 3074132556789739212, guid: 715a25f294e852d4fb753f83bda21cb0,
