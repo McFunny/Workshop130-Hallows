@@ -65,8 +65,7 @@ public class PlantPage : CodexPage
         image.sprite = entry.mainImage;
         description.text = entry.description[0];
 
-        if (entry.entryName != "Mandrake") harvested.text = "Times harvested: " + entry.cropData.amountHarvested;
-        else harvested.text = "Times harvested: " + entry.cropData.amountKilled;
+        harvested.text = "Times harvested: " + entry.cropData.amountHarvested;
 
         wealth.text = "Allure Value: " + entry.cropData.wealthValue;
         growthStages.text = "Growth Stages: " + entry.cropData.growthStages;
@@ -80,6 +79,7 @@ public class PlantPage : CodexPage
             if (cropItem.requireTrellis) trellis.gameObject.SetActive(true);
             else trellis.gameObject.SetActive(false);
         }
+        else trellis.gameObject.SetActive(false);
 
         if (entry.cropData.requirePollination) pollen.gameObject.SetActive(true);
         else pollen.gameObject.SetActive(false);
