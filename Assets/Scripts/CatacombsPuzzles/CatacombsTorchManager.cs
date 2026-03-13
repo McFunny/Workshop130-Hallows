@@ -68,7 +68,7 @@ public class CatacombsTorchManager : MonoBehaviour
         for (int i = 0; i < catacombsTorches.Count; i++)
         {
             var t = catacombsTorches[i];
-            if (t == null || t.ID == -1) continue;
+            if (t == null || t.ID == -1 || t.ignoreForAchievement) continue;
             if (t.IsLit == false) return;
         }
 

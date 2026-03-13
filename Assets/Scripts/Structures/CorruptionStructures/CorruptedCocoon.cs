@@ -81,7 +81,7 @@ public class CorruptedCocoon : StructureBehaviorScript
         c.patrolPoint = transform;
         c.inWilderness = true;
 
-        if(Random.Range(0, 5) > 2) 
+        if(Random.Range(0, 5) > 1) 
         {
             newObject = Instantiate(seedPod, transform.position, Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0));
             newObject.transform.position = new Vector3(newObject.transform.position.x, newObject.transform.position.y + 1.5f, newObject.transform.position.z);

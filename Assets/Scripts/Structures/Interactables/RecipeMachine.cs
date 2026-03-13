@@ -23,6 +23,12 @@ public class RecipeMachine : MonoBehaviour, IInteractable
     public PopupScript recipeUnlockedP;
 
     public AudioClip grabSFX;
+
+    public AudioClip gachaponOpenSound;
+    //public AudioClip gachaponGearsTurning;
+    public AudioClip gachaponCloseSound;
+
+    public AudioSource source;
     
 
     private void Start()
@@ -83,6 +89,9 @@ public class RecipeMachine : MonoBehaviour, IInteractable
         animator.SetTrigger("Open");
         ballSprite.enabled = true;
         currentlyOfferingPrize = true;
+
+        source.Stop();
+        source.PlayOneShot(gachaponOpenSound);
         yield return new WaitForSeconds(0.75f);
         coroutineRunning = false;
     }
@@ -95,6 +104,9 @@ public class RecipeMachine : MonoBehaviour, IInteractable
         ballSprite.enabled = false;
         currentlyOfferingPrize = false;
         GiveRecipe();
+
+        source.Stop();
+        source.PlayOneShot(gachaponCloseSound);
         yield return new WaitForSeconds(0.75f);
         coroutineRunning = false;
     }

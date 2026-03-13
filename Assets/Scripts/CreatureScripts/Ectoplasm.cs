@@ -415,6 +415,8 @@ public class Ectoplasm : CreatureBehaviorScript
         if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld > 0)
         {
             PlayerInteraction.Instance.waterHeld--;
+            dontSplat = true;
+            if(health - 30 <= 0) neverSplat = true;
             TakeDamage(30);
             success = true;
         }

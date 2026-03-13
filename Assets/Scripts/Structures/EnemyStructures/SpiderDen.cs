@@ -96,13 +96,13 @@ public class SpiderDen : StructureBehaviorScript
         if(!isLarge)
         {
             if(Random.Range(0, 100) < chanceToGrow) UpdateStage(true);
-            else chanceToGrow += 23;
+            else chanceToGrow += 15;
             return;
         }
 
         for(int i = 0; i < 2; ++i)
         {
-            if((heldSpiders + outsideSpiders < maxSpiders) && Random.Range(0,10) > 3) heldSpiders++;
+            if((heldSpiders + outsideSpiders < maxSpiders) && Random.Range(0,10) > 4) heldSpiders++;
 
             if(heldSpiders >= maxSpiders)
             {
@@ -115,12 +115,6 @@ public class SpiderDen : StructureBehaviorScript
                     newSpider.inWilderness = true;
                 }
             }
-        }
-
-        if(TimeManager.Instance.currentHour == 8)
-        {
-            if(heldSpiders < 2) heldSpiders = 2;
-            outsideSpiders = 0;
         }
     }
 

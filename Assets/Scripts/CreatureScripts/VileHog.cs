@@ -46,6 +46,8 @@ public class VileHog : CreatureBehaviorScript
     bool faceTarget;
     bool hasFleeTarget;
 
+    float chargeTurnSpeed = 135f; // degrees per second - tune this
+
     private Vector3 despawnPos;
 
     private Coroutine trackPlayerRoutine, walkRoutine, chargeRoutine; 
@@ -56,6 +58,8 @@ public class VileHog : CreatureBehaviorScript
     public ParticleSystem exhaustL, exhaustR;
     public GameObject thrusterParticles;
     public GameObject armor;
+
+    public GameObject ferratPrefab, heldFerrat;
 
     public enum CreatureState
     {
@@ -77,7 +81,8 @@ public class VileHog : CreatureBehaviorScript
         Chunky, //unused
         Tiny,
         Armored,
-        Corrupted
+        Corrupted,
+        Hogrider
     }
 
     public CreatureState currentState;
@@ -537,7 +542,7 @@ public class VileHog : CreatureBehaviorScript
         {
             yield return new WaitForSeconds(0.4f/actionSpeedMod);
             agent.acceleration = thrusterSpeed;
-            effectsHandler.PlayExtraSound(0);
+            effectsHandler.PlayExtraSound(1);
             thrusterParticles.SetActive(true);
         }
         else yield return new WaitForSeconds(beginChargeTime/actionSpeedMod); //Beginning to charge
@@ -563,9 +568,24 @@ public class VileHog : CreatureBehaviorScript
             chargeTimeElapsed += Time.deltaTime;
             currentSpeed = Mathf.MoveTowards(currentSpeed, agent.speed, agent.acceleration * Time.deltaTime);
 
-            /*if (NavMesh.SamplePosition(chargePosition.position, out var hit, 1.0f, NavMesh.AllAreas)) agent.SetDestination(hit.position);
-            else if (agent.pathStatus != NavMeshPathStatus.PathComplete)*/ agent.Move(transform.forward * currentSpeed * Time.deltaTime);
-            //agent.SetDestination(chargePosition.position);
+            // Gradually rotate toward target during charge
+            if (target != null && variant == Variant.Hogrider)
+            {
+                Vector3 dirToTarget = (target.position - transform.position).normalized;
+                dirToTarget.y = 0f;
+                if (dirToTarget != Vector3.zero)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(dirToTarget);
+
+                    // Turn speed reduces as velocity increases
+                    float speedFraction = currentSpeed / agent.speed;
+                    float dynamicTurnSpeed = Mathf.Lerp(chargeTurnSpeed, chargeTurnSpeed * 0.2f, speedFraction);
+
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation,targetRotation,dynamicTurnSpeed * Time.deltaTime);
+                }
+            }
+
+            agent.Move(transform.forward * currentSpeed * Time.deltaTime);
             yield return null;
         }
         if(usingThrusters) thrusterParticles.SetActive(false);
@@ -683,6 +703,7 @@ public class VileHog : CreatureBehaviorScript
                     isCharging = false;
                     agent.ResetPath();
                     agent.speed = 0;
+                    effectsHandler.PlayExtraSound(0);
                 }
                 else if (structure.health <= (damageToStructure + extraDamage)) //Broke it
                 {
@@ -709,6 +730,7 @@ public class VileHog : CreatureBehaviorScript
                     isCharging = false;
                     agent.ResetPath();
                     agent.speed = 0;
+                    effectsHandler.PlayExtraSound(0);
                 }
 
                 if (variant == Variant.Corrupted && Random.Range(0, 10) > 2) CorruptionExplosion();
@@ -841,6 +863,11 @@ public class VileHog : CreatureBehaviorScript
             StopAllCoroutines();
 
             if(variant == Variant.Corrupted) StartCoroutine(CorpseExplosionTimer());
+            if(variant == Variant.Hogrider && ferratPrefab)
+            {
+                Instantiate(ferratPrefab, transform.position, Quaternion.identity); 
+                heldFerrat.SetActive(false);
+            }
         }
     }
 

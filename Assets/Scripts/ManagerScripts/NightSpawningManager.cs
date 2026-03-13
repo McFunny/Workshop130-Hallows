@@ -455,7 +455,6 @@ public class NightSpawningManager : MonoBehaviour
                 accountedStructures.Add(structure);
             }
         }
-        
 
         currentDLevel = null;
         foreach(DifficultyLevel l in dLevels)

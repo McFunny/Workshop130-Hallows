@@ -487,8 +487,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: bb2f58ee093674e4a80432f564a9885e, type: 2}
   itemForm: {fileID: 11400000, guid: 9e83a3613304b99499152a63bd0e24cf, type: 2}
-  health: 5
-  maxHealth: 5
+  health: 10
+  maxHealth: 10
   wealthValue: 0
   salvageChance: 0
   destructable: 1
@@ -531,6 +531,7 @@ MonoBehaviour:
       maxValue: 0
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
   contactSFX: {fileID: 8300000, guid: 4df0fb46c5696c245ade7b68802aa21d, type: 3}
+  isSlime: 0
 --- !u!82 &2797335906002123049
 AudioSource:
   m_ObjectHideFlags: 0

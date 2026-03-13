@@ -33,6 +33,8 @@ public class MandrakeCropBehavior : CropBehavior
         {
             CreatureBehaviorScript mandrakeScript = Instantiate(mandrake, tile.transform.position, Quaternion.identity).GetComponent<CreatureBehaviorScript>();
             NightSpawningManager.Instance.allCreatures.Add(mandrakeScript);
+            tile.crop.amountHarvested++;
+            tile.rotted = true;
             tile.CropDestroyed();
         }
 

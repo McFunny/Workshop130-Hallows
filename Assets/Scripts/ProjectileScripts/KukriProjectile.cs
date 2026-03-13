@@ -178,7 +178,7 @@ public class KukriProjectile : MonoBehaviour
         extraDamage += 10;
         canHitPlayer = true;
         yield return new WaitForSeconds(0.3f);
-        critChance += 1;
+        critChance += 2;
         extraDamage += 20;
         int x = 0;
         while(x < 5)

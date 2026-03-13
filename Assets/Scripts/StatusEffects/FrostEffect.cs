@@ -19,7 +19,10 @@ public class FrostEffect : StatusEffectObject
 
     public override void OnEffectApplied()
     {
-        //What happens when the effect is applied
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.Coolant))
+        {
+            StatusEffectManager.Instance.RemoveStatusOnPlayer(StatusEffectName.Frost);
+        }
     }
 
     public override void OnEffectApplied(CreatureBehaviorScript c)

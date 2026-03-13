@@ -252,7 +252,7 @@ public class PetCat : PetBehaviorScript, IInteractable
 
         float positiveActionChance = (friendshipLevel + 1) * .75f;
         if(hunger == 0) positiveActionChance = 0;
-        if(!TimeManager.Instance.isDay) positiveActionChance *= 2;
+        if(!TimeManager.Instance.isDay) positiveActionChance *= 1.5f;
         float r = Random.Range(0, 100f);
 
         if(r < positiveActionChance)

@@ -11,6 +11,8 @@ public class ThrowableItemBehavior : ItemBehavior
 
     public AudioClip throwSFX;
 
+    public bool addUpwardForce = true;
+
     public override void UseItem(out bool consumeItem)
     {
         Vector3 itemPos = PlayerInteraction.Instance.transform.position;
@@ -29,10 +31,10 @@ public class ThrowableItemBehavior : ItemBehavior
 
         GameObject projectile = Instantiate(prefab, bulletStart.position, Quaternion.identity);
         projectile.transform.position = bulletStart.position;
-        projectile.transform.rotation = Quaternion.identity;
+        projectile.transform.rotation = bulletStart.rotation;
         Vector3 dir = bulletStart.forward;
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.AddForce(dir * force);
-        rb.AddForce(Vector3.up * 50);
+        if(addUpwardForce) rb.AddForce(Vector3.up * 50);
     }
 }

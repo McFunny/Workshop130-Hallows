@@ -54,7 +54,7 @@ public class ScytheAttack : MonoBehaviour
         if(cancelSwing) return;
 
         var structure = other.GetComponentInParent<StructureBehaviorScript>();
-        if (structure != null)
+        if (structure != null && other.gameObject.layer == 6)
         {
             FarmLand crop = structure as FarmLand;
             //if not farmland, hand it recoil

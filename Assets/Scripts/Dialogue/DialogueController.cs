@@ -261,6 +261,14 @@ public class DialogueController : MonoBehaviour
                     emotions.Enqueue(dialogueText.dailyQuestPaths[currentTalker.currentPath].emotions[i]);
                 }
                 break;
+            case PathType.ItemPath:
+                for (int i = 0; i < dialogueText.itemPaths[currentTalker.currentPath].dialoguePath.paragraphs.Length; i++)
+                {
+                    paragraphs.Enqueue(dialogueText.itemPaths[currentTalker.currentPath].dialoguePath.paragraphs[i]);
+                    if(dialogueText.itemPaths[currentTalker.currentPath].dialoguePath.emotions.Count <= i) dialogueText.itemPaths[currentTalker.currentPath].dialoguePath.emotions.Add(Emotion.Null);
+                    emotions.Enqueue(dialogueText.itemPaths[currentTalker.currentPath].dialoguePath.emotions[i]);
+                }
+                break;
             default:
                 for(int i = 0; i < dialogueText.defaultPath.paragraphs.Length; i++)
                 {

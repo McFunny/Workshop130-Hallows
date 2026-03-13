@@ -67,5 +67,6 @@ public enum TrinketKey
     DewDripper,
     BackstepPendant,
     SeedTalisman,
-    GrubBomb
+    GrubBomb,
+    PrudentPeriapt
 }

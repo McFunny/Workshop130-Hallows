@@ -26,21 +26,17 @@ MonoBehaviour:
     amountGiven: 1
   - name: HareSoup
     itemForSale: {fileID: 11400000, guid: 0322ac02f35aba8419c8ac5038c4225b, type: 2}
-    useItemPrice: 0
-    mintCost: 0
+    useItemPrice: 1
+    mintCost: 75
     amountForSale: 3
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
-      amount: 1
-    - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
-      amount: 2
+    itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   - name: PaleCarrotCake
     itemForSale: {fileID: 11400000, guid: 86effa1763457db43a40a9362bc37cdc, type: 2}
-    useItemPrice: 1
-    mintCost: 70
+    useItemPrice: 0
+    mintCost: 90
     amountForSale: 3
     barterChance: 20
     itemsRequired: []
@@ -129,17 +125,6 @@ MonoBehaviour:
     itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
-  - name: CanolaOil
-    itemForSale: {fileID: 11400000, guid: d6ac15fc9d737c444a13413d09c361eb, type: 2}
-    useItemPrice: 0
-    mintCost: 0
-    amountForSale: 5
-    barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 5b97e944223dda54ab665ae57f753f14, type: 2}
-      amount: 5
-    siegesRequired: 0
-    amountGiven: 1
   - name: Sugar
     itemForSale: {fileID: 11400000, guid: 014246d86b4f14340974fb87085c9c21, type: 2}
     useItemPrice: 1
@@ -147,6 +132,17 @@ MonoBehaviour:
     amountForSale: 5
     barterChance: 100
     itemsRequired: []
+    siegesRequired: 0
+    amountGiven: 1
+  - name: RecipeItem
+    itemForSale: {fileID: 11400000, guid: bb9557e3f758d294e82d16d66b882977, type: 2}
+    useItemPrice: 1
+    mintCost: 75
+    amountForSale: 5
+    barterChance: 100
+    itemsRequired:
+    - item: {fileID: 11400000, guid: 5b97e944223dda54ab665ae57f753f14, type: 2}
+      amount: 5
     siegesRequired: 0
     amountGiven: 1
   uniqueTransactions2: []

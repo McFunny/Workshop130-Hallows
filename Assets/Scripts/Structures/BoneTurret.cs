@@ -37,7 +37,7 @@ public class BoneTurret : StructureBehaviorScript
     float RotAngleY;
     float RotAngleMax;
     float RotAngleMin;
-    float rotateSpeed = 3f;
+    float rotateSpeed = 5f;
     float myTime; //for tracking rotation
 
     public AudioSource activatedSource;
@@ -173,6 +173,7 @@ public class BoneTurret : StructureBehaviorScript
 
     IEnumerator Shoot()
     {
+        if(!currentTarget) yield break;
         if(savedItems.Count == 0)
         {
             audioHandler.PlaySound(audioHandler.miscSounds1[1]);
@@ -188,38 +189,47 @@ public class BoneTurret : StructureBehaviorScript
 
         currentTarget.NewPriorityTarget(this);
         //fire
-        for(int i = 0; i < 1; i++)
+
+        Vector3 targetPosition = currentTarget.transform.position;
+
+        audioHandler.PlaySound(audioHandler.activatedSound);
+        GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
+        newBullet.GetComponentInParent<BulletScript>().creatureDamage = 15; //Change bullet damage
+        Vector3 dir = (targetPosition - turretHead.position).normalized;
+
+        r = Random.Range(0,10);
+        if(r > 7f)
         {
-            if(!currentTarget) break;
+            dir = dir + new Vector3(Random.Range(-1f,1f), 0, Random.Range(-1f,1f));
+            //print("MISSFIRE");
+            //play misfire sound
+        }
+        newBullet.transform.position = bulletOrigin.position;
+        newBullet.transform.rotation = Quaternion.LookRotation(dir);
 
-            Vector3 targetPosition = currentTarget.transform.position;
+        newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 5);
+        newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
+        //print("PEW");
 
-            audioHandler.PlaySound(audioHandler.activatedSound);
-            GameObject newBullet = ProjectilePoolManager.Instance.GrabSeedBullet();
-            newBullet.GetComponentInParent<BulletScript>().creatureDamage = 15; //Change bullet damage
-            Vector3 dir = (targetPosition - turretHead.position).normalized;
+        float saveBulletChance = 0;
 
-            r = Random.Range(0,10);
-            if(r > 7f)
-            {
-                dir = dir + new Vector3(Random.Range(-1f,1f), 0, Random.Range(-1f,1f));
-                //print("MISSFIRE");
-                //play misfire sound
-            }
-            newBullet.transform.position = bulletOrigin.position;
-            newBullet.transform.rotation = Quaternion.LookRotation(dir);
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.PrudentPeriapt))
+        {
+            saveBulletChance += 20;
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.PrudentPeriapt);
+        }
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) saveBulletChance += 20;
 
-            newBullet.GetComponent<Rigidbody>().AddForce(Vector3.up * 5);
-            newBullet.GetComponent<Rigidbody>().AddForce(dir * projectileSpeed);
-            //print("PEW");
-
+        if(saveBulletChance < Random.Range(0,100))
+        {
             InventoryItemData itemShot = savedItems[0];
             savedItems.Remove(itemShot);
-
-            ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
-            ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
-            yield return new WaitForSeconds(0.2f);
         }
+
+        ParticlePoolManager.Instance.MoveAndPlayVFX(bulletOrigin.position, ParticlePoolManager.Instance.hitEffect);
+        ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
+        yield return new WaitForSeconds(0.2f);
+        
 
         canTransition = true;
         yield return new WaitForSeconds(Random.Range(2.5f, 3f));

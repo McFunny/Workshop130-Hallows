@@ -163,6 +163,7 @@ public class CookingRecipeBook : MonoBehaviour
         {
             if(cookingDatabase[i].amountMade > 0 || cookingDatabase[i].unlocked == true)
             {
+                if(cookingDatabase[i].amountMade == 0) allUnlocked = false;
                 cookingDatabase[i].unlocked = true;
                 LockOrUnlockRecipe(recipeButtons[i], true);
             }

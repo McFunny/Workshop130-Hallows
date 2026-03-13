@@ -454,6 +454,7 @@ public class WagonMerchantNPC : NPC, ITalkable
                         barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
                     storeItems[i].seller = this;
                 }
+                continue;
             }
 
             do

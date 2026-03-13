@@ -7,7 +7,7 @@ public class ProjectilePoolManager : MonoBehaviour
     public static ProjectilePoolManager Instance;
 
     public GameObject bulletPrefab, largeWaterPrefab, bloodPrefab, slimePrefab, seedBulletPrefab, fireBallPrefab, pyreflyPrefab, hydroflyPrefab, timberEarPrefab, cannonRockPrefab, eggPrefab,
-    fBulletRock, fBulletShrapnel, fBulletLead, fBulletWood, beetlePrefab, jagBeetlePrefab, energyPrefab;
+    fBulletRock, fBulletShrapnel, fBulletLead, fBulletWood, beetlePrefab, jagBeetlePrefab, energyPrefab, bonePrefab;
 
     List<GameObject> bulletPool = new List<GameObject>();
     List<GameObject> largeWaterPool = new List<GameObject>();
@@ -27,6 +27,7 @@ public class ProjectilePoolManager : MonoBehaviour
     List<GameObject> beetlePool = new List<GameObject>();
     List<GameObject> jagBeetlePool = new List<GameObject>();
     List<GameObject> energyPool = new List<GameObject>();
+    List<GameObject> bonePool = new List<GameObject>();
 
     void Awake()
     {
@@ -83,7 +84,7 @@ public class ProjectilePoolManager : MonoBehaviour
             newBullet.SetActive(false);
         }
 
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < 3; i++)
         {
             GameObject newBullet = Instantiate(fireBallPrefab);
             fireBallPool.Add(newBullet);
@@ -129,6 +130,13 @@ public class ProjectilePoolManager : MonoBehaviour
         {
             GameObject newBullet = Instantiate(fBulletShrapnel);
             fShrapnelPool.Add(newBullet);
+            newBullet.SetActive(false);
+        }
+
+        for(int i = 0; i < 4; i++)
+        {
+            GameObject newBullet = Instantiate(bonePrefab);
+            bonePool.Add(newBullet);
             newBullet.SetActive(false);
         }
     }
@@ -433,6 +441,25 @@ public class ProjectilePoolManager : MonoBehaviour
         //No available projectiles, must make a new one
         GameObject newBullet = Instantiate(energyPrefab);
         energyPool.Add(newBullet);
+        newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+        return newBullet;
+    }
+
+    public GameObject GrabBoneBullet()
+    {
+        foreach (GameObject bullet in bonePool)
+        {
+            if(!bullet.activeSelf)
+            {
+                bullet.SetActive(true);
+                bullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+                return bullet;
+            }
+        }
+
+        //No available projectiles, must make a new one
+        GameObject newBullet = Instantiate(bonePrefab);
+        bonePool.Add(newBullet);
         newBullet.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
         return newBullet;
     }

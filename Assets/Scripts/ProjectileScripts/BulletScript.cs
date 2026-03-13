@@ -18,11 +18,20 @@ public class BulletScript : MonoBehaviour
     public StructureType particleType = StructureType.Null;
 
     bool initialDisable = true;
+    public bool destroyAfterShooting = false;
 
     private void Awake()
     {
         bulletRigidbody = GetComponent<Rigidbody>();
         baseCreatureDamage = creatureDamage;
+    }
+
+    void Update()
+    {
+        if (bulletRigidbody.velocity != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(bulletRigidbody.velocity);
+        }
     }
 
 
@@ -169,6 +178,11 @@ public class BulletScript : MonoBehaviour
 
     void OnDisable()
     {
+        if(destroyAfterShooting)
+        {
+            Destroy(gameObject);
+            return;
+        }
         if(energyBullet && !initialDisable) ParticlePoolManager.Instance.GrabElecZapParticle().transform.position = transform.position; 
         StopCoroutine(LifeTime());
         initialDisable = false;

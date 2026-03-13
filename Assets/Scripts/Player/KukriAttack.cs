@@ -45,7 +45,7 @@ public class KukriAttack : MonoBehaviour
         yield return new WaitForSeconds(0.03f);
         Physics.SyncTransforms();
         collider.enabled = false;
-        if(swingCount >= 3) creatureDamage = 20;
+        if(swingCount >= 3) creatureDamage = 25;
         else creatureDamage = 10;
         HitObject();
     }

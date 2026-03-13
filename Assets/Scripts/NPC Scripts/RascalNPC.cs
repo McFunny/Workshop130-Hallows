@@ -145,30 +145,18 @@ public class RascalNPC : NPC, ITalkable
             currentPath = 2;
             currentType = PathType.ItemSpecific;
         }
-        else if(item.staminaValue > 0)
+        else
         {
-            currentPath = 0;
-            currentType = PathType.ItemRecieved;
-            /*
-            if(!NPCManager.Instance.rascalFed)
+            currentPath = RemarkOnItem(item);
+            if(currentPath >= 0)
             {
-                currentPath = 0;
-                currentType = PathType.ItemRecieved;
-                NPCManager.Instance.rascalFed = true;
-                //anim.SetTrigger("TakeItem");
+                currentType = PathType.ItemPath;
             }
             else
             {
-                currentPath = 1;
-                currentType = PathType.ItemRecieved;
+                currentPath = 0;
+                currentType = PathType.ItemSpecific;
             }
-            */
-            //Its consumable and giftable
-        } 
-        else
-        {
-            currentPath = 0;
-            currentType = PathType.ItemSpecific;
         }
 
         //code for the item being edible
