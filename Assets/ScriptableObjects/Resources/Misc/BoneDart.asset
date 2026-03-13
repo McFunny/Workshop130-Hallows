@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 341
   displayName: Bone Dart
-  description: A brittle piece of bone carved to a sharp end. Used as ammunition
-    for the Bone Turret.
+  description: A brittle piece of bone carved to a sharp end. Can be thrown or used
+    as ammunition for the Bone Turret.
   icon: {fileID: -47657295, guid: 26d1d5ca4b129c44ea68b1df0874a426, type: 3}
   type: 0
   maxStackSize: 99
@@ -26,7 +26,7 @@ MonoBehaviour:
   staminaValue: 0
   animalHungerValue: 0
   bonusCompostValue: 0
-  useCooldown: 0
+  useCooldown: 0.5
   pickledForm: {fileID: 0}
   itemConversions: []
   cookingStats: []
@@ -35,6 +35,6 @@ MonoBehaviour:
   itemInputsKBM: []
   itemInputsController: []
   gainedEffects: []
-  itemBehavior: {fileID: 0}
+  itemBehavior: {fileID: 11400000, guid: 94c9b399b567a2b46a1b15fce1bee3cd, type: 2}
   useSound: {fileID: 0}
   cannotEnterInventory: 0

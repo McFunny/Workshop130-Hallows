@@ -193,9 +193,16 @@ public class SeedShooter360 : StructureBehaviorScript
             ParticlePoolManager.Instance.GrabCloudParticle().transform.position = bulletOrigin.position;
             yield return new WaitForSeconds(0.2f);
         }
-        r = Random.Range(0,10);
-        if(MainMenuScript.currentFileMode == FileMode.Cozy) r -= 2;
-        if(r <= 8f && !townOwned) //chance to not consume seed
+
+        float saveBulletChance = 0;
+        if(TrinketInventoryHandler.Instance.CheckForTrinket(TrinketKey.PrudentPeriapt))
+        {
+            saveBulletChance += 20;
+            TrinketInventoryHandler.Instance.ApplyTrinketDamage(TrinketKey.PrudentPeriapt);
+        }
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) saveBulletChance += 20;
+
+        if(saveBulletChance < Random.Range(0,100) && !townOwned) //chance to not consume seed
         {
             InventoryItemData seedShot = savedItems[0];
             savedItems.Remove(seedShot);
