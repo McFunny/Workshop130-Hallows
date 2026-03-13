@@ -60,21 +60,6 @@ public class PlayerEffectsHandler : MonoBehaviour
         lowHealthCoroutine = null;
     }
 
-    private void OnEnable()
-    {
-        SettingsValueManager.OnSettingsChanged += HandleSettingsChanged;
-    }
-
-    private void OnDisable()
-    {
-        SettingsValueManager.OnSettingsChanged -= HandleSettingsChanged;
-    }
-
-    private void HandleSettingsChanged()
-    {
-        originalPixelation = ApplySettings.pixelResolution;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -168,6 +153,7 @@ public class PlayerEffectsHandler : MonoBehaviour
 
     IEnumerator DamagePixelization()
     {
+        originalPixelation = ApplySettings.pixelResolution;
         pixelation = pixelRenderer.GetFloat("_pixelization");
         do
         {

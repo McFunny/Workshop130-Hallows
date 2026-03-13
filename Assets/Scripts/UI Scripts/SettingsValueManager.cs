@@ -209,6 +209,11 @@ public class SettingsValueManager : MonoBehaviour
         ChangeSettingsPage(currentPage);
     }
 
+    private void Start()
+    {
+        if(OnSettingsChanged != null) OnSettingsChanged.Invoke();  
+    }
+
     void OnEnable()
     {
         EnableDisablePreviousMenuButtons(false);
