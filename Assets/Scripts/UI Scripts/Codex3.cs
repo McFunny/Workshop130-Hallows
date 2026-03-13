@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System;
 using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class Codex3 : MonoBehaviour
 {
@@ -19,6 +20,12 @@ public class Codex3 : MonoBehaviour
     private string defaultName = "???";
     private ControlManager controlManager;
     private QuestManager questManager;
+    private List<GameObject> tutorialObjects = new List<GameObject>();
+    private List<GameObject> toolObjects = new List<GameObject>();
+    private List<GameObject> structureObjects = new List<GameObject>();
+    private List<GameObject> plantObjects = new List<GameObject>();
+    private List<GameObject> creatureObjects = new List<GameObject>();
+    private List<GameObject> bugObjects = new List<GameObject>();
     private List<GameObject> critterObjects = new List<GameObject>();
     private List<GameObject> questObjects = new List<GameObject>();
     private int currentScreenNum = 0;
@@ -389,8 +396,8 @@ public class Codex3 : MonoBehaviour
 
                 if (activeQuests.Count == 0)
                 {
-                    print("No Frests found.");
-                    return;
+                    print("No Quests found.");
+                    continue; // BUG FIX: was `return`, which exited UpdateEntries entirely instead of just skipping quests
                 }
                 int buttonsPlaced = 0;
 
@@ -463,7 +470,7 @@ public class Codex3 : MonoBehaviour
                 if(activeQuests.Count > maxQuestEntries * 2) extraQuestPages = true;
                 else extraQuestPages = false;
 
-                questsScreenNum = activeQuests.Count / (maxQuestEntries * 2); // Calculate the number of screens needed for quests
+                questsScreenNum = Mathf.Max(0, activeQuests.Count - 1) / (maxQuestEntries * 2); // Calculate the number of screens needed for quests
                 HideAndShowEntries(OpenCategory.Quests, maxQuestEntries);
             }
 
@@ -495,39 +502,45 @@ public class Codex3 : MonoBehaviour
 
                 //Critters
                 List<CritterBehaviorScript> critters = BarnManager.Instance.allCritters;
-                if (critters.Count == 0) continue;
 
-                for (int c = 0; c < critters.Count; c++)
+                // BUG FIX: was `continue`, which skipped HideAndShowEntries and crittersScreenNum
+                // even when a pet had already been added to critterObjects.
+                // Now we fall through so the pet-only case is handled correctly.
+                if (critters.Count > 0)
                 {
-                    int batchIndex = buttonsPlaced / maxCritterEntries;
-                    Transform currentParent = (batchIndex % 2 == 0) ? containers[6].transform : secondaryContainers[6].transform;
-                    Color homelessColor = new Color(1.0f, 1.0f, 1.0f, 0.75f);
-                    Color hasHomeColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    for (int c = 0; c < critters.Count; c++)
+                    {
+                        int batchIndex = buttonsPlaced / maxCritterEntries;
+                        Transform currentParent = (batchIndex % 2 == 0) ? containers[6].transform : secondaryContainers[6].transform;
+                        Color homelessColor = new Color(1.0f, 1.0f, 1.0f, 0.75f);
+                        Color hasHomeColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
-                    var critter = critters[c];
-                    if (critter == null) continue;
+                        var critter = critters[c];
+                        if (critter == null) continue;
 
-                    var critterButton = Instantiate(critterButtonPrefab, currentParent.transform);
-                    critterButton.name = critter.GetCritterName() + " " + c;
-                    var critterVars = critterButton.GetComponent<CodexCritter>();
-                    critterVars.assignedCritter = critter;
+                        var critterButton = Instantiate(critterButtonPrefab, currentParent.transform);
+                        critterButton.name = critter.GetCritterName() + " " + c;
+                        var critterVars = critterButton.GetComponent<CodexCritter>();
+                        critterVars.assignedCritter = critter;
 
-                    critterVars.critterName.text = critter.GetCritterName();
-                    critterVars.critterIcon.sprite = critterImages[(int)critter.critterType];
-                    critterVars.homeIcon.color = critter.IsCritterHomeless() ? homelessColor : hasHomeColor;
-                    critterVars.homeIcon.gameObject.SetActive(true);
-                    critterVars.friendshipText.text = critter.friendshipLevel.ToString();
-                    critterVars.healthSlider.value = critter.health / critter.maxHealth;
-                    critterVars.hungerSlider.value = critter.hunger / critter.maxHunger;
-                    critterVars.thirstSlider.value = critter.thirst / critter.maxThirst;
+                        critterVars.critterName.text = critter.GetCritterName();
+                        critterVars.critterIcon.sprite = critterImages[(int)critter.critterType];
+                        critterVars.homeIcon.color = critter.IsCritterHomeless() ? homelessColor : hasHomeColor;
+                        critterVars.homeIcon.gameObject.SetActive(true);
+                        critterVars.friendshipText.text = critter.friendshipLevel.ToString();
+                        critterVars.healthSlider.value = critter.health / critter.maxHealth;
+                        critterVars.hungerSlider.value = critter.hunger / critter.maxHunger;
+                        critterVars.thirstSlider.value = critter.thirst / critter.maxThirst;
 
-                    critterObjects.Add(critterButton);
-                    buttonsPlaced++;
+                        critterObjects.Add(critterButton);
+                        buttonsPlaced++;
+                    }
                 }
+
                 if(critterObjects.Count > maxCritterEntries * 2) extraCritterPages = true;
                 else extraCritterPages = false;
 
-                crittersScreenNum = critterObjects.Count / (maxCritterEntries * 2); // Calculate the number of screens needed for critters
+                crittersScreenNum = Mathf.Max(0, critterObjects.Count - 1) / (maxCritterEntries * 2); // Calculate the number of screens needed for critters
                 HideAndShowEntries(OpenCategory.Critters, maxCritterEntries);
             }
 
@@ -535,14 +548,14 @@ public class Codex3 : MonoBehaviour
             // Attempt to load all other categories
 
             print(Cat.Length + " entries found in category " + i);
+            int catButtonsPlaced = 0;
             for (int e = 0; e < Cat.Length; e++)
             {
-                var chosenContainer = containers[i];
-                if (e < maxStandardEntries) chosenContainer = containers[i];
-                else chosenContainer = secondaryContainers[i];
+                int batchIndex = catButtonsPlaced / maxStandardEntries;
+                Transform currentParent = (batchIndex % 2 == 0) ? containers[i].transform : secondaryContainers[i].transform;
 
 
-                GameObject entryButton = Instantiate(entryButtonPrefab, chosenContainer.transform);
+                GameObject entryButton = Instantiate(entryButtonPrefab, currentParent);
                 entryButton.name = Cat[e].entryName + " Entry";
 
                 var tempName = entryButton.gameObject.transform.GetChild(0).gameObject;
@@ -561,10 +574,21 @@ public class Codex3 : MonoBehaviour
                     tempImage.SetActive(true);
                     tempUnlock.SetActive(false);
                     tempSprite.sprite = Cat[e].buttonIcon;
+
+                    // BUG FIX: unlocked entries were never added to their *Objects list,
+                    // so they were invisible to HideAndShowEntries and broke pagination.
+                    if (Cat == TutorialEntries) tutorialObjects.Add(entryButton);
+                    else if (Cat == ToolEntries) toolObjects.Add(entryButton);
+                    else if (Cat == StructureEntries) structureObjects.Add(entryButton);
+                    else if (Cat == PlantEntries) plantObjects.Add(entryButton);
+                    else if (Cat == CreatureEntries) creatureObjects.Add(entryButton);
+                    else if (Cat == BugEntries) bugObjects.Add(entryButton);
+
+                    catButtonsPlaced++; // BUG FIX: was also missing, causing wrong container assignment for subsequent entries
                 }
                 else if (Cat == PlantEntries)
                 {
-                    if (Cat[e].cropData.amountHarvested > 0) //Unlocks if amount of crop harvested > 0
+                    if (Cat[e].cropData != null && Cat[e].cropData.amountHarvested > 0) //Unlocks if amount of crop harvested > 0
                     {
                         tempText.text = Cat[e].entryName;
                         tempImage.SetActive(true);
@@ -577,6 +601,8 @@ public class Codex3 : MonoBehaviour
                         tempImage.SetActive(false);
                         tempUnlock.SetActive(true);
                     }
+                    plantObjects.Add(entryButton);
+                    catButtonsPlaced++;
                 }
                 else if (Cat[e].creatureData != null) //Unlocks if amount of enemy killed > 0
                 {
@@ -593,6 +619,8 @@ public class Codex3 : MonoBehaviour
                         tempImage.SetActive(false);
                         tempUnlock.SetActive(true);
                     }
+                    creatureObjects.Add(entryButton);
+                    catButtonsPlaced++; // BUG FIX: was missing, causing wrong container assignment for subsequent entries
                 }
                 else if (Cat[e].bugData != null) //Unlocks if amount of bug caught > 0
                 {
@@ -609,6 +637,8 @@ public class Codex3 : MonoBehaviour
                         tempImage.SetActive(false);
                         tempUnlock.SetActive(true);
                     }
+                    bugObjects.Add(entryButton);
+                    catButtonsPlaced++; // BUG FIX: was missing, causing wrong container assignment for subsequent entries
                 }
                 else if (Cat[e].structureData != null) //Unlocks if structure has been placed
                 {
@@ -625,33 +655,45 @@ public class Codex3 : MonoBehaviour
                         tempImage.SetActive(false);
                         tempUnlock.SetActive(true);
                     }
+                    structureObjects.Add(entryButton);
+                    catButtonsPlaced++; // BUG FIX: was missing, causing wrong container assignment for subsequent entries
                 }
                 else
                 {
                     tempText.text = defaultName;
                     tempImage.SetActive(false);
                     tempUnlock.SetActive(true);
+
+                    if(Cat == TutorialEntries) tutorialObjects.Add(entryButton);
+                    else if(Cat == ToolEntries) toolObjects.Add(entryButton);
+                    catButtonsPlaced++; // BUG FIX: was missing, causing wrong container assignment for subsequent entries
                 }
 
                 switch (i)
                 {
                     case 0:
                         TutorialList.Add(Cat[e]);
+                        tutorialScreenNum = Mathf.Max(0, tutorialObjects.Count - 1) / (maxStandardEntries * 2);
                         break;
                     case 1:
                         ToolList.Add(Cat[e]);
+                        toolsScreenNum = Mathf.Max(0, toolObjects.Count - 1) / (maxStandardEntries * 2);
                         break;
                     case 2:
                         StructureList.Add(Cat[e]);
+                        structuresScreenNum = Mathf.Max(0, structureObjects.Count - 1) / (maxStandardEntries * 2);
                         break;
                     case 3:
                         PlantList.Add(Cat[e]);
+                        plantsScreenNum = Mathf.Max(0, plantObjects.Count - 1) / (maxStandardEntries * 2);
                         break;
                     case 4:
                         CreatureList.Add(Cat[e]);
+                        creaturesScreenNum = Mathf.Max(0, creatureObjects.Count - 1) / (maxStandardEntries * 2);
                         break;
                     case 5:
                         BugList.Add(Cat[e]);
+                        bugsScreenNum = Mathf.Max(0, bugObjects.Count - 1) / (maxStandardEntries * 2);
                         break;
 
                 }
@@ -723,27 +765,39 @@ public class Codex3 : MonoBehaviour
         switch (cat)
         {
             case OpenCategory.Tutorial:
-                //tutorialScreenNum += incrementDirection;
+                if (!AreThereEnoughPages(tutorialScreenNum, incrementDirection)) return;
+                currentScreenNum += incrementDirection;
+                HideAndShowEntries(cat, maxStandardEntries);
                 break;
 
             case OpenCategory.Tools:
-                //toolsScreenNum += incrementDirection;
+                if (!AreThereEnoughPages(toolsScreenNum, incrementDirection)) return;
+                currentScreenNum += incrementDirection;
+                HideAndShowEntries(cat, maxStandardEntries);
                 break;
 
             case OpenCategory.Structures:
-                //structuresScreenNum += incrementDirection;
+                if (!AreThereEnoughPages(structuresScreenNum, incrementDirection)) return;
+                currentScreenNum += incrementDirection;
+                HideAndShowEntries(cat, maxStandardEntries);
                 break;
 
             case OpenCategory.Plants:
-                //plantsScreenNum += incrementDirection;
+                if (!AreThereEnoughPages(plantsScreenNum, incrementDirection)) return;
+                currentScreenNum += incrementDirection;
+                HideAndShowEntries(cat, maxStandardEntries);
                 break;
 
             case OpenCategory.Creatures:
-                //creaturesScreenNum += incrementDirection;
+                if (!AreThereEnoughPages(creaturesScreenNum, incrementDirection)) return;
+                currentScreenNum += incrementDirection;
+                HideAndShowEntries(cat, maxStandardEntries);
                 break;
 
             case OpenCategory.Bugs:
-                //bugsScreenNum += incrementDirection;
+                if (!AreThereEnoughPages(bugsScreenNum, incrementDirection)) return;
+                currentScreenNum += incrementDirection;
+                HideAndShowEntries(cat, maxStandardEntries);
                 break;
 
             case OpenCategory.Quests:
@@ -794,8 +848,7 @@ public class Codex3 : MonoBehaviour
                     questObjects[i].SetActive(false);
                 }
             }
-            if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(null);
-            return;
+            
         }
         else if(cat.Equals(OpenCategory.Critters))
         {
@@ -810,8 +863,93 @@ public class Codex3 : MonoBehaviour
                     critterObjects[i].SetActive(false);
                 }
             }
-            if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(null);
         }
+        else if(cat.Equals(OpenCategory.Plants))
+        {
+            for (int i = 0; i < plantObjects.Count; i++)
+            {
+                if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+                {
+                    plantObjects[i].SetActive(true);
+                }
+                else
+                {
+                    plantObjects[i].SetActive(false);
+                }
+            }
+        }
+        else if(cat.Equals(OpenCategory.Tutorial))
+        {
+            for (int i = 0; i < tutorialObjects.Count; i++)
+            {
+                if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+                {
+                    tutorialObjects[i].SetActive(true);
+                }
+                else
+                {
+                    tutorialObjects[i].SetActive(false);
+                }
+            }
+        }
+        else if(cat.Equals(OpenCategory.Tools))
+        {
+            for (int i = 0; i < toolObjects.Count; i++)
+            {
+                if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+                {
+                    toolObjects[i].SetActive(true);
+                }
+                else
+                {
+                    toolObjects[i].SetActive(false);
+                }
+            }
+        }
+        else if(cat.Equals(OpenCategory.Structures))
+        {
+            for (int i = 0; i < structureObjects.Count; i++)
+            {
+                if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+                {
+                    structureObjects[i].SetActive(true);
+                }
+                else
+                {
+                    structureObjects[i].SetActive(false);
+                }
+            }
+        }
+        else if(cat.Equals(OpenCategory.Creatures))
+        {
+            for (int i = 0; i < creatureObjects.Count; i++)
+            {
+                if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+                {
+                    creatureObjects[i].SetActive(true);
+                }
+                else
+                {
+                    creatureObjects[i].SetActive(false);
+                }
+            }
+        }
+        else if(cat.Equals(OpenCategory.Bugs))
+        {
+            for (int i = 0; i < bugObjects.Count; i++)
+            {
+                if (i >= currentScreenNum * (maxPerScreen * 2) && i < (currentScreenNum + 1) * (maxPerScreen * 2))
+                {
+                    bugObjects[i].SetActive(true);
+                }
+                else
+                {
+                    bugObjects[i].SetActive(false);
+                }
+            }
+        }
+
+        if(ControlManager.isGamepad) EventSystem.current.SetSelectedGameObject(null);
         
     }
     
@@ -847,8 +985,15 @@ public class Codex3 : MonoBehaviour
         CreatureList.Clear();
         PlantList.Clear();
         BugList.Clear();
+
         critterObjects.Clear();
         questObjects.Clear();
+        plantObjects.Clear();
+        tutorialObjects.Clear();
+        toolObjects.Clear();
+        structureObjects.Clear();
+        creatureObjects.Clear();
+        bugObjects.Clear();
     }
 
     private void ResetCodex(bool fullReset = false) //Sets the codex to its default state
@@ -898,9 +1043,36 @@ public class Codex3 : MonoBehaviour
             HideAndShowEntries(OpenCategory.Critters, maxCritterEntries);
             arrowParent.SetActive(extraCritterPages);
         }
-        else
+        else if(openCategory == OpenCategory.Plants)
         {
-            arrowParent.SetActive(false);
+            HideAndShowEntries(OpenCategory.Plants, maxStandardEntries);
+            arrowParent.SetActive(plantObjects.Count > maxStandardEntries * 2);
+
+        }
+        else if(openCategory == OpenCategory.Tutorial)
+        {
+            HideAndShowEntries(OpenCategory.Tutorial, maxStandardEntries);
+            arrowParent.SetActive(tutorialObjects.Count > maxStandardEntries * 2);
+        }
+        else if(openCategory == OpenCategory.Tools)
+        {
+            HideAndShowEntries(OpenCategory.Tools, maxStandardEntries);
+            arrowParent.SetActive(toolObjects.Count > maxStandardEntries * 2);
+        }
+        else if(openCategory == OpenCategory.Structures)
+        {
+            HideAndShowEntries(OpenCategory.Structures, maxStandardEntries);
+            arrowParent.SetActive(structureObjects.Count > maxStandardEntries * 2);
+        }
+        else if(openCategory == OpenCategory.Creatures)
+        {
+            HideAndShowEntries(OpenCategory.Creatures, maxStandardEntries);
+            arrowParent.SetActive(creatureObjects.Count > maxStandardEntries * 2);
+        }
+        else if(openCategory == OpenCategory.Bugs)
+        {
+            HideAndShowEntries(OpenCategory.Bugs, maxStandardEntries);
+            arrowParent.SetActive(bugObjects.Count > maxStandardEntries * 2);
         }
     }
 
