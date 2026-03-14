@@ -215,7 +215,7 @@ public class NightSpawningManager : MonoBehaviour
         }
         while(spawnAttempts < currentDLevel.hourlySpawnAttempts);
 
-        if(totalCreatures < maxCreatures/2 && difficultyPoints < 8)
+        if(totalCreatures < maxCreatures/2 && difficultyPoints < 6)
         {
             r = Random.Range(2,5);
             for(float i = 0; i < r; i++)
@@ -434,6 +434,7 @@ public class NightSpawningManager : MonoBehaviour
             else difficultyMultiplier = 1;*/ //The old way
 
             if(MainMenuScript.currentFileMode == FileMode.Cozy) difficultyMultiplier -= 0.35f;
+            else if(PlayerInteraction.Instance.totalMoneyEarned < 1000) difficultyMultiplier -= 0.15f;
 
             foreach(StructureBehaviorScript structure in StructureManager.Instance.allStructs)
             {

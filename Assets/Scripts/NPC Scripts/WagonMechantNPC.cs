@@ -473,7 +473,7 @@ public class WagonMerchantNPC : NPC, ITalkable
 
             extraItems = 0;
             if(barterDatabase.transactions[b].amountForSale == 1) extraItems = Random.Range(0, 3);
-            else if(barterDatabase.transactions[b].amountForSale == 3) extraItems = Random.Range(0, 6);
+            else if(barterDatabase.transactions[b].amountForSale == 3) extraItems = Random.Range(2, 8);
             if(GameSaveData.Instance.siegesCleared > 1 && extraItems > 0) extraItems += Random.Range(0, 4);
 
             storeItems[i].RefreshItem(newItem, newCost, barterDatabase.transactions[b].itemsRequired, barterDatabase.transactions[b].amountForSale + extraItems);
@@ -651,11 +651,10 @@ public class WagonMerchantNPC : NPC, ITalkable
                 currentType = PathType.BranchingPaths;
                 itemsToGive.Add(new ItemWithAmount(carrotSeeds, 4));
             }
-            //currentPath = 14;
-            //currentType = PathType.Misc;
             GameSaveData.Instance.mm_giveGun = true;
             itemsToGive.Add(new ItemWithAmount(shotGun, 1));
             if(MainMenuScript.currentFileMode == FileMode.Cozy) itemsToGive.Add(new ItemWithAmount(ammo, 20));
+            else if (currentPath == 3) itemsToGive.Add(new ItemWithAmount(ammo, 15)); //Extra Ammo for job well done
             else itemsToGive.Add(new ItemWithAmount(ammo, 10));
             //QuestManager.Instance.AddQuest(QuestDatabase.Instance.MainQuests[1]);
         }

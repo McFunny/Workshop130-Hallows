@@ -130,12 +130,17 @@ public class CabinBookshelf : FurnitureBehaviorScript
 
     public void SaveData()
     {
+        //Debug.LogError("Saving shelf");
         List<int> itemIDs = new List<int>();
 
         for(int i = 0; i < savedItems.Count; i++)
         {
             if(savedItems[i] == null) itemIDs.Add(-1);
-            else itemIDs.Add(savedItems[i].ID);
+            else 
+            {
+                itemIDs.Add(savedItems[i].ID);
+                //Debug.LogError("Item ID is : " + savedItems[i].ID);
+            }
         }
 
         SaveLoad.CurrentSaveData.bookcaseItemIDs = itemIDs;
@@ -144,19 +149,21 @@ public class CabinBookshelf : FurnitureBehaviorScript
 
     private void LoadData(SaveData data)
     {
+        //Debug.LogError("Loading shelf. Item count is: "+ data.bookcaseItemIDs.Count);
         if(data.bookcaseItemIDs.Count == 0)
         {
-            for(int i = 0; i < itemSockets.Count; i++)
+            return;
+            /*for(int i = 0; i < itemSockets.Count; i++)
             {
                 savedItems.Add(null);
             }
-            return;
+            return;*/
         }
         
         for(int i = 0; i < data.bookcaseItemIDs.Count; i++)
         {
-            if(data.bookcaseItemIDs[i] == -1) savedItems.Add(null);
-            else savedItems.Add(Database.Instance.GetItem(data.bookcaseItemIDs[i]));
+            if(data.bookcaseItemIDs[i] == -1) continue;//savedItems.Add(null);
+            else savedItems[i] = Database.Instance.GetItem(data.bookcaseItemIDs[i]);//savedItems.Add(Database.Instance.GetItem(data.bookcaseItemIDs[i]));
         }
 
 

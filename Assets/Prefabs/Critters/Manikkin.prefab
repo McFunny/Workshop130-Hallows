@@ -116,6 +116,7 @@ MonoBehaviour:
   allColliders:
   - {fileID: 7096947125162751193}
   corpseParticleTransform: {fileID: 2757071639315222301}
+  knifeLodgeTransform: {fileID: 0}
   corpseType: 1
   rb: {fileID: 3438637213064963571}
   anim: {fileID: 3459320562344929524}
@@ -124,20 +125,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 003387081b07a0d40b8fc11186444232, type: 2}
   dropChance:
   - 5
-  - 9
+  - 7
   sightRange: 0
   attackRange: 2.5
   playerInSightRange: 0
   playerInAttackRange: 0
   shovelVulnerable: 1
   fireVulnerable: 1
-  bearTrapVulnerable: 1
+  bearTrapVulnerable: 0
   frostVulnerable: 0
   isDead: 0
   damageToStructure: 0
   damageToPlayer: 0
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.34901962, g: 0.34901962, b: 0.34901962, a: 0.25490198}
   currentEffects: []
   agent: {fileID: 0}
@@ -5646,6 +5648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invert: 0
+  npcOverride: 0
   objectActive: 0
 --- !u!1 &8032105349052435469
 GameObject:
@@ -16490,7 +16493,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -16573,6 +16576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatureScript: {fileID: 2720333737781574112}
+  audioScript: {fileID: 0}
+  structureAudioScript: {fileID: 0}
 --- !u!114 &3845151130460792643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16590,6 +16595,7 @@ MonoBehaviour:
   pitchMax: 0
   source: {fileID: 0}
   loopingSource: {fileID: 0}
+  footStepSource: {fileID: 0}
   moveSound: {fileID: 8300000, guid: c04b8172b5cdac844a036d62609e4da7, type: 3}
   idleSound1: {fileID: 0}
   idleSound2: {fileID: 0}
@@ -16606,6 +16612,7 @@ MonoBehaviour:
   petSound: {fileID: 0}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &2553739782682161654
 AudioSource:
   m_ObjectHideFlags: 0

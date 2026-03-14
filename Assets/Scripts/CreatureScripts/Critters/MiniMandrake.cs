@@ -230,9 +230,14 @@ public class MiniMandrake : CreatureBehaviorScript
 
         agent.destination = destination;
 
+        float timeSpent = 0;
 
-        while ((!agent.pathPending && agent.remainingDistance > agent.stoppingDistance + 0.1f) || targetCreature)
+        float duration = 5;
+
+
+        while (((!agent.pathPending && agent.remainingDistance > agent.stoppingDistance + 0.1f) || targetCreature) && timeSpent < duration)
         {
+            timeSpent += Time.deltaTime;
             yield return null;
         }
 
@@ -243,6 +248,7 @@ public class MiniMandrake : CreatureBehaviorScript
 
     IEnumerator WaterDrain()
     {
+        yield break; //Disabled for now
         while(health > 0)
         {
             yield return new WaitForSeconds(1);

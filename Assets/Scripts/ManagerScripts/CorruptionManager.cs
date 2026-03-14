@@ -250,7 +250,7 @@ public class CorruptionManager : MonoBehaviour
 
     public float CorruptedSpawnMod()
     {
-        return 5 + (corruptedTiles/maxCorruption) * 90;
+        return 5 + (corruptedTiles/(maxCorruption/2)) * 90;
     }
 
     void OnDestroy()

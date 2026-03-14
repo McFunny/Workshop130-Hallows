@@ -19520,6 +19520,7 @@ GameObject:
   - component: {fileID: 649438645300864238}
   - component: {fileID: 8966786974975415095}
   - component: {fileID: 8591225400243082534}
+  - component: {fileID: 7610813894726494068}
   m_Layer: 6
   m_Name: TuskTrap
   m_TagString: Untagged
@@ -19583,7 +19584,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: d8aaed70af5ec984bbcf5377c35451b9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.318
+  m_Volume: 0.168
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -19770,7 +19771,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 62d3a0b1456abc941b97b13a64e5a5d3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.318
+  m_Volume: 0.149
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -19854,6 +19855,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &7610813894726494068
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5500008239049761381}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 16776183
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.86, z: 1}
+  m_Center: {x: 0, y: 0.73, z: 0}
 --- !u!1 &5677484023457636873
 GameObject:
   m_ObjectHideFlags: 0

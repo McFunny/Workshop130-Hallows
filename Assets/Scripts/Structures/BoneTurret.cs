@@ -7,7 +7,7 @@ public class BoneTurret : StructureBehaviorScript
 {
     public Transform turretHead, bulletOrigin, seedSocket;
 
-    float maxAmmo = 10; //Dont allow any more seeds to be added to the item list after there are this many entrants
+    float maxAmmo = 15; //Dont allow any more seeds to be added to the item list after there are this many entrants
     float range = 26; //Get a debug sphere to show the range
     bool targetInSight = false;
     bool shotCooldown;

@@ -533,6 +533,7 @@ public class FarmLand : StructureBehaviorScript
 
     public void InsertCrop(CropData _crop)
     {
+        rotted = false;
         crop = _crop;
         growthStage = 1;
 
@@ -745,6 +746,7 @@ public class FarmLand : StructureBehaviorScript
 
         crop = null;
         harvestable = false;
+        rotted = false;
         SpriteChange();
         ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
 

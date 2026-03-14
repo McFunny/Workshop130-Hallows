@@ -291,7 +291,7 @@ public class Grub : CreatureBehaviorScript
         }
         yield return new WaitForSeconds(1);
         agent.enabled = true;
-        FindNearbyStructure(5);
+        FindNearbyStructure(10);
         currentState = CreatureState.Wander;
         coroutineRunning = false;
     }
@@ -464,7 +464,7 @@ public class Grub : CreatureBehaviorScript
                 continue;
             }
 
-            FindNearbyStructure(40);
+            FindNearbyStructure(60);
         }
     }
 
@@ -482,7 +482,7 @@ public class Grub : CreatureBehaviorScript
             if (targettableStructures.Contains(structure.structData) && !structure.absentFromFarmGrid && distanceToStructure < distance && 
             (!tile || (tile.crop && !tile.isWeed && tile.currentUpgrade != FarmLand.FarmTileUpgrade.Corrupt && !undesiredCrops.Contains(tile.crop))))
             {
-                if(!tile && Random.Range(0,4) == 0) continue;
+                if(!tile && Random.Range(0,8) == 0) continue;
                 availableStructure.Add(structure); 
 
                 if(tile && tile.crop && desiredCrops.Contains(tile.crop)) priorityStructure.Add(structure); 

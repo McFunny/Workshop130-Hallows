@@ -115,9 +115,10 @@ public class BirdBath : StructureBehaviorScript
     {
         //simulate rain accumulation
         if(inWilderness) return;
-        int refillChance = 8;
-        if(MainMenuScript.currentFileMode == FileMode.Cozy) refillChance -= 2;
-        if(Random.Range(0,10) < refillChance || IsFrozen()) return;
+        int refillChance = 18;
+        if(MainMenuScript.currentFileMode == FileMode.Cozy) refillChance -= 4;
+        if(TimeManager.Instance.isDay) refillChance -= 4;
+        if(Random.Range(0,20) < refillChance || IsFrozen()) return;
         if(waterLevel < 1)
         {
             waterLevel++;
