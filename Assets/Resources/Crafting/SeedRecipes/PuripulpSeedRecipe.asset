@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d65b157e255824fa6e60ebe806021c, type: 3}
+  m_Name: PuripulpSeedRecipe
+  m_EditorClassIdentifier: 
+  id: 71
+  nameOverride: 
+  category: 0
+  tier: 2
+  isUnlocked: 0
+  isRecentlyUnlocked: 0
+  unlockedAtStart: 0
+  isTrinket: 0
+  output: {fileID: 11400000, guid: ec36204edcbfb524f925ec1085e37952, type: 2}
+  outputAmount: 1
+  craftTimeInSeconds: 15
+  mintCost: 0
+  craftingRequirements:
+  - requiredItem: {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+    requiredAmount: 1
+  - requiredItem: {fileID: 11400000, guid: 34030026025182d43ba020ca09d78ae2, type: 2}
+    requiredAmount: 1
+  - requiredItem: {fileID: 11400000, guid: 9a249b9929e3c1a45bf96753ee6e2514, type: 2}
+    requiredAmount: 3

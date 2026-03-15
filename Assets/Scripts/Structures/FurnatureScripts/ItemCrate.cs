@@ -24,6 +24,8 @@ public class ItemCrate : FurnitureBehaviorScript
         base.Start();
         FurnitureStart();
         RefreshSockets();
+
+        if(PlacedInCabin() == false) return;
     }
 
     public override void StructureInteraction()
@@ -35,7 +37,7 @@ public class ItemCrate : FurnitureBehaviorScript
         }
 
         //if not on cabin, return
-        if(PlacedInCabin() == false) return;
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm)) salvageChance = 80;
 
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)

@@ -779,12 +779,12 @@ public class FarmLand : StructureBehaviorScript
         else if(Tutorial.Instance && crop) Tutorial.Instance.LostSeed();
 
         ParticlePoolManager.Instance.GrabStructDigParticle().transform.position = transform.position;
+        if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
         if(crop) StructureInteraction();
         else
         {
             if(currentUpgrade == FarmTileUpgrade.Trellis) ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-            if(currentUpgrade == FarmTileUpgrade.Stone) ItemPoolManager.Instance.GrabItem(rocks).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
             audioHandler.PlaySoundAtPoint(audioHandler.interactSound, transform.position);
             ParticlePoolManager.Instance.GrabPoofParticle().transform.position = transform.position;

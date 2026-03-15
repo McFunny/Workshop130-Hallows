@@ -301,9 +301,9 @@ public class NightSpawningManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         while(creatureQueue.Count != 0)
         {
-            yield return new WaitForSeconds(Random.Range(3f, 8f));
+            yield return new WaitForSeconds(Random.Range(3f, 10f));
             CreatureObject c = creatureQueue.Dequeue();
-            SpawnCreature(c);
+            if(!TimeManager.Instance.isDay) SpawnCreature(c); //To ensure no overlap into night end
         }
     }
 

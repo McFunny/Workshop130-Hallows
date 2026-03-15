@@ -13,6 +13,7 @@ public class RascalNPC : NPC, ITalkable
     //WaypointScript shopUI;
 
     //public FetchQuest carrotQuest;
+    bool carrotTaunt;
 
     protected override void Awake() //Awake in NPC.cs assigns the dialoguecontroller
     {
@@ -45,6 +46,12 @@ public class RascalNPC : NPC, ITalkable
                 GameSaveData.Instance.rascalWantsFood = true; 
                 QuestManager.Instance.AddQuest(QuestDatabase.Instance.GetMainQuest(2));
                 QuestManager.Instance.ForceRemoveQuest(QuestDatabase.Instance.GetMainQuest(1));
+            }
+            else if(carrotTaunt)
+            {
+                carrotTaunt = false;
+                currentPath = 0;
+                currentType = PathType.BranchingPaths;
             }
             else if(AbleToGiveNetQuest()) //Ask for the lost net
             {
@@ -285,6 +292,12 @@ public class RascalNPC : NPC, ITalkable
         return true;
     }
 
+    protected override void HourUpdate()
+    {
+        base.HourUpdate();
+        if(TimeManager.Instance.currentHour == 20) carrotTaunt = false;
+    }
+
     bool AbleToGiveNetQuest()
     {
         if(!GameSaveData.Instance.ras_askedForNet && !GameSaveData.Instance.bugNetObtained && TimeManager.Instance.dayNum > 2 && GameSaveData.Instance.rascalMentionedKey) return true;
@@ -300,6 +313,11 @@ public class RascalNPC : NPC, ITalkable
             if(QuestManager.Instance.activeQuests[questNum].progress == QuestManager.Instance.activeQuests[questNum].maxProgress) return true;
         }
         return false;
+    }
+
+    public void TauntedWithCarrot()
+    {
+        if(GameSaveData.Instance.rascalWantsFood == true && GameSaveData.Instance.rascalMentionedKey == false) carrotTaunt = true;
     }
 
     public override bool ActionCheck1()

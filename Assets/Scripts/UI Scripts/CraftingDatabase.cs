@@ -127,6 +127,7 @@ public class CraftingDatabase : ScriptableObject
             if(recipesInTier.Count > 0)
             {
                 recipesInTier[Random.Range(0, recipesInTier.Count)].isUnlocked = true;
+                recipesInTier[Random.Range(0, recipesInTier.Count)].isRecentlyUnlocked = true;
                 UnlockRecipePopup();
                 break;
             }
@@ -137,7 +138,7 @@ public class CraftingDatabase : ScriptableObject
     [ContextMenu("What is our craft tier?")]
     public int CurrentTier() //Tracks what the current tier of the next unlock will be
     {
-        GameSaveData.Instance.tTicketsHeld = 0; //temp fix for broken saves. remove in final build!
+        //GameSaveData.Instance.tTicketsHeld = 0; //temp fix for broken saves. remove in final build!
         
         int heldTickets = GameSaveData.Instance.tTicketsHeld;
         Debug.Log("Held tickets is : " + heldTickets);
