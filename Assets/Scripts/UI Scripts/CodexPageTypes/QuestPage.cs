@@ -26,6 +26,7 @@ public class QuestPage : CodexPage
     [SerializeField] string deleteQuestText;
 
     [SerializeField] private Sprite mintSprite;
+    [SerializeField] private List<Sprite> photoSprites;
     private void Awake()
     {
         questManager = FindFirstObjectByType<QuestManager>();
@@ -50,7 +51,15 @@ public class QuestPage : CodexPage
 
     public override void UpdatePage(CodexEntries entry, Quest quest)
     {
-        title.text = quest.assignee.ToString() + ": " + quest.name;
+        string assignee = quest.assignee.ToString();
+        Debug.Log("Assignee: " + assignee);
+
+        if(assignee == "ElderMandrake") assignee = "Elder Mandrake";
+        else if(assignee == "MistMerchant") assignee = "Mist Merchant";
+
+        Debug.Log("Formatted Assignee: " + assignee);
+
+        title.text = assignee + ": " + quest.name;
         currentOpenQuest = quest;
         description.text = quest.description;
 
@@ -111,6 +120,8 @@ public class QuestPage : CodexPage
 
         mainVert.enabled = false;
         mainVert.enabled = true; //Yeah of course the solution is to turn it off and then turn it back on
+
+        image.sprite = photoSprites[(int)quest.assignee];
     }
     
     private void ControllerDeleteQuest(UnityEngine.InputSystem.InputAction.CallbackContext context)
@@ -150,6 +161,10 @@ public class QuestPage : CodexPage
     private void UpdateQuestName(Quest quest)
     {
         var type = quest.GetType();
+        string assignee = quest.assignee.ToString();
+
+        if(assignee == "ElderMandrake") assignee = "Elder Mandrake";
+        else if(assignee == "MistMerchant") assignee = "Mist Merchant";
 
         if (type.Equals(typeof(FetchQuest)))
         {
@@ -162,7 +177,7 @@ public class QuestPage : CodexPage
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
-            title.text = quest.assignee.ToString() + ": " + t;
+            title.text = assignee + ": " + t;
         }
         else if (type.Equals(typeof(HuntQuest)))
         {
@@ -175,7 +190,7 @@ public class QuestPage : CodexPage
 
             t = t.Replace("{creatureAmount}", q.amount.ToString());
 
-            title.text = quest.assignee.ToString() + ": " + t;
+            title.text = assignee + ": " + t;
         }
         else if (type.Equals(typeof(GrowQuest)))
         {
@@ -188,11 +203,11 @@ public class QuestPage : CodexPage
 
             t = t.Replace("{itemAmount}", q.amount.ToString());
 
-            title.text = quest.assignee.ToString() + ": " + t;
+            title.text = assignee + ": " + t;
         }
         else
         {
-            title.text = quest.assignee.ToString() + ": " + quest.name;
+            title.text = assignee + ": " + quest.name;
         }
 
         title.text = title.text.Replace("Null: ", "");
