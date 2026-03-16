@@ -13,7 +13,7 @@ public class GlueSpikeTrap : StructureBehaviorScript
         CreatureBehaviorScript c = other.GetComponentInParent<CreatureBehaviorScript>();
         if(c && c.shovelVulnerable && (c as ICritter) == null)
         {
-            c.TakeDamage(15);
+            c.TakeDamage(20);
             AudioPoolManager.Instance.PlayClipAtPosition(contactSFX, transform.position);
             ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = c.transform.position;
             c.PlayHitParticle(Vector3.zero);

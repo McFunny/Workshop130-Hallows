@@ -126,6 +126,13 @@ public class BirdBath : StructureBehaviorScript
         }
     }
 
+    public override bool Freezable()
+    {
+        if(waterLevel == 0 || base.Freezable() == false) return false;
+
+        return true;
+    }
+
     public override void LoadVariables()
     {
         waterLevel = saveInt1;

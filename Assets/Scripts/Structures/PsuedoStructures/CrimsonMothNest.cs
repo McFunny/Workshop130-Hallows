@@ -16,6 +16,7 @@ public class CrimsonMothNest : StructureBehaviorScript
     public InventoryItemData nectar, comb;
 
     bool yielditems = false;
+    bool releasing = false;
 
     void Start()
     {
@@ -101,6 +102,19 @@ public class CrimsonMothNest : StructureBehaviorScript
         heldWasps = 0;
     }
 
+    IEnumerator ReleaseWaspsOverTime()
+    {
+        releasing = true;
+        for(int i = 0; i < heldWasps; i++)
+        {
+            Instantiate(mothData.objectPrefab, transform.position, Quaternion.identity).GetComponent<RubyWasp>().homeNest = this;
+            if(i >= 3) break;
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.7f));
+        }
+        heldWasps = 0;
+        releasing = false;
+    }
+
     public override void HitWithWater()
     {
         HiveDrop();
@@ -131,7 +145,7 @@ public class CrimsonMothNest : StructureBehaviorScript
             ParticlePoolManager.Instance.MoveAndPlayParticle(transform.position, ParticlePoolManager.Instance.dirtParticle);
             ParticlePoolManager.Instance.GrabCorpseParticle(CorpseParticleType.Yellow).transform.position = transform.position;
 
-            ReleaseWasps();
+            if(!releasing) StartCoroutine(ReleaseWaspsOverTime());
 
             audioHandler.PlaySoundAtPoint(audioHandler.breakSound,transform.position);
 

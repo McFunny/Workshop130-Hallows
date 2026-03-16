@@ -15,7 +15,7 @@ public class CompostBin : StructureBehaviorScript
     public Animator anim;
 
     public int progress = 0;
-    int maxProgress = 8;
+    int maxProgress = 5;
     //int maxContainedItems = 5;
     float currentCompostValue = 0;
     int maxCompostValue = 100;
@@ -73,11 +73,10 @@ public class CompostBin : StructureBehaviorScript
                 if(item == meatLarge) ichorFertilizerChance += 2;
             }
 
-            int compostYield = 1;
-            if(Random.Range(0, 10) > 4) 
-            {
-                compostYield++;
-            }
+            int compostYield = Random.Range(2, 4);
+            if(Random.Range(0, 10) > 4) compostYield++;
+            if(Random.Range(0, 10) > 6) compostYield++;
+
             /*float r;
             bool ready = false;
             while(!ready)

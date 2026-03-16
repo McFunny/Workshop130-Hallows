@@ -8,8 +8,8 @@ public class IceBlockScript : MonoBehaviour
 
     public ParticleSystem meltingParticles, iceBreakParticles, hitParticles;
 
-    public float health = 10;
-    public float maxHealth = 10;
+    public float health = 5;
+    public float maxHealth = 5;
 
     public AudioClip iceHit, iceBreak, iceFreeze;
     public AudioSource meltingSource;

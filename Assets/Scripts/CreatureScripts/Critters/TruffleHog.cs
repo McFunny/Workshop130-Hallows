@@ -162,6 +162,8 @@ public class TruffleHog : CritterBehaviorScript
         }
 
         if(TimeManager.Instance.isDay == false) burrowsToDig = 0;
+
+        if(hunger < 50) DryingRackCheck();
     }
 
     void Decide()
@@ -442,6 +444,21 @@ public class TruffleHog : CritterBehaviorScript
         }
 
         if(!foundHog) hogChaseTokens = 0;
+    }
+
+    void DryingRackCheck()
+    {
+        Collider[] nearbyStructs = Physics.OverlapSphere(transform.position, 20f, 1 << 6);
+
+        foreach(Collider collider in nearbyStructs)
+        {
+            DryingRack rack = collider.GetComponentInParent<DryingRack>();
+            if(rack && StructureManager.Instance.ValidateGridType(rack.transform.position, GridType.Barn))
+            {
+                if(rack.MeatStolen(out InventoryItemData itemEaten)) EatFood(itemEaten);
+                break;
+            }
+        }
     }
 
 

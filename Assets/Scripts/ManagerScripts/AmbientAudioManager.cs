@@ -164,7 +164,8 @@ public class AmbientAudioManager : MonoBehaviour
                 firstTrackPlayed = true;
                 musicCooldown = 5;
             }
-            else musicCooldown = Random.Range(5, 10);
+            else if(TimeManager.Instance.isDay) musicCooldown = Random.Range(30, 60);
+            else musicCooldown = Random.Range(5, 15);
 
             Debug.Log("CoolDown for song begun");
             if(musicCooldown > 0) yield return new WaitForSecondsRealtime(musicCooldown);

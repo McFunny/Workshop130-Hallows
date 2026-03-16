@@ -26,7 +26,7 @@ public class PetRock : PetBehaviorScript, IInteractable
     {
         while(true)
         {
-            yield return new WaitForSeconds(Random.Range(15f, 90));
+            yield return new WaitForSeconds(Random.Range(15f, 90f));
 
             Vector3 dir = (PlayerInteraction.Instance.playerFeet.position - transform.position).normalized;
             float dot = Vector3.Dot(dir, PlayerInteraction.Instance.mainCam.transform.forward);
@@ -48,9 +48,9 @@ public class PetRock : PetBehaviorScript, IInteractable
 
                     if(dot > 0f || (StructureManager.Instance.CheckTile(newPos) == Vector3.zero && StructureManager.Instance.ValidateGridType(newPos, GridType.Any))) newPos = Vector3.zero;
                 }
-                if(newPos != Vector3.zero)
+                if(newPos != Vector3.zero && Vector3.Distance(newPos, PlayerInteraction.Instance.playerFeet.position) > 2.5f)
                 {
-                    print(newPos);
+                    //print(newPos);
                     if(positionToClear != Vector3.zero) StructureManager.Instance.ClearTile(positionToClear);
 
                     transform.position = newPos;
@@ -68,13 +68,13 @@ public class PetRock : PetBehaviorScript, IInteractable
 
     void HurtEnemies()
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 5f, 1 << 9);
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 4.5f, 1 << 9);
         foreach(Collider collider in hitEnemies)
         {
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable)
             {
-                creature.TakeDamage(50);
+                creature.TakeDamage(150);
                 creature.PlayHitParticle(creature.transform.position);
             }
         }

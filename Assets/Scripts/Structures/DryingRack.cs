@@ -154,6 +154,18 @@ public class DryingRack : StructureBehaviorScript
         else itemSprite.sprite = null;
     }
 
+    public bool MeatStolen(out InventoryItemData itemEaten) //By trufflehog in barn
+    {
+        itemEaten = null;
+        if(savedItems.Count == 0) return false;
+
+        itemEaten = savedItems[0];
+        savedItems.Clear();
+        SpriteChange();
+        progress = 0;
+        return true;
+    }
+
     void OnDestroy()
     {
         base.OnDestroy();

@@ -114,8 +114,8 @@ public class StructureManager : MonoBehaviour
         PopulateDecorCrows(0, 2);
         int boulders = TallyStructure(boulderData);
         yield return new WaitForSeconds(0.3f);
-        if(boulders < 6) StartCoroutine(PopulateStructure(-2, 3, boulder, true, farmTileMap));
-        else if(boulders < 20) StartCoroutine(PopulateStructure(-2, 1, boulder, true, farmTileMap));
+        if(boulders < 9) StartCoroutine(PopulateStructure(-2, 4, boulder, true, farmTileMap));
+        else if(boulders < 20) StartCoroutine(PopulateStructure(-2, 2, boulder, true, farmTileMap));
 
         int decor = TallyStructure(decorData);
         if(decor < 50) StartCoroutine(PopulateStructure(-2, 5, decorData.objectPrefab, true, farmTileMap));

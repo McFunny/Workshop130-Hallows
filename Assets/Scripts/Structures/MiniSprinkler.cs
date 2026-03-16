@@ -201,7 +201,7 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
             FarmLand tile = structsInRange[index] as FarmLand;
             if(tile) tile.WaterCrops();
 
-            if(structsInRange[index].isObstacle && mode == SprinklerMode.Stream)
+            if(structsInRange[index].isObstacle && mode == SprinklerMode.Stream && tile == null) //Tilenull check is so it can go thru trelesis
             {
                 structsInRange.Clear();
                 yield break;

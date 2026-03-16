@@ -72,20 +72,16 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: 6014cb671f32fe943b567fff9d7f5342, type: 2}
-      amount: 5
+      amount: 3
     siegesRequired: 0
     amountGiven: 1
   - name: MeatDecoy
     itemForSale: {fileID: 11400000, guid: bb3a61b2f3a677e4c98f5cf9c25c3d77, type: 2}
     useItemPrice: 0
-    mintCost: 0
+    mintCost: 15
     amountForSale: 5
     barterChance: 100
-    itemsRequired:
-    - item: {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
-      amount: 1
-    - item: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
-      amount: 3
+    itemsRequired: []
     siegesRequired: 0
     amountGiven: 1
   - name: BoneBlender
@@ -96,7 +92,7 @@ MonoBehaviour:
     barterChance: 100
     itemsRequired:
     - item: {fileID: 11400000, guid: e9788d8276f84ce42abd0efd3d0ae640, type: 2}
-      amount: 25
+      amount: 20
     siegesRequired: 0
     amountGiven: 1
   - name: Ammo
