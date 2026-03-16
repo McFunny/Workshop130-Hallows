@@ -75,6 +75,9 @@ public class CabinBookshelf : FurnitureBehaviorScript
 
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
+
+            audioHandler.PlaySound(audioHandler.itemInteractSound);
+            ParticlePoolManager.Instance.GrabSparkParticle().transform.position = itemSockets[closestSocket].transform.position;
         }
     }
 
@@ -111,6 +114,9 @@ public class CabinBookshelf : FurnitureBehaviorScript
             savedItems[closestSocket] = null;
 
             PlayerInventoryHolder.Instance.UpdateInventory();
+
+            audioHandler.PlaySound(audioHandler.itemInteractSound);
+            ParticlePoolManager.Instance.GrabSparkParticle().transform.position = itemSockets[closestSocket].transform.position;
         }
     }
 

@@ -36,7 +36,8 @@ public class FarmDecor : StructureBehaviorScript
 
     void OnTriggerEnter(Collider other)
     {
-        Destroy(this.gameObject);
+        var structure = other.GetComponentInParent<StructureBehaviorScript>();
+        if(structure && structure.structData) Destroy(this.gameObject);
     }
 
     void OnDestroy()

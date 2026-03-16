@@ -28,7 +28,7 @@ public class RustlingDirt : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponentInParent<RustlingDirt>() != null) Destroy(this.gameObject);
+        //if(other.GetComponentInParent<RustlingDirt>() != null) Destroy(this.gameObject);
 
         StructureBehaviorScript s = other.GetComponentInParent<StructureBehaviorScript>();
         if(s == null) return;
@@ -69,6 +69,6 @@ public class RustlingDirt : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        else Destroy(this.gameObject);
+        else if(s && s.structData) Destroy(this.gameObject);
     }
 }

@@ -19703,8 +19703,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: dd11bece2b0ec9b498d8384cce3b214d, type: 2}
   itemForm: {fileID: 11400000, guid: 3caddd29a5a13594aa1f8a9014f5c17e, type: 2}
-  health: 15
-  maxHealth: 15
+  health: 10
+  maxHealth: 10
   wealthValue: 0
   salvageChance: 0
   destructable: 1
@@ -19747,6 +19747,11 @@ MonoBehaviour:
       value: 0
       maxValue: 0
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
+    - name: Tusk Integrity
+      icon: {fileID: 623503494, guid: c5726e73747c2a84ba50cad62a1889b7, type: 3}
+      value: 0
+      maxValue: 10
+      barColor: {r: 0.8018868, g: 0.7653098, b: 0.5711552, a: 1}
   triggeredPos: {fileID: 7575728578234115707}
   setPos: {fileID: 1487260000922643270}
   model: {fileID: 288194248333422710}
@@ -19758,6 +19763,11 @@ MonoBehaviour:
     type: 3}
   r: {fileID: 6409542371851411789}
   bloodiedMat: {fileID: 2100000, guid: 4654d51efac0baa43885a04f28c4f91d, type: 2}
+  noTuskMat: {fileID: 2100000, guid: 54405983ecafa994ba4832824915acbf, type: 2}
+  defaultMat: {fileID: 2100000, guid: 60fb0848028eddf42a7461fd61100e95, type: 2}
+  repairItems:
+  - item: {fileID: 11400000, guid: 80c6fa3f708646a44866eb0e571d303f, type: 2}
+    repairAmount: 10
 --- !u!82 &8591225400243082534
 AudioSource:
   m_ObjectHideFlags: 0
@@ -49282,6 +49292,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c889c5c0405ab70408c32cbf464d984a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 60fb0848028eddf42a7461fd61100e95, type: 2}
     - target: {fileID: 919132149155446097, guid: c889c5c0405ab70408c32cbf464d984a,
         type: 3}
       propertyPath: m_Name

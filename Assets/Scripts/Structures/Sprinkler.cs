@@ -65,7 +65,7 @@ public class Sprinkler : StructureBehaviorScript
             //StartCoroutine(DugUpForItem());
             success = true;
         }
-        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld >= (maxWaterLevel - waterLevel) && waterLevel < maxWaterLevel)
+        if(type == ToolType.WateringCan && PlayerInteraction.Instance.waterHeld >= (maxWaterLevel - waterLevel) && waterLevel < maxWaterLevel && !rotating)
         {
             PlayerInteraction.Instance.waterHeld -= maxWaterLevel - waterLevel;
             waterLevel = maxWaterLevel;

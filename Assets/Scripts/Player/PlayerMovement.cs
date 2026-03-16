@@ -111,6 +111,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if(PauseScript.isPaused)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
+
         if (playerCanMove && restrictMovementTokens > 0)
         {
             playerCanMove = false;

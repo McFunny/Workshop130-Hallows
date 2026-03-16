@@ -674,8 +674,8 @@ public class PetDog : PetBehaviorScript, IInteractable
         {
             float chance = 0;
             if(i == 0) chance = 100;
-            else chance = Random.Range(2,10) * friendshipLevel;
-            if(chance >= Random.Range(0,100)) burrow.InsertItem(boneItem);
+            else chance = Random.Range(5,10) * (friendshipLevel + 1);
+            for(int x = 0; x < 5; x++) if(chance >= Random.Range(0,100)) burrow.InsertItem(boneItem);
         }
         FriendPointsChange(2, true);
 

@@ -25,6 +25,8 @@ public class ItemCrate : FurnitureBehaviorScript
         FurnitureStart();
         RefreshSockets();
 
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm)) salvageChance = 80;
+
         if(PlacedInCabin() == false) return;
     }
 
@@ -37,7 +39,7 @@ public class ItemCrate : FurnitureBehaviorScript
         }
 
         //if not on cabin, return
-        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Farm)) salvageChance = 80;
+        if(StructureManager.Instance.ValidateGridType(transform.position, GridType.Cabin) == false) return;
 
         bool addedSuccessfully = PlayerInventoryHolder.Instance.AddToInventory(itemForm, 1);
         if (addedSuccessfully)

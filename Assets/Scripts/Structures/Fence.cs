@@ -16,6 +16,8 @@ public class Fence : StructureBehaviorScript
     GameObject spawnedCrow = null;
     public GameObject crowPrefab;
     public Transform crowSpawn;
+
+    public GameObject damageEffect;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +60,17 @@ public class Fence : StructureBehaviorScript
             spawnedCrow.GetComponent<MutatedCrow>().isDecorCrow = true;
             spawnedCrow.transform.localEulerAngles = new Vector3(0, Random.Range(0,360), 0);
         }
+
+        if(health < 7) damageEffect.SetActive(true);
+        else damageEffect.SetActive(false);
     }
+
+    public override bool RepairWithSealant(int amount)
+    {
+        damageEffect.SetActive(false);
+        return base.RepairWithSealant(amount);
+    }
+
 
     void UpdateModel()
     {

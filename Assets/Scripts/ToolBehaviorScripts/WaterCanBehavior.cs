@@ -101,7 +101,7 @@ public class WaterCanBehavior : ToolBehavior
                     if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .8f * coolDownMod));
                     if(structure.focalPoint != null ) PlayerCam.Instance.NewObjectOfInterest(structure.focalPoint.position);
                     else PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
@@ -135,7 +135,7 @@ public class WaterCanBehavior : ToolBehavior
                     if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .8f * coolDownMod));
                     interactable.ReturnFocalPoint(out Transform focalPoint);
                     PlayerCam.Instance.NewObjectOfInterest(focalPoint.position);
                     return;
@@ -171,7 +171,7 @@ public class WaterCanBehavior : ToolBehavior
                     if(PlayerInteraction.Instance.stamina > 50f) PlayerInteraction.Instance.StaminaChange(-1);
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .8f * coolDownMod));
                     PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
@@ -226,7 +226,7 @@ public class WaterCanBehavior : ToolBehavior
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     toolAnim.Play("wateringcan");
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .8f * coolDownMod));
 
                     if(structure.focalPoint != null ) PlayerCam.Instance.NewObjectOfInterest(structure.focalPoint.position);
                     else PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
@@ -263,7 +263,7 @@ public class WaterCanBehavior : ToolBehavior
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     toolAnim.Play("wateringcan");
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .8f * coolDownMod));
 
                     interactable.ReturnFocalPoint(out Transform focalPoint);
                     PlayerCam.Instance.NewObjectOfInterest(focalPoint.position);
@@ -301,7 +301,7 @@ public class WaterCanBehavior : ToolBehavior
 
                     toolAnim.SetFloat("AnimSpeed", 1f + animSpeedMod);
                     toolAnim.Play("wateringcan");
-                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .9f * coolDownMod));
+                    PlayerInteraction.Instance.StartCoroutine(PlayerInteraction.Instance.ToolUse(this, 0.5f * coolDownMod, .8f * coolDownMod));
                     PlayerCam.Instance.NewObjectOfInterest(hit.transform.position);
                     return;
                 } 
@@ -398,7 +398,7 @@ public class WaterCanBehavior : ToolBehavior
         holdingPour = false;
         yield return new WaitForSeconds(0.4f);
         holdingPour = true;
-        if(pourSource) pourSource.Play();
+        if(pourSource && !pourSource.isPlaying) pourSource.Play();
         HandItemManager.Instance.StartCoroutine(QuickPourRoutine());
         PlayerMovement.Instance.ApplySpeedMod(new MovementSpeedModifiers(PlayerInteraction.Instance.gameObject, 0.8f, "WateringCan", false));
 
@@ -432,8 +432,8 @@ public class WaterCanBehavior : ToolBehavior
         //Debug.Log(player.eulerAngles.x);
         if((player.eulerAngles.x >= 25 && player.eulerAngles.x <= 90) || player.eulerAngles.x == 0) 
         {
-            if(pourParticles) pourParticles.Play();
-            if(pourSource) pourSource.Play();
+            if(pourParticles && !pourParticles.isPlaying) pourParticles.Play();
+            if(pourSource && !pourSource.isPlaying) pourSource.Play();
             return true;
         }
         else 
@@ -513,7 +513,7 @@ public class WaterCanBehavior : ToolBehavior
 
     IEnumerator ExtraLag()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.25f);
         PlayerInteraction.Instance.ToolUseToggle(false);
     }
 

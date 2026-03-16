@@ -83,6 +83,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 8300000, guid: 4108a2624800e934eb5cd54569f2ee87, type: 3}
   activatedSound: {fileID: 0}
+  secondarySource: {fileID: 0}
 --- !u!82 &3635055106499549032
 AudioSource:
   m_ObjectHideFlags: 0
@@ -210,8 +211,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structData: {fileID: 11400000, guid: 9af743b3f8e58b242ba0e3ec8ff81791, type: 2}
   itemForm: {fileID: 11400000, guid: d9b7de1c2c2282645871ed0b2c1efce5, type: 2}
-  health: 2
-  maxHealth: 2
+  health: 4
+  maxHealth: 4
   wealthValue: 0
   salvageChance: 0
   destructable: 1
@@ -234,6 +235,7 @@ MonoBehaviour:
   saveString2: 
   saveString3: 
   saveBool1: 0
+  saveCrafts: []
   damageParticlesObject: {fileID: 8716711214195107129}
   gibs: {fileID: 2697239246615553408, guid: d1aac4759640ab94fa1f30fa6e74d8aa, type: 3}
   nearbyFires: []

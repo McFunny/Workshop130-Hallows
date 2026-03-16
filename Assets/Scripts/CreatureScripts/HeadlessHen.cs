@@ -442,7 +442,7 @@ public class HeadlessHen : CreatureBehaviorScript
     {
         Vector3 origin = transform.position + Vector3.up * 0.1f;
         RaycastHit hit;
-        if (Physics.Raycast(origin, transform.forward, out hit, 3, 1 << 6))
+        if (Physics.Raycast(origin, transform.forward, out hit, 3, 1 << 6, QueryTriggerInteraction.Ignore))
         {
             StructureBehaviorScript obstacle = hit.collider.GetComponentInParent<StructureBehaviorScript>(); //To check if its a tree because trees arent "obstacles"
             if(obstacle && jumpableStructures.Contains(obstacle.structData))

@@ -400,7 +400,11 @@ public class FarmLand : StructureBehaviorScript
             harvestable = false;
             if((forceDig && !harvestedByScythe) || isWeed || currentUpgrade == FarmTileUpgrade.Corrupt)
             {
-                if(currentUpgrade == FarmTileUpgrade.Trellis) ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                if(currentUpgrade == FarmTileUpgrade.Trellis)
+                {
+                    ItemPoolManager.Instance.GrabItem(trellis).transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+                    currentUpgrade = FarmTileUpgrade.None;
+                }
 
                 Destroy(this.gameObject);
             }

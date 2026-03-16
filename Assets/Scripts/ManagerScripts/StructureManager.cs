@@ -110,7 +110,7 @@ public class StructureManager : MonoBehaviour
 
     IEnumerator PopulateHourlyStructures()
     {
-        StartCoroutine(PopulateStructure(-3, 5, weedTile, false, farmTileMap));
+        StartCoroutine(PopulateStructure(-2, 5, weedTile, false, farmTileMap));
         PopulateDecorCrows(0, 2);
         int boulders = TallyStructure(boulderData);
         yield return new WaitForSeconds(0.3f);
@@ -1294,7 +1294,7 @@ public class StructureManager : MonoBehaviour
         if(weedTotal > 80) return;
         foreach(Vector3 weedPos in weedSpots)
         {
-            if(Random.Range(0f,10f) > 9.7f)
+            if(Random.Range(0f,10f) > 9.5f)
             {
                 SpawnStructure(weedTile, weedPos);
                 break;

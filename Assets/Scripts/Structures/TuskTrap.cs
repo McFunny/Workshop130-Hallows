@@ -30,7 +30,11 @@ public class TuskTrap : StructureBehaviorScript
     GameObject currentLeaves;
 
     public MeshRenderer r;
-    public Material bloodiedMat;
+    public Material bloodiedMat, noTuskMat, defaultMat;
+
+    public List<RepairItem> repairItems;
+    int tuskDurability = 10;
+    int maxTuskDurability = 10;
 
     void Awake()
     {
@@ -124,6 +128,25 @@ public class TuskTrap : StructureBehaviorScript
         interacting = true;
     }
 
+    public override void ItemInteraction(InventoryItemData item)
+    {
+        if(tuskDurability >= maxTuskDurability) return;
+        foreach(RepairItem rItem in repairItems)
+        {
+            if(rItem.item == item)
+            {
+                if(maxTuskDurability <= rItem.repairAmount + tuskDurability) tuskDurability = maxTuskDurability;
+                else tuskDurability += rItem.repairAmount;
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+                PlayerInventoryHolder.Instance.UpdateInventory();
+                r.material = defaultMat;
+
+                PlayHitEffect();
+                return;
+            }
+        }
+    }
+
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
@@ -136,6 +159,7 @@ public class TuskTrap : StructureBehaviorScript
     void OnTriggerEnter(Collider other)
     {
         if(!isArmed) return;
+
         if(other.gameObject.layer == 9 || other.gameObject.layer == 10)
         {
             CreatureBehaviorScript creature = other.GetComponentInParent<CreatureBehaviorScript>();
@@ -148,7 +172,7 @@ public class TuskTrap : StructureBehaviorScript
                     TakeDamage(99);
                     return;
                 }
-                TakeDamage(1);
+                if(tuskDurability == 0) TakeDamage(1);
             }
             isArmed = false;
             StartCoroutine(SpringTrap()); //pass enemy script or player script variable
@@ -177,24 +201,33 @@ public class TuskTrap : StructureBehaviorScript
 
         if(Vector3.Distance(transform.position, PlayerInteraction.Instance.playerFeet.position) < 1.3f)
         {
-            PlayerInteraction.Instance.StaminaChange(damageToPlayer);
+            if(tuskDurability == 0) PlayerInteraction.Instance.StaminaChange(-6);
+            else PlayerInteraction.Instance.StaminaChange(damageToPlayer);
             //PlayerInteraction.Instance.PlayerTrip();
         }
 
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 1.3f, 1 << 9);
         List<CreatureBehaviorScript> hitCreatures = new List<CreatureBehaviorScript>();
+        bool hitCreature = false;
+
+        float damage = damageToCreature;
+        if(tuskDurability == 0) damageToCreature = 10;
         foreach(Collider collider in hitEnemies)
         {
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable && !hitCreatures.Contains(creature))
             {
-                creature.TakeDamage(damageToCreature);
+                creature.TakeDamage(damage);
                 creature.PlayHitParticle(creature.transform.position);
                 hitCreatures.Add(creature);
 
                 r.material = bloodiedMat;
+                hitCreature = true;
             }
         }
+
+        if(hitCreature && tuskDurability > 0) tuskDurability--;
+        if(tuskDurability == 0) r.material = noTuskMat;
 
         yield return new WaitForSeconds(0.5f);
         model.position = triggeredPos.position;
@@ -207,10 +240,26 @@ public class TuskTrap : StructureBehaviorScript
     {
         isArmed = saveBool1;
         if(isArmed) ForceSetTrap();
+
+        tuskDurability = saveInt1;
+        if(tuskDurability == 0) r.material = noTuskMat;
     }
 
     public override void SaveVariables()
     {
         saveBool1 = isArmed;
+        saveInt1 = tuskDurability;
+    }
+
+    public override List<StructureUIValueGroup> GetStructureUIValues()
+    {
+        if(!structureUIVariables.enableUI || structureUIVariables.valueGroups.Count == 0) return null;
+        structureUIVariables.valueGroups[0].value = health;
+        structureUIVariables.valueGroups[0].maxValue = maxHealth;
+
+        structureUIVariables.valueGroups[1].value = tuskDurability;
+        structureUIVariables.valueGroups[1].maxValue = maxTuskDurability;
+
+        return structureUIVariables.valueGroups;
     }
 }

@@ -175,6 +175,10 @@ public class HandItemManager : MonoBehaviour
                 seedPod.SetActive(true);
                 currentHandObject = seedPod;
                 break;
+            case ToolType.Sealant:
+                handRenderer.sprite = HotbarDisplay.currentSlot.AssignedInventorySlot.ItemData.icon;
+                currentHandObject = null;
+                break;
             default:
                 currentHandObject = null;
                 break;

@@ -14,6 +14,7 @@ public class ApothCage : StructureBehaviorScript
         apo.gameObject.transform.parent = null;
         apo.Released();
 
+        QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(15));
         QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(16)); //Ideally this is called after the apoth is freed from her cage
         GameSaveData.Instance.apo_rescued = true;
     }

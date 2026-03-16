@@ -880,6 +880,7 @@ MonoBehaviour:
   itemInteractSound: {fileID: 0}
   breakSound: {fileID: 0}
   activatedSound: {fileID: 0}
+  secondarySource: {fileID: 0}
 --- !u!82 &5775934275093030285
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1035,7 +1036,6 @@ MonoBehaviour:
       value: 0
       maxValue: 0
       barColor: {r: 0.5943396, g: 0.019624433, b: 0.019624433, a: 1}
-  gloomStalk: {fileID: 11400000, guid: 5b59cea4bd1755040bd8b85dc8ce8116, type: 2}
   brokenBox: {fileID: 4659549022273926822}
   clearM: {fileID: 2100000, guid: 9d7df750b62889e4ca9276c18dde8004, type: 2}
   brokenM: {fileID: 2100000, guid: a7fba40119810734b8f5096746ee3969, type: 2}
@@ -1045,6 +1045,10 @@ MonoBehaviour:
     repairAmount: 5
   mount: {fileID: 0}
   catOnStruct: 0
+  damageObject1: {fileID: 0}
+  damageObject2: {fileID: 0}
+  thornAttackPos: {fileID: 0}
+  thornParticles: {fileID: 0}
 --- !u!54 &8769993501894935593
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2694,6 +2698,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gloomstalk_Structure_Damage
       objectReference: {fileID: 0}
+    - target: {fileID: 8072919063689837624, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
+        type: 3}
+      propertyPath: UVModule.sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072919063689837624, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.11414204
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072919063689837624, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.4245283
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072919063689837624, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.19105901
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072919063689837624, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
+        type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: -402675165, guid: 160726a2d89d196449589d95216714bb,
+        type: 3}
+    - target: {fileID: 8072919063689837624, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
+        type: 3}
+      propertyPath: UVModule.sprites.Array.data[1].sprite
+      value: 
+      objectReference: {fileID: 715595993, guid: 160726a2d89d196449589d95216714bb,
+        type: 3}
+    - target: {fileID: 8072919063689837624, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
+        type: 3}
+      propertyPath: UVModule.sprites.Array.data[2].sprite
+      value: 
+      objectReference: {fileID: 390222190, guid: 160726a2d89d196449589d95216714bb,
+        type: 3}
+    - target: {fileID: 8072919063689837624, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
+        type: 3}
+      propertyPath: UVModule.sprites.Array.data[3].sprite
+      value: 
+      objectReference: {fileID: 2055243054, guid: 160726a2d89d196449589d95216714bb,
+        type: 3}
     - target: {fileID: 8621798985613445428, guid: 111d683ffd7c88048ac1b8cfb9ed2b69,
         type: 3}
       propertyPath: InitialModule.startColor.minColor.b
@@ -2760,7 +2808,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8841455925594398158, guid: 111d683ffd7c88048ac1b8cfb9ed2b69, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 111d683ffd7c88048ac1b8cfb9ed2b69, type: 3}

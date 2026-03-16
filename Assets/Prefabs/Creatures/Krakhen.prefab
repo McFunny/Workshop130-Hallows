@@ -5032,6 +5032,7 @@ MonoBehaviour:
   damageToPlayer: -12
   canCorpseBreak: 0
   actionSpeedMod: 1
+  lastDamageTypeTaken: 0
   hitColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.1764706}
   currentEffects: []
   moveSpeed: 6.5
@@ -5050,6 +5051,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d7b2bc56be6439d4983793299e5322a7, type: 2}
   - {fileID: 11400000, guid: 7d44529dd0fc3ce409786812fb7e7708, type: 2}
   - {fileID: 11400000, guid: de0fd22b4d293114397868fe16a45b97, type: 2}
+  - {fileID: 11400000, guid: c680a29096485b2409f8d4ac405c665d, type: 2}
+  - {fileID: 11400000, guid: 3ded26db169cf6e46bf4fa010e598b74, type: 2}
   surroundParticles: {fileID: 9112427635226824410}
   slamParticles: {fileID: 6932395425769203767}
   slamCollider: {fileID: 4774561132575113850}
@@ -35728,6 +35731,7 @@ MonoBehaviour:
   petSound: {fileID: 8300000, guid: 039c6256893902d4c9cbcef13af72292, type: 3}
   extraSounds: []
   particle1: {fileID: 0}
+  footStepParticles: {fileID: 0}
 --- !u!82 &8044225612170188242
 AudioSource:
   m_ObjectHideFlags: 0
