@@ -30,7 +30,24 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
     public InventoryItemData mandrake;
     public CropData mandrakeCropData;
 
+    private Dictionary<InventoryItemData, CropData> _cropLookup;
 
+    private void Awake()
+    {
+        BuildCropLookup();
+    }
+
+    private void BuildCropLookup()
+    {
+        _cropLookup = new Dictionary<InventoryItemData, CropData>();
+        foreach (var crop in _database.GetAllCrops())
+        {
+            if (crop.cropData != null && crop.cropData.cropYield != null)
+            {
+                _cropLookup[crop.cropData.cropYield] = crop.cropData;
+            }
+        }
+    }
 
     public void Start()
     {
@@ -76,7 +93,6 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
 
                 OnInteractionComplete?.Invoke(this);
                 interactSuccessful = true;
-
             }
             else
             {
@@ -140,33 +156,14 @@ public class PuzzleBrazier : MonoBehaviour, IInteractable
 
     private CropData FindCropByYield(InventoryItemData item)
     {
-
         if (item == mandrake)
-        {
             return mandrakeCropData;
-        }
 
-        // Assuming you have a central list of all CropData objects
-        List<CropItem> allCrops = _database.GetAllCrops();
-        Debug.Log($"Count of allCrop is {allCrops.Count}");
-        foreach (var crop in allCrops)
-        {
-            if(crop.cropData == null)
-            {
-                Debug.Log($"Crop {crop.name} has no CropData assigned.");
-                continue;
-            }
-            else if (crop.cropData.cropYield == null)
-            {
-                Debug.Log($"Crop {crop.name} has no cropYield assigned.");
-                continue;
-            }
-            else if (crop.cropData.cropYield == item)
-            {
-                return crop.cropData;
-            }
-        }
-        return null; // No matching crop found
+        if (_cropLookup == null)
+            BuildCropLookup();
+
+        _cropLookup.TryGetValue(item, out var cropData);
+        return cropData;
     }
 
     private int CheckForCropStats(CropData crop)

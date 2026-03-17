@@ -79,6 +79,10 @@ public class BugPuzzleManager : ImAPuzzleManager, IInteractable
                 CheckToSeeIfSolved();
                 interactSuccessful = true;
             }
+            else
+            {
+                CheckToSeeIfSolved();
+            }
 
         }
     }
@@ -92,6 +96,7 @@ public class BugPuzzleManager : ImAPuzzleManager, IInteractable
             ToggleHighlight(false);
             itemWantedSprite.color = Color.white;
             Gachapon.Instance.AddToBacklog(gachaponReward, gachaponRewardCount);
+            PuzzleManager.Instance.totalPuzzlesSolved++;
             PuzzleManager.Instance.CheckToSeeIfPuzzlesAreComplete();
         }
     }
