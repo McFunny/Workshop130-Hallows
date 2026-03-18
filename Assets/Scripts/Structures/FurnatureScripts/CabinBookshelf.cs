@@ -169,7 +169,11 @@ public class CabinBookshelf : FurnitureBehaviorScript
         for(int i = 0; i < data.bookcaseItemIDs.Count; i++)
         {
             if(data.bookcaseItemIDs[i] == -1) continue;//savedItems.Add(null);
-            else savedItems[i] = Database.Instance.GetItem(data.bookcaseItemIDs[i]);//savedItems.Add(Database.Instance.GetItem(data.bookcaseItemIDs[i]));
+            else
+            {
+                if(i >= savedItems.Count) savedItems.Add(Database.Instance.GetItem(data.bookcaseItemIDs[i]));
+                else savedItems[i] = Database.Instance.GetItem(data.bookcaseItemIDs[i]);//savedItems.Add(Database.Instance.GetItem(data.bookcaseItemIDs[i]));
+            }
         }
 
 

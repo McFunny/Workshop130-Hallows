@@ -447,14 +447,15 @@ public class WagonMerchantNPC : NPC, ITalkable
                 {
                     storeItems[i].RefreshItem(inventoryUpgrade, (int) inventoryUpgrade.value);
                     storeItems[i].seller = this;
+                    continue;
                 }
                 else if(CanSellTrinketPouch())
                 {
                     storeItems[i].RefreshItem(barterDatabase.uniqueTransactions[0].itemForSale, barterDatabase.uniqueTransactions[0].mintCost,
                         barterDatabase.uniqueTransactions[0].itemsRequired, barterDatabase.uniqueTransactions[0].amountForSale);
                     storeItems[i].seller = this;
+                    continue;
                 }
-                continue;
             }
 
             do

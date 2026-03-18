@@ -458,9 +458,9 @@ public class HeadlessHen : CreatureBehaviorScript
     {
         while(health > 0)
         {
-            yield return new WaitForSeconds(Random.Range(7f, 18f));
+            yield return new WaitForSeconds(Random.Range(7f, 19f));
             idling = true;
-            if(Random.Range(0,10) > 8 && !inWilderness && NightSpawningManager.Instance.ReportTotalOfCreature(creatureData) < creatureData.spawnCap) 
+            if(Random.Range(0,10) > 7 && !inWilderness && NightSpawningManager.Instance.ReportTotalOfCreature(creatureData) < creatureData.spawnCap) 
                 Instantiate(egg, corpseParticleTransform.position, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(1f, 3f));
             idling = false;
