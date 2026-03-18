@@ -9,6 +9,7 @@ public class MistBreaker : CropBehavior
     public override void OnFullyGrown(FarmLand tile)
     {
         NightSpawningManager.Instance.FinaleComplete();
+        tile.BecomeInvincible();
         GameObject beam = Instantiate(beamParticle, new Vector3(tile.transform.position.x, tile.transform.position.y + 1, tile.transform.position.z), Quaternion.identity);
         Instantiate(decalObject, tile.transform.position, Quaternion.identity);
         NightSpawningManager.Instance.StartCoroutine(FadeAway(beam, tile));

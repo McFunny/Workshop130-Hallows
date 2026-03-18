@@ -34,7 +34,7 @@ public class NightSpawningManager : MonoBehaviour
 
     List<StructureBehaviorScript> accountedStructures = new List<StructureBehaviorScript>(); //keeps track of the structures counted for wealth points. Clears at day
 
-    public bool boxPlaced, finaleActivated;
+    public bool boxPlaced, finaleActivated, finaleWon;
 
     public ParticleSystem finaleMist;
 
@@ -617,14 +617,26 @@ public class NightSpawningManager : MonoBehaviour
     [ContextMenu("TestCompletedFinale")]
     public void FinaleComplete()
     {
+        finaleWon = true;
+        
         AchievementManager.Instance.NotifyFinaleCompleted();
         if(TimeManager.Instance.dayNum <= 30 && MainMenuScript.currentFileMode == FileMode.Normal) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Veilwood_Veteran);
         AmbientAudioManager.Instance.WinFinaleTheme();
         StartCoroutine(GameCompleted());
 
-        CreatureBehaviorScript[] creaturesOnFarm = FindObjectsOfType<CreatureBehaviorScript>();
+        List<CreatureBehaviorScript> creaturesOnFarm = FindObjectsOfType<CreatureBehaviorScript>().ToList();
 
-        foreach (CreatureBehaviorScript creature in creaturesOnFarm)
+        for(int i = 0; i < creaturesOnFarm.Count; ++i)
+        {
+            if (creaturesOnFarm[i] != null && creaturesOnFarm[i].gameObject != null)
+            {
+                ICritter critter = creaturesOnFarm[i] as ICritter;
+                if(critter != null || creaturesOnFarm[i].persistAfterNewDay) continue;
+                creaturesOnFarm[i].TakeDamage(999);
+            }
+        }
+
+        /*foreach (CreatureBehaviorScript creature in creaturesOnFarm)
         {
             if (creature != null && creature.gameObject != null)
             {
@@ -632,7 +644,7 @@ public class NightSpawningManager : MonoBehaviour
                 if(critter != null || creature.persistAfterNewDay) continue;
                 creature.TakeDamage(999);
             }
-        }
+        }*/
 
         CorruptionManager.Instance.StartCoroutine(CorruptionManager.Instance.FinaleComplete());
     }

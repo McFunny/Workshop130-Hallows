@@ -209,9 +209,10 @@ public class PetHen : CritterBehaviorScript
     {
         agent.ResetPath();
         float time = Random.Range(1f, 9f);
-        if(targetNest && Vector3.Distance(transform.position, targetObject.position) < 3)
+        if(targetNest && Vector3.Distance(transform.position, targetNest.transform.position) < 3) //Sitting in nest
         {
             targetObject = null;
+            targetNest = null;
             time = 30;
             FriendPointsChange(10, true);
         }
