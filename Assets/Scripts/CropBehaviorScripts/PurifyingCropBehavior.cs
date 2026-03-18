@@ -19,12 +19,12 @@ public class PurifyingCropBehavior : CropBehavior
         if(tile.growthStage < 3);
         else if(tile.growthStage < 5)
         {
-            range += 2;
+            range += 3;
             maxTiles += 1;
         }
         else
         {
-            range += 3;
+            range += 4;
             maxTiles += 4;
         }
 

@@ -158,7 +158,7 @@ public class NutMachine : MonoBehaviour, IInteractable
 
         nutMachineAnim.Play("nutcracker");
         yield return new WaitForSeconds(1.1f);
-        int iterations = Random.Range(2, 6);
+        int iterations = Random.Range(3, 8);
         for(int i = 0; i < iterations; i++)
         {
             GameObject droppedItem = ItemPoolManager.Instance.GrabItem(RandomPodItem());

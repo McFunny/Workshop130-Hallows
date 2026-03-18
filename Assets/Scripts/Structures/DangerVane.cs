@@ -26,6 +26,7 @@ public class DangerVane : StructureBehaviorScript
 
     void Update()
     {
+        base.Update();
         if(trackedCreature) 
         {
             trackingEffect.transform.position = trackedCreature.transform.position;

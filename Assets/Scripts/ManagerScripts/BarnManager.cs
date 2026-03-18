@@ -71,7 +71,7 @@ public class BarnManager : MonoBehaviour
         {
             TruffleHog hog = c as TruffleHog;
 
-            if(c && c.health == c.maxHealth) eligibleHogs.Add(hog);
+            if(hog && hog.health >= hog.maxHealth * 0.9f) eligibleHogs.Add(hog);
         }
 
         if(eligibleHogs.Count < 2) return false;

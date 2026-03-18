@@ -111,7 +111,7 @@ public class ApothNPC : NPC, ITalkable
 
         if(CompletedQuestWithItem())
         {
-            currentPath = 0;
+            currentPath = QuestCompletedDialogue();
             currentType = PathType.QuestComplete;
         }
 

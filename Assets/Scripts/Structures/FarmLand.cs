@@ -31,6 +31,7 @@ public class FarmLand : StructureBehaviorScript
     public bool isPollinated = false; //MUST BE SAVED
     bool forceDig = false;
     bool harvestedByScythe = false;
+    bool invincible = false; //For finale flower
 
     public bool ignoreNextGrowthMoment = false; //tick this if crop was just planted
 
@@ -100,7 +101,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(harvestText)
         {
-            if(harvestable)
+            if(harvestable && !invincible)
             {
                 if(crop.requireScythe) harvestText.text = "Use Tool to Harvest";
                 else harvestText.text = "Interact To Harvest";
@@ -133,6 +134,7 @@ public class FarmLand : StructureBehaviorScript
     // Update is called once per frame
     void Update()
     {
+        if(invincible) return;
         base.Update();
 
         if(((crop && growthStage >= crop.growthStages) || isWeed || onFire) && !finishedGrowingCollider.enabled) finishedGrowingCollider.enabled = true;
@@ -163,6 +165,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void ItemInteraction(InventoryItemData item)
     {
+        if(invincible) return;
         bool consumeItem = false;
         if(item == terraFert/* && nutrients.terraLevel < 10*/)
         {
@@ -244,6 +247,7 @@ public class FarmLand : StructureBehaviorScript
 
     public override void StructureInteraction()
     {
+        if(invincible) return;
         if(currentUpgrade == FarmTileUpgrade.MiniWeeds && !forceDig && !harvestedByScythe) //To remove the weeds
         {
             audioHandler.PlaySound(audioHandler.interactSound);
@@ -422,6 +426,7 @@ public class FarmLand : StructureBehaviorScript
     public override void ToolInteraction(ToolType type, out bool success)
     {
         success = false;
+        if(invincible) return;
         if(type == ToolType.Shovel && !forceDig)
         {
             //StartCoroutine(DigPlant());
@@ -1138,6 +1143,13 @@ public class FarmLand : StructureBehaviorScript
                 yield return new WaitForSeconds(0.1f);
             }
         }
+    }
+
+    public void BecomeInvincible()
+    {
+        //
+
+        invincible = true;
     }
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it

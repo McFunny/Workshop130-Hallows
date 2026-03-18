@@ -217,10 +217,10 @@ public class HydroFly : CritterBehaviorScript
             return;
         }
 
-        if (targetStructure == null) //Old structure gone? Find a new one
+        if (targetStructure == null || targetStructure.ObjectTransform == null) //Old structure gone? Find a new one
         {
             FindStructure();
-            if (targetStructure != null)
+            if (targetStructure != null && targetStructure.ObjectTransform != null)
             {
                 target = targetStructure.ObjectTransform.position;
                 agent.destination = target;

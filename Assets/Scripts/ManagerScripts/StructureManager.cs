@@ -861,6 +861,8 @@ public class StructureManager : MonoBehaviour
 
     public void UpdateStorage(Vector3 pos, NutrientStorage s)
     {
+        if(NightSpawningManager.Instance.finaleWon) return; //To catch any errors that may occur when the mass creature deaths
+        
         Vector3Int gridPos = farmTileMap.WorldToCell(pos);
         for(int i = 0; i < allFarmTiles.Count; i++)
         {

@@ -87,10 +87,10 @@ public class CorruptionManager : MonoBehaviour
         int maxNodes = (corruptedTiles/10) + 1; //How many nodes can be present on the farm
         if(currentNodes >= maxNodes) return;
 
-        //Every hour try to spawn up to 10 nodes, making sure they spawn not too close to existing nodes
+        //Every hour try to spawn nodes, making sure they spawn not too close to existing nodes
         int x = 0; //attempts
         int s = 0; //successful attempts
-        int maxS = Random.Range(1, 4); //max successful attempts
+        int maxS = Random.Range(-2, 3); //max successful attempts
         while(x < 10 && s < maxS && currentNodes < maxNodes)
         {
             bool spotTooClose = false;

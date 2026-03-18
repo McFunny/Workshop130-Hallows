@@ -43,7 +43,7 @@ public class MiniMandrake : CreatureBehaviorScript
         int r = Random.Range(0, NightSpawningManager.Instance.despawnPositions.Length);
         despawnPos = NightSpawningManager.Instance.despawnPositions[r].position;
 
-        StartCoroutine(WaterDrain());
+        //StartCoroutine(WaterDrain());
 
         PlayerInteraction.OnPlayerAttack += NewTarget;
 
