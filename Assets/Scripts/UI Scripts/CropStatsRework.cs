@@ -25,6 +25,7 @@ public class CropStatsRework : MonoBehaviour
     private bool alwaysShowDetailedStats;
     [Header("Overrides")]
     [SerializeField] private CropItem mistGrasp;
+    [SerializeField] private Sprite mistBreakerSprite;
 
     void Awake()
     {
@@ -316,9 +317,19 @@ public class CropStatsRework : MonoBehaviour
             growthString = "Stage: " + tile.growthStage + "/" + tile.crop.growthStages;
             growthStageNumberD.text = growthString;
             growthStageNumber.text = growthString;
-            cropSprite.sprite = tile.crop.cropYield.icon;
+
+            if(tile.crop.name == "Mist Breaker")
+            {
+                cropSprite.sprite = mistBreakerSprite;
+                cropSpriteD.sprite = mistBreakerSprite;
+            }
+            else
+            {
+                cropSprite.sprite = tile.crop.cropYield.icon;
+                cropSpriteD.sprite = tile.crop.cropYield.icon;
+            }
+
             cropSprite.gameObject.SetActive(true);
-            cropSpriteD.sprite = tile.crop.cropYield.icon;
             cropSpriteD.gameObject.SetActive(true);
         } 
         else if(tile.rotted && tile.crop)
