@@ -101,7 +101,7 @@ public class FarmLand : StructureBehaviorScript
         }
         if(harvestText)
         {
-            if(harvestable)
+            if(harvestable && !invincible)
             {
                 if(crop.requireScythe) harvestText.text = "Use Tool to Harvest";
                 else harvestText.text = "Interact To Harvest";
@@ -1148,6 +1148,8 @@ public class FarmLand : StructureBehaviorScript
     public void BecomeInvincible()
     {
         //
+
+        invincible = true;
     }
 
     public override void LoadVariables() //Issues: Does not currently save the crop that is on it
