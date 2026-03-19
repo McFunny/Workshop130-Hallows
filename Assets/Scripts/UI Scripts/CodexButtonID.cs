@@ -6,35 +6,18 @@ public class CodexButtonID : MonoBehaviour
 {
     public CodexEntries assignedEntry;
     public Quest assignedQuest;
-    private CodexRework codex;
+    //private CodexRework codex;
     private Codex3 newCodex;
 
     void Awake()
     {
-        codex = GetComponentInParent<CodexRework>();
+        //codex = GetComponentInParent<CodexRework>();
         newCodex = GetComponentInParent<Codex3>();
     }
 
     public void ShowEntry()
     {
-        if (codex != null)
-        {
-            if (assignedEntry != null)
-            {
-                print(assignedEntry.entryName);
-
-                if (!assignedEntry.unlocked && CreatureCheck() && CropCheck()) return; // I mean, it works, I guess
-
-                codex.currentEntry = assignedEntry;
-                codex.UpdatePage(0, assignedEntry, true);
-            }
-            else
-            {
-                codex.currentEntry = null;
-                codex.UpdateQuests(assignedQuest);
-            }
-        }
-        else if (newCodex != null)
+        if (newCodex != null)
         {
             if (assignedEntry != null)
             {

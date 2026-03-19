@@ -745,6 +745,7 @@ public class Codex3 : MonoBehaviour
 
         categoryContainer.SetActive(false);
         pageToOpen.SetActive(true);
+        arrowParent.SetActive(false);
         menuIndex = 2;
     }
 
