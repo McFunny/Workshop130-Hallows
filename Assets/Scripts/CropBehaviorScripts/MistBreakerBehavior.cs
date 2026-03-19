@@ -12,7 +12,7 @@ public class MistBreaker : CropBehavior
         tile.BecomeInvincible();
         GameObject beam = Instantiate(beamParticle, new Vector3(tile.transform.position.x, tile.transform.position.y + 1, tile.transform.position.z), Quaternion.identity);
         Instantiate(decalObject, tile.transform.position, Quaternion.identity);
-        NightSpawningManager.Instance.StartCoroutine(FadeAway(beam, tile));
+        NightSpawningManager.Instance.StartCoroutine(FadeAway(tile));
     }
 
     public override void OnCropDestroyed(FarmLand tile)
@@ -26,10 +26,9 @@ public class MistBreaker : CropBehavior
         //Call Creatures to this
     }
 
-    IEnumerator FadeAway(GameObject beam, FarmLand tile)
+    IEnumerator FadeAway(FarmLand tile)
     {
-        yield return new WaitForSeconds(8);
-        beam.SetActive(false);
+        yield return new WaitForSeconds(11);
         if(tile) tile.gameObject.SetActive(false);
     }
 }

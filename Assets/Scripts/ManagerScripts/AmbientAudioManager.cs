@@ -119,7 +119,7 @@ public class AmbientAudioManager : MonoBehaviour
             float r = Random.Range(0, 1f);
             if(r > .65f) //effects
             {
-                if(NightSpawningManager.Instance.finaleActivated && lightingScript)
+                if(NightSpawningManager.Instance.finaleActivated && lightingScript && !NightSpawningManager.Instance.finaleWon)
                 {
                     StartCoroutine(lightingScript.PlayLightning());
                     ambienceSource.clip = lightningAmbience[Random.Range(0, lightningAmbience.Length)];
@@ -202,7 +202,7 @@ public class AmbientAudioManager : MonoBehaviour
             Debug.Log("Playing MUSIC");
             yield return new WaitForSecondsRealtime(musicRuntime);
             Debug.Log("Song ended"); 
-            if(musicSource.clip == endingIntro) AudioPoolManager.Instance.PlayClip(endingTransition, 0.9f);
+            //if(musicSource.clip == endingIntro) AudioPoolManager.Instance.PlayClip(endingTransition, 0.9f);
         }
     }
 
@@ -237,7 +237,7 @@ public class AmbientAudioManager : MonoBehaviour
         float currentVolume = oldVolume;
 
         yield return new WaitForSeconds(0.1f);
-        if(NightSpawningManager.Instance.finaleActivated) yield break;
+        if(NightSpawningManager.Instance.finaleActivated && !NightSpawningManager.Instance.finaleWon) yield break;
 
         while (currentVolume > 0)
         {
@@ -344,7 +344,7 @@ public class AmbientAudioManager : MonoBehaviour
             StopCoroutine(ambientMusicCoroutine); // Stop the current music coroutine
             //musicSource.Stop(); // Stop current music
         }
-        if(EndingManager.Instance.endingPlaying) AudioPoolManager.Instance.PlayClip(endingTransition, 0.9f);
+        //if(EndingManager.Instance.endingPlaying) AudioPoolManager.Instance.PlayClip(endingTransition, 0.9f);
         ambientMusicCoroutine = StartCoroutine(PlayAmbientMusic());
     }
 

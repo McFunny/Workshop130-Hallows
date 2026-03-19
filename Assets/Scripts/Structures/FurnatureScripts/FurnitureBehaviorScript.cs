@@ -79,7 +79,7 @@ public class FurnitureBehaviorScript : StructureBehaviorScript
     {
         if(onTable) clearTileOnDestroy = false;
         if (!gameObject.scene.isLoaded) return; 
-        PlayerInteraction.Instance.PickupItem();
+        if(!muteSound) PlayerInteraction.Instance.PickupItem();
         ParticlePoolManager.Instance.GrabSparkParticle().transform.position = transform.position;
     }
 

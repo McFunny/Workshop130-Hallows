@@ -67,7 +67,7 @@ public class InputManager : MonoBehaviour
         UpdateSecondaryChargeState();
         UpdateHoldInteractState();
 
-        if (gridIsActive)
+        if (gridIsActive && !NightSpawningManager.Instance.finaleWon)
         {
             structGrid.color = TimeManager.Instance.isDay ? activeColor : activeNightColor;
         }

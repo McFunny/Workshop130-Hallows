@@ -82,6 +82,8 @@ public class BulletScript : MonoBehaviour
 
                     gameObject.SetActive(false);
                     if(fireBullet && structure.IsFlammable()) structure.LitOnFire(); 
+
+                    if(energyBullet) EnergyExplosion();
                     return;
                 }
                 else if(fireBullet && structure.IsFlammable())
@@ -138,6 +140,8 @@ public class BulletScript : MonoBehaviour
                 ParticlePoolManager.Instance.GrabOrangeHitParticle().transform.position = hitPoint;
                 creature.PlayHitParticle(new Vector3(hitPoint.x, hitPoint.y, hitPoint.z));
                 if(creature.health + creatureDamage > 0 && !piercing) gameObject.SetActive(false);
+
+                if(energyBullet) EnergyExplosion();
                 return;
             }
         }
@@ -195,6 +199,20 @@ public class BulletScript : MonoBehaviour
     {
         yield return new WaitForSeconds(bulletLifetime);
         gameObject.SetActive(false);
+    }
+
+    void EnergyExplosion()
+    {
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, 4.5f, 1 << 9);
+        foreach(Collider collider in hitEnemies)
+        {
+            var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
+            if (creature != null && creature.shovelVulnerable)
+            {
+                creature.TakeDamage(10);
+                creature.PlayHitParticle(creature.transform.position);
+            }
+        }
     }
 
 }

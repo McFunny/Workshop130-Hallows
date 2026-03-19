@@ -1111,6 +1111,16 @@ public class FarmLand : StructureBehaviorScript
             }
         }
 
+        if(other.gameObject.layer == 6)
+        {
+            PetBehaviorScript pet = other.GetComponentInParent<PetBehaviorScript>();
+            if(pet && fiberParticles)
+            {
+                fiberParticles.Play();
+                audioHandler.PlayRandomSound(audioHandler.miscSounds2);
+            }
+        }
+
         if(crop && crop.behavior) crop.behavior.OnContact(this, other.gameObject);
     }
 
