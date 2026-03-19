@@ -13,6 +13,8 @@ public class EndingManager : MonoBehaviour
     public bool endingPlaying = false;
     public bool enteredBurningTown = false;
 
+    public ParticleSystem endingSmoke;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -45,5 +47,7 @@ public class EndingManager : MonoBehaviour
 
         TimeManager.Instance.currentHour = 6;
         TimeManager.Instance.RefreshSkybox();
+
+        endingSmoke.Play();
     }
 }

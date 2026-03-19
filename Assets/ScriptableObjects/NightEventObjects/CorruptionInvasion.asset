@@ -14,15 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: CorruptionInvasion
   occurenceChance: 2
-  difficultyPointsCost: 20
+  difficultyPointsCost: 30
   eventStartPopup: {fileID: 11400000, guid: e80698437b9c512448a5ace28b4e6e51, type: 2}
   wealthPrerequisite: 6000
   units:
   - prefab: {fileID: 4374146570455700657, guid: d6efb0d271c14a04c9e7692224c67678,
       type: 3}
-    spawnMin: 1
-    spawnMax: 3
+    spawnMin: 0
+    spawnMax: 2
   - prefab: {fileID: 5906481233429557733, guid: 1980c3cafab68cd4ba4fba6bee6b1493,
+      type: 3}
+    spawnMin: 2
+    spawnMax: 4
+  - prefab: {fileID: 3283920589050783536, guid: e25e47fc0b7affd499fc64d46ca1dffa,
+      type: 3}
+    spawnMin: 4
+    spawnMax: 10
+  - prefab: {fileID: 8514545806956860959, guid: 5092f5b1e6e92ae4da20e9f9ded0a8ae,
       type: 3}
     spawnMin: 2
     spawnMax: 4

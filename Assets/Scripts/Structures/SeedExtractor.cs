@@ -30,9 +30,9 @@ public class SeedExtractor : StructureBehaviorScript
 
         InventoryItemData itemToSpawn = savedItems[0].FetchConversion(ItemConversionMethod.SeedExtract).newItem;
 
-        int r = Random.Range(3, 7);
+        int r = Random.Range(3, 9);
         if(reducedSeedCrops.Contains(savedItems[0])) r = Random.Range(1, 5);
-        if(MainMenuScript.currentFileMode == FileMode.Cozy) r += Random.Range(1, 3);
+        else if(MainMenuScript.currentFileMode == FileMode.Cozy) r += Random.Range(1, 3);
 
 
         int dullSeeds = Random.Range(-2, 4);

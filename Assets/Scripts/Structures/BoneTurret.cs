@@ -295,14 +295,27 @@ public class BoneTurret : StructureBehaviorScript
     {
         if(item && savedItems.Count < maxAmmo && item == boneItem)
         {
-            savedItems.Add(item);
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= 5)
+            {
+                int amountAdded = 0;
+                for(int i = 0; i < 5; i++)
+                {
+                    if(savedItems.Count == maxAmmo) break;
+                    savedItems.Add(item);
+                    amountAdded++;
+                }
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(amountAdded);
+            }
+            else
+            {
+                savedItems.Add(item);
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            }
+
+            //savedItems.Add(item);
+            //HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
-
-            /*GameObject poofParticle = ParticlePoolManager.Instance.GrabExtinguishParticle();
-            poofParticle.transform.position = seedSocket.position;*/
             poofParticle.Play();
-
             audioHandler.PlaySound(audioHandler.itemInteractSound);
         }
     }

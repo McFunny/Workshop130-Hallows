@@ -69,11 +69,11 @@ public class IceBlockScript : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(0.5f);
-            if(encasedStructure.nearbyFires.Count == 0 || !blockObject.activeSelf) continue;
+            if((encasedStructure.nearbyFires.Count == 0 && !TimeManager.Instance.isDay) || !blockObject.activeSelf) continue;
 
             meltingParticles.Play();
             meltingSource.Play();
-            while(encasedStructure.nearbyFires.Count > 0 && blockObject.activeSelf)
+            while((encasedStructure.nearbyFires.Count > 0 || TimeManager.Instance.isDay) && blockObject.activeSelf)
             {
                 yield return new WaitForSeconds(0.5f);
                 if(encasedStructure.nearbyFires.Count > 0)

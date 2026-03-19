@@ -67,6 +67,7 @@ public class PuzzleManager : MonoBehaviour
         {
             StartCoroutine(MoveStatue());
             AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Crypt_Control);
+            QuestManager.Instance.ForceCompleteQuest(QuestDatabase.Instance.GetMainQuest(6));
         }
         ActivateSteams();
     }

@@ -25,6 +25,8 @@ public class HeadBobController : MonoBehaviour
     private float savedFrequency;
     private float sprintFrequency;
 
+    private float _bobTime = 0f;
+
     private void Awake()
     {
         playerMovement = FindAnyObjectByType<PlayerMovement>();
@@ -49,6 +51,9 @@ public class HeadBobController : MonoBehaviour
     {
         if (!_enable) return;
         if (PauseScript.isPaused || Time.timeScale == 0) return;
+
+        _bobTime += Time.deltaTime;
+
         SprintCheck(playerMovement.isSprinting);
         CheckMotion();
         if (playerMovement.GetVelocity() != Vector3.zero)
@@ -80,8 +85,8 @@ public class HeadBobController : MonoBehaviour
     private Vector3 FootStepMotion()
     {
         Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Sin(Time.time * frequency) * amplitude;
-        pos.x += Mathf.Cos(Time.time * frequency / 2) * amplitude;
+        pos.y += Mathf.Sin(_bobTime * frequency) * amplitude;
+        pos.x += Mathf.Cos(_bobTime * frequency / 2) * amplitude;
         return pos;
     }
 

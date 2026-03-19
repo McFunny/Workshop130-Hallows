@@ -35,6 +35,8 @@ public class FeralHareTest : CreatureBehaviorScript
     public GameObject burrow;
     Vector3 newBurrowPos;
 
+    public LayerMask groundLayers;
+
     [Header("Albino Variables")]
 
     int burstJumps = 3; //How many attacks in quick succession the hare can do
@@ -456,6 +458,12 @@ public class FeralHareTest : CreatureBehaviorScript
         anim.SetTrigger("IsDead");
         rb.isKinematic = true;
         if(cooldownEffect) cooldownEffect.SetActive(false);
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 100f, groundLayers))
+        {
+            transform.position = hit.point;
+        }
     }
 
     // CropCheck Coroutine to search for crops periodically

@@ -303,7 +303,7 @@ public class NightSpawningManager : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(3f, 10f));
             CreatureObject c = creatureQueue.Dequeue();
-            if(!TimeManager.Instance.isDay) SpawnCreature(c); //To ensure no overlap into night end
+            if(!TimeManager.Instance.isDay && !finaleWon) SpawnCreature(c); //To ensure no overlap into night end
         }
     }
 
@@ -605,6 +605,8 @@ public class NightSpawningManager : MonoBehaviour
 
     public void DeactivateFinale()
     {
+        if(finaleWon) return;
+
         finaleActivated = false;
         difficultyPoints = 0;
         highestDifficultyPoints = 0;
@@ -618,7 +620,7 @@ public class NightSpawningManager : MonoBehaviour
     public void FinaleComplete()
     {
         finaleWon = true;
-        
+
         AchievementManager.Instance.NotifyFinaleCompleted();
         if(TimeManager.Instance.dayNum <= 30 && MainMenuScript.currentFileMode == FileMode.Normal) AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Veilwood_Veteran);
         AmbientAudioManager.Instance.WinFinaleTheme();
@@ -665,10 +667,14 @@ public class NightSpawningManager : MonoBehaviour
         EndingManager.Instance.InitializeEnding();
         AmbientAudioManager.Instance.ChangeMusic();
 
-        yield return new WaitForSeconds(2);
+        if(finaleMist) finaleMist.Stop();
+
+        yield return new WaitForSeconds(5);
         FadeScreen.coverScreen = false;
         PlayerMovement.restrictMovementTokens--;
         PlayerInteraction.Instance.invincible = false;
+        yield return new WaitForSeconds(1);
+        AmbientAudioManager.Instance.ImmediateMusicRefresh();
         //Credits screen
         //SceneManager.LoadSceneAsync(2);
     }
