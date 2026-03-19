@@ -180,7 +180,7 @@ public class InventoryUIController : MonoBehaviour
             eventSystem.SetSelectedGameObject(null);
             OnInventoryOpened?.Invoke(false);
             StartCoroutine(CloseBackpack());
-            HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
+            if(HotbarDisplay.currentSlot != null) HotbarDisplay.currentSlot.slotHighlight.SetActive(true);
             print("Closing backpack");
         }
         EventSystem.current.SetSelectedGameObject(null);
