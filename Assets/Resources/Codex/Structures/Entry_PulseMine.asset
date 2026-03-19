@@ -10,18 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed3b4c4f202173f4c8b374726138955a, type: 3}
-  m_Name: Entry_DangerVane
+  m_Name: Entry_PulseMine
   m_EditorClassIdentifier: 
-  buttonIcon: {fileID: 690116082, guid: 5bc2229503a7ba94ca998de038fae1a2, type: 3}
+  buttonIcon: {fileID: 21300000, guid: bd50329ce41248c4babaaa257ab5387b, type: 3}
   unlocked: 0
-  mainImage: {fileID: 21300000, guid: b4614d522cb9b2f4a8c88aa2b5bb1616, type: 3}
-  entryName: Danger Vane
+  mainImage: {fileID: 21300000, guid: b3ed1bf5cdd33c940b3b70bc73086e9d, type: 3}
+  entryName: Pulse Mine
   entryType: 2
   cropData: {fileID: 0}
   creatureData: {fileID: 0}
-  structureData: {fileID: 11400000, guid: 35c0b088e5ae6484dbe5d67e24e54c5c, type: 2}
+  structureData: {fileID: 11400000, guid: 4503391ebe85edc4cb7be33b35a49871, type: 2}
   bugData: {fileID: 0}
   targetedBy: []
   description: []
   leftText: 
-  rightText: Identifies nearby targets, engulfing them in a bright white light.
+  rightText: Generates an explosion in a 3x3 area once primed. The light on top indicates
+    which nutrient it will consume. The Pulse Mine will not prime if there is not
+    enough nutrients present in the soil.

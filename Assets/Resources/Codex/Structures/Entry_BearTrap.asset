@@ -21,6 +21,9 @@ MonoBehaviour:
   creatureData: {fileID: 0}
   structureData: {fileID: 11400000, guid: 70eae9d3f1e1d2f4b9c5775154dc7862, type: 2}
   bugData: {fileID: 0}
+  targetedBy: []
   description: []
   leftText: 
-  rightText: 
+  rightText: Triggers when a creature walks over it, dealing damage and holding them
+    in place for a short time before breaking. Any trapped corpse must be broken
+    for the trap to be reset.
