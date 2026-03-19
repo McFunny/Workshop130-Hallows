@@ -20,6 +20,7 @@ public class HydroFly : CritterBehaviorScript
     public float offsetRate = .005f;
 
     private IWaterHolder targetStructure; //Struct to water
+    Transform targetTransform;
 
     bool idleTurn = false;
 
@@ -47,6 +48,8 @@ public class HydroFly : CritterBehaviorScript
         StartCoroutine(PlayerTurn());
         HydrationToggle(false);
         anim.SetBool("HighBob", true);
+
+        agent.speed += Random.Range(-0.5f, 1f);
     }
 
     void OnDestroy()
@@ -217,12 +220,13 @@ public class HydroFly : CritterBehaviorScript
             return;
         }
 
-        if (targetStructure == null || targetStructure.ObjectTransform == null) //Old structure gone? Find a new one
+        if (targetStructure == null || targetTransform == null) //Old structure gone? Find a new one
         {
-            FindStructure();
-            if (targetStructure != null && targetStructure.ObjectTransform != null)
+            targetStructure = null;
+            FindStructure(); //Makes a new targetStructure and targetTransform
+            if (targetStructure != null && targetTransform != null)
             {
-                target = targetStructure.ObjectTransform.position;
+                target = targetTransform.position;
                 agent.destination = target;
             }
             else
@@ -230,7 +234,7 @@ public class HydroFly : CritterBehaviorScript
                 currentState = CritterState.Decide;
             }
         }
-        else if (Vector3.Distance(transform.position, targetStructure.ObjectTransform.position) < waterDistance)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
+        else if (Vector3.Distance(transform.position, targetTransform.position) < waterDistance)//(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 1f)
         {
             agent.ResetPath();
             interruptAction = true;
@@ -239,7 +243,7 @@ public class HydroFly : CritterBehaviorScript
         }
         else if(agent.destination != target)
         {
-            target = targetStructure.ObjectTransform.position;
+            target = targetTransform.position;
             agent.destination = target;
         }
     }
@@ -276,6 +280,7 @@ public class HydroFly : CritterBehaviorScript
         {
             int r = Random.Range(0, availableHolders.Count);
             targetStructure = availableHolders[r];
+            targetTransform = targetStructure.ObjectTransform;
         }
     }
 

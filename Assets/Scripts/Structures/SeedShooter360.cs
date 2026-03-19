@@ -227,8 +227,22 @@ public class SeedShooter360 : StructureBehaviorScript
         CropItem seed = item as CropItem;
         if(seed && savedItems.Count < maxAmmo && seed.ableToBeShot)
         {
-            savedItems.Add(seed);
-            HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            if(HotbarDisplay.currentSlot.AssignedInventorySlot.StackSize >= 5)
+            {
+                int amountAdded = 0;
+                for(int i = 0; i < 5; i++)
+                {
+                    if(savedItems.Count == maxAmmo) break;
+                    savedItems.Add(seed);
+                    amountAdded++;
+                }
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(amountAdded);
+            }
+            else
+            {
+                savedItems.Add(seed);
+                HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
+            }
             PlayerInventoryHolder.Instance.UpdateInventory();
 
             GameObject poofParticle = ParticlePoolManager.Instance.GrabExtinguishParticle();

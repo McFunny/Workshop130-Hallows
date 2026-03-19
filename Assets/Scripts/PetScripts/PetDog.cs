@@ -146,10 +146,11 @@ public class PetDog : PetBehaviorScript, IInteractable
         CheckState(currentState);
     }
 
-    protected override void OnHour() //Shouldnt this be on override?
+    protected override void OnHour() 
     {
         base.OnHour();
         //Chance to bury bone here
+        if(TimeManager.Instance.currentHour == 8) burrowsDug = 0;
     }
 
     void StateSwitch(PetState newState)
@@ -247,7 +248,7 @@ public class PetDog : PetBehaviorScript, IInteractable
             return;
         }
 
-        float positiveActionChance = (friendshipLevel + 1) * .25f;
+        float positiveActionChance = (friendshipLevel + 1) * .5f;
         if(hunger == 0) positiveActionChance = 0;
         float r = Random.Range(0, 100f);
 
@@ -269,7 +270,7 @@ public class PetDog : PetBehaviorScript, IInteractable
 
     void NewTarget(CreatureBehaviorScript c) //attack when player attacks
     {
-        if(!targetCreature && currentState == PetState.Follow && c.shovelVulnerable && Random.Range(0,100) < friendshipLevel * 3)
+        if(!targetCreature && currentState == PetState.Follow && c.shovelVulnerable && Random.Range(0,100) < (friendshipLevel + 1) * 4)
         {
             targetCreature = c;
             StateSwitch(PetState.ChaseCreature);
@@ -815,9 +816,15 @@ public class PetDog : PetBehaviorScript, IInteractable
             PlayerInventoryHolder.Instance.UpdateInventory();
             EatFood(item);
             interactSuccessful = true;
+
+            if(currentState == PetState.Idle || currentState == PetState.Follow)
+            {
+                forceFollows = Random.Range(7, 13);
+                StateSwitch(PetState.Follow);
+            }
             return;
         }
-        if(hunger < 100 && item == boneItem)
+        /*if(hunger < 100 && item == boneItem)
         {
             HotbarDisplay.currentSlot.AssignedInventorySlot.RemoveFromStack(1);
             PlayerInventoryHolder.Instance.UpdateInventory();
@@ -831,7 +838,7 @@ public class PetDog : PetBehaviorScript, IInteractable
             }
             interactSuccessful = true;
             return;
-        }
+        }*/
         interactSuccessful = false;
     }
     

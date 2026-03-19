@@ -149,6 +149,8 @@ public class Thumper : StructureBehaviorScript
             var creature = collider.GetComponentInParent<CreatureBehaviorScript>();
             if (creature != null && creature.shovelVulnerable && !hitCreatures.Contains(creature))
             {
+                ICritter critter = creature as ICritter;
+                if(critter != null) continue;
                 creature.lastDamageTypeTaken = DamageType.Mine;
                 creature.TakeDamage(damageDealt);
                 creature.PlayHitParticle(creature.transform.position);

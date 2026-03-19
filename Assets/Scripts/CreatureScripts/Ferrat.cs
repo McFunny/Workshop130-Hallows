@@ -14,7 +14,7 @@ public class Ferrat : CreatureBehaviorScript
     private Vector3 despawnPos;
 
     float walkSpeed = 3.5f;
-    float runSpeed = 14;
+    float runSpeed = 16;
 
     public InventoryItemData timberEar;
 

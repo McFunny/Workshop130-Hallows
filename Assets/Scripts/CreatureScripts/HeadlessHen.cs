@@ -198,7 +198,8 @@ public class HeadlessHen : CreatureBehaviorScript
 
     void AttackCrop()
     {
-        rb.velocity = Vector3.zero;
+        //rb.velocity = Vector3.zero;
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
 
         if(currentRoutine == null)
         {
@@ -292,7 +293,7 @@ public class HeadlessHen : CreatureBehaviorScript
 
         if(currentRoutine != null) 
         {
-            rb.velocity = Vector3.zero;
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
             return;
         }
 
@@ -312,7 +313,7 @@ public class HeadlessHen : CreatureBehaviorScript
     IEnumerator AttackPlayerRoutine()
     {
         anim.Play("SlamAttack");
-        rb.velocity = Vector3.zero;
+        //rb.velocity = Vector3.zero;
         effectsHandler.PlaySound(effectsHandler.miscSound2);
         yield return new WaitForSeconds(0.7f);
         //if(Vector3.Distance(player.position, transform.position) < attackRange) PlayerInteraction.Instance.StaminaChange(damageToPlayer);

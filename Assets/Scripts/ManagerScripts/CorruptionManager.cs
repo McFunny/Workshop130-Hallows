@@ -72,9 +72,9 @@ public class CorruptionManager : MonoBehaviour
         {
             if(Random.Range(0,10) > 6) TrySpawnNode();
             if(cropSpawnCooldown > 0) --cropSpawnCooldown;
-            else if(Random.Range(0, 10) > 7) TrySpawnTwistedBramble();
+            else if(Random.Range(0, 10) > 8) TrySpawnTwistedBramble();
 
-            TrySpawnCorruptWeeds();
+            if(Random.Range(0, 10) > 7) TrySpawnCorruptWeeds();
         }
     }
 
@@ -129,7 +129,7 @@ public class CorruptionManager : MonoBehaviour
 
         if(cTiles.Count == 0) return;
 
-        int weedsToSpawn = Random.Range(-5, 4);
+        int weedsToSpawn = Random.Range(2, 6);
         int x = 0;
         while(x < weedsToSpawn && cTiles.Count > 0)
         {
@@ -138,7 +138,7 @@ public class CorruptionManager : MonoBehaviour
             FarmLand tile;
             
 
-            if(Random.Range(0,10) > 6) //Whip Weed
+            if(Random.Range(0,10) > 8) //Whip Weed
             {
                 cTile.containedStructure = Instantiate(farmTile, cTile.transform.position, Quaternion.identity).GetComponent<StructureBehaviorScript>();
                 tile = cTile.containedStructure as FarmLand;

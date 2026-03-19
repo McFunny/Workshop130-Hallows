@@ -461,13 +461,13 @@ public class VileHog : CreatureBehaviorScript
         float digTimeElapsed = 0;
         anim.Play("Dig");
         effectsHandler.Idle1();
-        while(foundFarmTile && foundFarmTile.crop && foundFarmTile.harvestable && !isDead && digTimeElapsed < 2f)
+        while(foundFarmTile && foundFarmTile.crop && foundFarmTile.harvestable && !isDead && digTimeElapsed < 2.5f)
         {
             digTimeElapsed += Time.deltaTime;
             agent.SetDestination(target.position);
             yield return null;
         }
-        if(digTimeElapsed >= 2f && foundFarmTile.crop)
+        if(digTimeElapsed >= 2.5f && foundFarmTile.crop)
         {
             heldItem = foundFarmTile.crop.cropYield;
             r.sprite = heldItem.icon;
