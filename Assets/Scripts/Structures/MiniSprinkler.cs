@@ -183,6 +183,12 @@ public class MiniSprinkler : StructureBehaviorScript, IWaterHolder
             int index = 0;
             for(int i = 0; i < structsInRange.Count; i++) //Checks which one is the closest
             {
+                if(structsInRange[i] == null)
+                {
+                    structsInRange.RemoveAt(i);
+                    --i;
+                    continue;
+                }
                 dist = Vector3.Distance(transform.position, structsInRange[i].transform.position);
                 if(dist < minDist)
                 {

@@ -333,6 +333,13 @@ public class PetDog : PetBehaviorScript, IInteractable
                 if(target == Vector3.zero) target = StructureManager.Instance.GetRandomTile();
                 target = GetRandomPointAround(target, 3);
             }
+
+            // Don't start a new move if already close enough to the target
+            if(Vector3.Distance(transform.position, target) < 1.5f)
+            {
+                currentRoutine = StartCoroutine(IdleRoutine());
+                return;
+            }
             currentRoutine = StartCoroutine(MoveToPoint(target, 10));
         }
     }

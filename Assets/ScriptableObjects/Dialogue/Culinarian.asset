@@ -156,3 +156,65 @@ MonoBehaviour:
     - Trust that I will pay more handsomely than whatever that figure in the wagon
       is offering you.
     emotions: 0100000003000000
+  itemPaths:
+  - pathName: Generic Crop
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - My oh my, what a lovely specimin you have there!
+      - It is simply BEGGING to be eaten!
+      emotions: 0100000000000000
+    validItems: []
+    pathType: 2
+  - pathName: Generic Bug
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - My nona always told me, you can cook anything if you try hard enough...
+      emotions: 02000000
+    validItems: []
+    pathType: 1
+  - pathName: Carrot
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - Ah, the exquisite Pale Carrot!
+      - You could coat it in a nice honey drizzle, or, and this is my favorite...
+      - A delightful cake.
+      emotions: 000000000100000000000000
+    validItems:
+    - {fileID: 11400000, guid: 43a08c656a285f447b97b8dccdd0a0e0, type: 2}
+    pathType: 0
+  - pathName: Meat
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - A cornerstone to any savory dish!
+      - Goes great on a skewer! I bet with some added veggies, you could make a dastardly
+        meal!
+      emotions: 0100000001000000
+    validItems:
+    - {fileID: 11400000, guid: aa9b78fd8dcc331499c389eb23a4d004, type: 2}
+    - {fileID: 11400000, guid: b7f3f9c4e43a981448c44672e7339abf, type: 2}
+    - {fileID: 11400000, guid: 822ce71d26f7cec43a9c36aa5caced4a, type: 2}
+    pathType: 0
+  - pathName: Tuber
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - No need to complicate things. Mash it up and add some seasonings, and you
+        have a perfectly hearty dish!
+      emotions: 01000000
+    validItems:
+    - {fileID: 11400000, guid: 290e218f74d5d2445b4c40b0ba01d7c2, type: 2}
+    pathType: 0
+  - pathName: Sugar
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - How could you go wrong with sweets?? I add these to everything I can!
+      emotions: 01000000
+    validItems:
+    - {fileID: 11400000, guid: b942f3f3962dfcd49ab8c0b6cf56265c, type: 2}
+    - {fileID: 11400000, guid: 014246d86b4f14340974fb87085c9c21, type: 2}
+    pathType: 0

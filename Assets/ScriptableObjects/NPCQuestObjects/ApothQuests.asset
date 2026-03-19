@@ -128,6 +128,31 @@ MonoBehaviour:
     minObject: 2
     maxObject: 3
     questBehavior: {fileID: 0}
+  - name: Floral Request!
+    description: '"I have been feeling oddly sentimental lately. Could you please
+      fetch me a Pyra? It is my favorite flower."'
+    dialogPath: 0
+    creature: {fileID: 0}
+    item: {fileID: 11400000, guid: 32cb899a12fa1d349aef5bfb275cacab, type: 2}
+    crop: {fileID: 0}
+    mintMultiplier: 3
+    itemRewards:
+    - item: {fileID: 0}
+      amount: 0
+    - item: {fileID: 11400000, guid: aa8320088dd258846a151d59ce481740, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: fd5df79885821954eaeb7cdb40432017, type: 2}
+      amount: 3
+    - item: {fileID: 11400000, guid: b91eb7226c0651e4b93fa3b225208b93, type: 2}
+      amount: 4
+    townFavorReward: 3
+    daysLeftMin: 2
+    daysLeftMax: 4
+    assignee: 5
+    displayProgress: 0
+    minObject: 2
+    maxObject: 3
+    questBehavior: {fileID: 0}
   uniqueQuestChance: 0
   uniqueTemplates: []
   currentDailyQuestPath: 0

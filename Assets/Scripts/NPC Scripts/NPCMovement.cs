@@ -23,6 +23,8 @@ public class NPCMovement : MonoBehaviour
 
     public bool isWorking;
 
+    bool turnDelay;
+
     List<Schedule> currentScheduleList; //Which schedule they are currently running
 
     public List<Schedule> scheduleList = new List<Schedule>();
@@ -266,10 +268,16 @@ public class NPCMovement : MonoBehaviour
         StartCoroutine(ReturnToSchedule());
     }
 
-    IEnumerator ReturnToSchedule()
+    IEnumerator ReturnToSchedule(bool delay = false)
     {
         if(!isTalking) savedRotation = transform.rotation;
         isTalking = true;
+
+        if(turnDelay)
+        {
+            yield return new WaitForSeconds(0.6f);
+            turnDelay = false;
+        }
 
         if (actionToPlay == ActionAnim.Stand) npcScript.faceCamera.enabled = true;
 
@@ -302,6 +310,7 @@ public class NPCMovement : MonoBehaviour
         //////////////////
 
         isTalking = false;
+        turnDelay = false;
         agent.Resume();
     }
 
@@ -316,6 +325,7 @@ public class NPCMovement : MonoBehaviour
         else
         {
             npcScript.anim.Play("RecoilForward", -1, 0);
+            turnDelay = true;
         }
 
         recoilTimeLeft = 3;

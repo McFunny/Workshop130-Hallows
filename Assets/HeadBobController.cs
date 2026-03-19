@@ -49,8 +49,11 @@ public class HeadBobController : MonoBehaviour
 
     void Update()
     {
-        if (!_enable) return;
-        if (PauseScript.isPaused || Time.timeScale == 0) return;
+        if (!_enable || PauseScript.isPaused /*|| Time.timeScale == 0*/)
+        {
+            _camera.transform.localPosition = Vector3.zero;
+            return;
+        }
 
         _bobTime += Time.deltaTime;
 

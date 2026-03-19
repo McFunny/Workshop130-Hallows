@@ -174,8 +174,16 @@ public class BotanistNPC : NPC, ITalkable
 
         else
         {
-            currentPath = 0;
-            currentType = PathType.ItemSpecific;
+            currentPath = RemarkOnItem(item);
+            if(currentPath >= 0)
+            {
+                currentType = PathType.ItemPath;
+            }
+            else
+            {
+                currentPath = 0;
+                currentType = PathType.ItemSpecific;
+            }
         }
 
         Talk();

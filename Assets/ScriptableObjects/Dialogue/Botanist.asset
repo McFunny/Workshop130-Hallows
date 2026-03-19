@@ -300,3 +300,41 @@ MonoBehaviour:
     - These vile vermin have made a mockery of my personal garden! {freezePlayer}
     - Make them pay Mr.Farmer! Let it rain ichor!
     emotions: 0300000003000000
+  itemPaths:
+  - pathName: Generic Crop
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - Mighty fine yield you got there!
+      - Our town is surely in good hands when it comes to our produce.
+      emotions: 0500000001000000
+    validItems: []
+    pathType: 2
+  - pathName: Generic Bug
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - Yuck! Gross!
+      - Keep that blight FAR away from me! Burn it with fire! Throw it in the compost
+        bin!
+      emotions: 0500000003000000
+    validItems: []
+    pathType: 1
+  - pathName: Generic Seed
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - What are you waiting for?? Go put that sucker in the ground already!
+      emotions: 05000000
+    validItems: []
+    pathType: 3
+  - pathName: Dull Seed
+    dialoguePath:
+      pathName: 
+      paragraphs:
+      - Aw shucks. Looks like you found a dud.
+      - Surely there is some way to get that little guy to grow!
+      emotions: 0200000000000000
+    validItems:
+    - {fileID: 11400000, guid: 40104dd3f8bfb7a4fa22ea1bd3652a30, type: 2}
+    pathType: 0

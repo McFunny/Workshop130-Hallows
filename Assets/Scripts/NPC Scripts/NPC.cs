@@ -508,6 +508,10 @@ public abstract class NPC : MonoBehaviour, IInteractable
         if(item.type == ItemType.Consumable) for(int i = 0; i < dialogueText.itemPaths.Length; ++i) 
             if(dialogueText.itemPaths[i].pathType == DialoguePathType.Consumable) return i; //Check for generic consumable dialogue
 
+        if(item.type == ItemType.Seed) for(int i = 0; i < dialogueText.itemPaths.Length; ++i) 
+            if(dialogueText.itemPaths[i].pathType == DialoguePathType.Seed) return i; //Check for generic Seed dialogue
+
+
         return -1;
     }
 }

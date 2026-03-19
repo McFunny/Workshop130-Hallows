@@ -50,6 +50,7 @@ public class CookingDatabase : ScriptableObject
         for(int i = 0; i < _cookingDatabase.Count; i++)
         {
             _cookingDatabase[i].amountMade = 0;
+            _cookingDatabase[i].unlocked = false;
             _cookingDatabase[i].validRecipes.Clear();
         }
     }
@@ -67,29 +68,26 @@ public class CookingDatabase : ScriptableObject
 
     public void LoadStats(AllGameSaveData data)
     {
-        List<ValidRecipe> recipeList = new List<ValidRecipe>();
-        List<InventoryItemData> itemList = new List<InventoryItemData>();
-
-        int n = 0; //iterations
-        foreach(CookingRecipe c in _cookingDatabase)
+        int n = 0;
+        foreach (CookingRecipe c in _cookingDatabase)
         {
-            if(n >= data.cookingStats.Length) return;
-            c.amountMade = data.cookingStats[n].amountMade;
-            c.unlocked = data.cookingStats[n].unlocked;
-            //c.validRecipes = new List<ValidRecipe>(data.cookingStats[i].validRecipes);
+            if (n >= data.cookingStats.Length) return;
 
-            recipeList.Clear();
-            for(int i = 0; i < data.cookingStats[n].saveableRecipes.Count; ++i)
+            CookingPlayerStats savedRecipe = data.cookingStats[n];
+
+            c.amountMade = savedRecipe.amountMade;
+            c.unlocked = savedRecipe.unlocked;
+
+            c.validRecipes = new List<ValidRecipe>();  // Fresh list per recipe
+            for (int i = 0; i < savedRecipe.saveableRecipes.Count; ++i)
             {
-                itemList.Clear();
-                for(int x = 0; x < data.cookingStats[n].saveableRecipes[i].ingredientIDs.Count; ++x)
+                List<InventoryItemData> itemList = new List<InventoryItemData>();  // Fresh list per valid recipe
+                for (int x = 0; x < savedRecipe.saveableRecipes[i].ingredientIDs.Count; ++x)
                 {
-                    itemList.Add(Database.Instance.GetItem(data.cookingStats[n].saveableRecipes[i].ingredientIDs[x]));
+                    itemList.Add(Database.Instance.GetItem(savedRecipe.saveableRecipes[i].ingredientIDs[x]));
                 }
-                ValidRecipe newRecipe = new ValidRecipe(itemList);
-                recipeList.Add(newRecipe);
+                c.validRecipes.Add(new ValidRecipe(itemList));
             }
-            c.validRecipes = recipeList;
 
             n++;
         }

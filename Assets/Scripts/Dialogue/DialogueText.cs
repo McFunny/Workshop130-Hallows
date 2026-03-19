@@ -84,5 +84,6 @@ public enum DialoguePathType
 {
     Default,
     Bug,
-    Consumable
+    Consumable,
+    Seed
 }

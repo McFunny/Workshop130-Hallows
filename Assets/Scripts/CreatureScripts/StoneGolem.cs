@@ -157,6 +157,13 @@ public class StoneGolem : CreatureBehaviorScript
             lastDamageTypeTaken = DamageType.Null;
             return;
         }
+
+        if(damage >= 999)
+        {
+            TakeRealDamage(999);
+            lastDamageTypeTaken = DamageType.Null;
+            return;
+        }
     }
 
     public override void TakeDamage(float damage, Vector3 source)

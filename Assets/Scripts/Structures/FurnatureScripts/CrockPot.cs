@@ -85,7 +85,6 @@ public class CrockPot : FurnitureBehaviorScript
                 placeItemParticles.Play();
 
                 audioHandler.PlaySound(audioHandler.itemInteractSound);
-                currentRecipe.amountMade += 1;
             }
             return;
         }
@@ -189,6 +188,7 @@ public class CrockPot : FurnitureBehaviorScript
         }
 
         savedItems[0] = currentRecipe.output; //Cooked Item
+        currentRecipe.amountMade += 1;
 
         audioHandler.PlaySound(audioHandler.miscSounds1[0]);
 

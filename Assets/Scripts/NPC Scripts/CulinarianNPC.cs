@@ -120,16 +120,18 @@ public class CulinarianNPC : NPC, ITalkable
             currentType = PathType.ItemSpecific;
         }
 
-        else if (item.staminaValue > 0)
-        {
-            currentPath = 0;
-            currentType = PathType.ItemRecieved;
-        }
-
         else
         {
-            currentPath = 0;
-            currentType = PathType.ItemSpecific;
+            currentPath = RemarkOnItem(item);
+            if(currentPath >= 0)
+            {
+                currentType = PathType.ItemPath;
+            }
+            else
+            {
+                currentPath = 0;
+                currentType = PathType.ItemSpecific;
+            }
         }
 
         //code for the item being edible
