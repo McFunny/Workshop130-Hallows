@@ -142,7 +142,11 @@ public class InventoryUIController : MonoBehaviour
         }
         else if (isBackpackOpen)
         {
-            if(eventSystem.currentSelectedGameObject != null) eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+            if(eventSystem.currentSelectedGameObject != null)
+            {
+                eventSystem.currentSelectedGameObject.TryGetComponent(out InventorySlot_UI slot);
+                if(slot != null) slot.slotHighlight.SetActive(false);
+            }
             eventSystem.SetSelectedGameObject(null);
             OnInventoryOpened?.Invoke(false);
             StartCoroutine(CloseBackpack());
@@ -164,7 +168,8 @@ public class InventoryUIController : MonoBehaviour
         {
             if(eventSystem.currentSelectedGameObject != null)
             {
-                eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+                eventSystem.currentSelectedGameObject.TryGetComponent(out InventorySlot_UI slot);
+                if(slot != null) slot.slotHighlight.SetActive(false);
             }
             eventSystem.SetSelectedGameObject(null);
             OnInventoryOpened?.Invoke(false);
@@ -175,7 +180,8 @@ public class InventoryUIController : MonoBehaviour
         {
             if(eventSystem.currentSelectedGameObject != null)
             {
-                eventSystem.currentSelectedGameObject.GetComponent<InventorySlot_UI>().slotHighlight.SetActive(false);
+                eventSystem.currentSelectedGameObject.TryGetComponent(out InventorySlot_UI slot);
+                if(slot != null) slot.slotHighlight.SetActive(false);
             }
             eventSystem.SetSelectedGameObject(null);
             OnInventoryOpened?.Invoke(false);
