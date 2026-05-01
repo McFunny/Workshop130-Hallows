@@ -761,6 +761,8 @@ public class PlayerInteraction : MonoBehaviour
         daysSinceDeath = -1;
         InvokePlayerDeathEvent();
         AmbientAudioManager.Instance.ChangeMusic();
+
+        if(!GameSaveData.Instance.mm_gaveDeathTutorial && !TimeManager.Instance.isDay) GameSaveData.Instance.mm_willGiveDeathTutorial = true;
         yield return new WaitForSeconds(0.5f);
         playerEffects.PlayClip(playerEffects.playerDie, 0.8f);
         yield return new WaitForSeconds(1.5f);

@@ -44,6 +44,11 @@ public class CabinBookshelf : FurnitureBehaviorScript
         }
     }
 
+    public override void ToolInteraction(ToolType type, out bool success)
+    {
+        success = false;
+    }
+
     void PlaceOnClosestSocket(InventoryItemData item)
     {
         Vector3 fwd = PlayerInteraction.Instance.mainCam.transform.TransformDirection(Vector3.forward);

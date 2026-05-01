@@ -49,7 +49,7 @@ public class HeadBobController : MonoBehaviour
 
     void Update()
     {
-        if (!_enable || PauseScript.isPaused /*|| Time.timeScale == 0*/)
+        if (!_enable || PauseScript.isPaused || PlayerMovement.isCodexOpen/*|| Time.timeScale == 0*/)
         {
             _camera.transform.localPosition = Vector3.zero;
             return;

@@ -8,6 +8,7 @@ public class CatacombsTorchManager : MonoBehaviour
 
     public List<CatacombsTorch> catacombsTorches = new List<CatacombsTorch>();
 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -65,13 +66,17 @@ public class CatacombsTorchManager : MonoBehaviour
 
     public void CheckIfAllTorchesLit()
     {
+        int _torchesLeft = 0;
         for (int i = 0; i < catacombsTorches.Count; i++)
         {
             var t = catacombsTorches[i];
             if (t == null || t.ID == -1 || t.ignoreForAchievement) continue;
-            if (t.IsLit == false) return;
+            if (t.IsLit == false) _torchesLeft++;
         }
 
+        print("There are " + _torchesLeft + "left");
+
+        if(_torchesLeft > 0) return;
         AchievementManager.Instance.CompleteProgressWithEnum(ACHKey.Path_Of_Light);
     }
 

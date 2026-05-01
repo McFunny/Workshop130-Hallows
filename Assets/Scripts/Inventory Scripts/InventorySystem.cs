@@ -64,12 +64,14 @@ public class InventorySystem
             {
                 if(slot.EnoughRoomLeftInStack(amountToAdd))
                 {
+                    //Debug.LogError("Inventory can fit item");
                     return true;
                 }
             }
            
         }
 
+        //Debug.LogError("Inventory cannot fit item");
         return false;
     }
 

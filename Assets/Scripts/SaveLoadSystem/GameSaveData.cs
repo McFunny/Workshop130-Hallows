@@ -86,6 +86,8 @@ public class GameSaveData : MonoBehaviour
     public bool cul_gaveCrock; // Player completed cooking tutorial
     public bool mm_sellOnlyRocks;
     public bool tink_foundTrinketRecipes; //Player spoke to tinkerer after getting a trinket slot from the fanatic. She explains he filled her machine with doodles
+    public bool mm_willGiveDeathTutorial;
+    public bool mm_gaveDeathTutorial;
 
     public bool townTreeCleared1; //Tree by bridge
     public bool townTreeCleared2; //Extra tree by cabin blocking barn
@@ -265,6 +267,8 @@ public class GameSaveData : MonoBehaviour
         cul_gaveCrock = data.allGameSaveData.cul_gaveCrock;
         mm_sellOnlyRocks = data.allGameSaveData.mm_sellOnlyRocks;
         tink_foundTrinketRecipes = data.allGameSaveData.tink_foundTrinketRecipes;
+        mm_willGiveDeathTutorial = data.allGameSaveData.mm_willGiveDeathTutorial;
+        mm_gaveDeathTutorial = data.allGameSaveData.mm_gaveDeathTutorial;
 
 
         travMet = data.allGameSaveData.travMet;
@@ -425,6 +429,8 @@ public class GameSaveData : MonoBehaviour
         public bool cul_gaveCrock;
         public bool mm_sellOnlyRocks;
         public bool tink_foundTrinketRecipes;
+        public bool mm_willGiveDeathTutorial;
+        public bool mm_gaveDeathTutorial;
 
         public int botShopLevel;
         public int mintsDonatedToBot;
@@ -555,6 +561,8 @@ public class GameSaveData : MonoBehaviour
         cul_gaveCrock = data.cul_gaveCrock;
         mm_sellOnlyRocks = data.mm_sellOnlyRocks;
         tink_foundTrinketRecipes = data.tink_foundTrinketRecipes;
+        mm_willGiveDeathTutorial = data.mm_willGiveDeathTutorial;
+        mm_gaveDeathTutorial = data.mm_gaveDeathTutorial;
 
         botShopLevel = data.botShopLevel;
         mintsDonatedToBot = data.mintsDonatedToBot;

@@ -24,6 +24,8 @@ public class CrockPot : FurnitureBehaviorScript
 
     bool madeBugDish = false; // For achievement purposes
 
+    public PopupScript needItemsP, needOilP;
+
 
     public void Awake()
     {
@@ -111,6 +113,8 @@ public class CrockPot : FurnitureBehaviorScript
         {
             if(!CanBeginCooking())
             {
+                if(!hasOil) PopupHandler.Instance.AddToQueue(needOilP);
+                else if(!HasEnoughItems()) PopupHandler.Instance.AddToQueue(needItemsP);
                 audioHandler.PlaySound(audioHandler.miscSounds1[1]);
                 return;
             }
@@ -419,10 +423,13 @@ public class CrockPot : FurnitureBehaviorScript
     bool CanBeginCooking()
     {
         if(savedItems.Count == 0 || !hasOil || isCooking) return false;
-        for(int i = 0; i < itemSockets.Count; i++)
-        {
-            if(savedItems[i] == null) return false;
-        }
+        if(!HasEnoughItems()) return false;
+        return true;
+    }
+
+    bool HasEnoughItems()
+    {
+        for(int i = 0; i < itemSockets.Count; i++) if(savedItems[i] == null) return false;
         return true;
     }
 

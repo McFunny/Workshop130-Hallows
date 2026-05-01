@@ -117,7 +117,7 @@ public class AmbientAudioManager : MonoBehaviour
             float trackCooldown = Random.Range(5f, 15f);
             yield return new WaitForSeconds(trackCooldown);
             float r = Random.Range(0, 1f);
-            if(r > .65f) //effects
+            if(r > .65f && TownGate.Instance.location != PlayerLocation.InCrypt && TownGate.Instance.location != PlayerLocation.InWilderness) //effects
             {
                 if(NightSpawningManager.Instance.finaleActivated && lightingScript && !NightSpawningManager.Instance.finaleWon)
                 {

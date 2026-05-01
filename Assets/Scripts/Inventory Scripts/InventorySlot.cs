@@ -91,7 +91,7 @@ public class InventorySlot
 
     public bool EnoughRoomLeftInStack(int amountToAdd)
     {
-        if(itemData == null || itemData != null && stackSize + amountToAdd <= itemData.maxStackSize) return true;
+        if(itemData == null || (itemData != null && stackSize + amountToAdd <= itemData.maxStackSize)) return true;
         else return false;
     }
 

@@ -258,7 +258,7 @@ public class WagonMerchantNPC : NPC, ITalkable
             {
                 currentPath = 6; //no money!?!?!?
             }
-            else if(PlayerInventoryHolder.Instance.IsInventoryFull() && !item.itemData.cannotEnterInventory)
+            else if(PlayerInventoryHolder.Instance.IsInventoryFull(item.itemData, item.amountGiven) && !item.itemData.cannotEnterInventory)
             {
                 currentPath = 7; //No space in inventory
             }
@@ -666,9 +666,16 @@ public class WagonMerchantNPC : NPC, ITalkable
             GameSaveData.Instance.wildernessIntroduced = true;
             lantern.EnableSelf();
         }*/
+        else if(GameSaveData.Instance.mm_willGiveDeathTutorial && !GameSaveData.Instance.mm_gaveDeathTutorial) //Make sure this is LAST
+        {
+            GameSaveData.Instance.mm_gaveDeathTutorial = true;
+            currentPath = 24;
+            currentType = PathType.Misc;
+        }
         else return;
         metPlayerAtEntrace = true;
         talkingOutsideWagon = true;
+        GameSaveData.Instance.mm_willGiveDeathTutorial = false; //So this does not play after he just talked about something else
         AudioPoolManager.Instance.PlayClipAtPosition(scareSound, townEntrancePos.position);
         merchant.position = townEntrancePos.position;
         PlayerCam.Instance.NewObjectOfInterest(eyeLine.position);

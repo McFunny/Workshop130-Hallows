@@ -94,7 +94,13 @@ public class CatacombDoor : MonoBehaviour, IInteractable
         PlayerMovement.restrictMovementTokens++;
         FadeScreen.coverScreen = true;
         AmbientAudioManager.Instance.ChangeMusic();
+
+        bool stoppingTime = false;
+
+        if(!TimeManager.Instance.stopTime) {TimeManager.Instance.stopTime = true; stoppingTime = true;}
         yield return new WaitForSeconds(3);
+        if(stoppingTime) TimeManager.Instance.stopTime = false;
+
         Rigidbody rb = PlayerInteraction.Instance.GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
         if(goingToCrypt)
